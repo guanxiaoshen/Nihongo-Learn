@@ -646,6 +646,47 @@
       font-weight: 900;
     }
 
+    /* 振り仮名（ruby）与词干/接续分解 */
+    .card-example-result ruby,
+    .breakdown ruby {
+      ruby-position: over;
+    }
+
+    .card-example-result rt {
+      font-size: .58rem;
+      font-weight: 600;
+      color: var(--accent-muted);
+    }
+
+    .breakdown {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 4px;
+      color: var(--accent-muted);
+      font-size: .72rem;
+    }
+
+    .breakdown ruby {
+      color: var(--vermilion-deep);
+      font-weight: 900;
+    }
+
+    .breakdown rt {
+      font-size: .55rem;
+      font-weight: 600;
+      color: var(--accent-muted);
+    }
+
+    .breakdown .affix {
+      padding: 1px 5px;
+      border: 1px dashed var(--line-strong);
+      border-radius: 2px;
+      color: var(--success);
+      background: var(--success-soft);
+      font-weight: 800;
+    }
+
     .flip-hint {
       display: flex;
       align-items: center;
@@ -1765,6 +1806,40 @@
       return allForms.find((form) => form.id === formId);
     }
 
+    function escapeHtml(value) {
+      return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    /* B3：卡片背面的振り仮名（<ruby>）与词干/接续分解 */
+    function buildExampleDetail(example, typeId, formId) {
+      const data = window.NIHONGO_DATA.conjugator.conjugate({
+        dictionary: example.dictionary,
+        kana: example.kana,
+        meaning: example.meaning,
+        type: typeId
+      });
+      const formValue = data.forms[formId];
+      const stem = data.stem;
+      if (!stem) {
+        return { ruby: escapeHtml(formValue), breakdown: "" };
+      }
+      const index = formValue.indexOf(stem.kanji);
+      if (index < 0) {
+        return { ruby: escapeHtml(formValue), breakdown: "" };
+      }
+      const head = formValue.slice(0, index);
+      const tail = formValue.slice(index + stem.kanji.length);
+      const stemRuby = `<ruby>${escapeHtml(stem.kanji)}<rt>${escapeHtml(stem.kana)}</rt></ruby>`;
+      const breakdown = index === 0
+        ? `<span class="breakdown">${stemRuby}<span class="affix">＋ ${escapeHtml(tail)}</span></span>`
+        : `<span class="breakdown">${escapeHtml(head)}${stemRuby}<span class="affix">＋ ${escapeHtml(tail)}</span></span>`;
+      return { ruby: `${escapeHtml(head)}${stemRuby}${escapeHtml(tail)}`, breakdown };
+    }
+
     function getProcess(typeId, formId, result) {
       const example = typeExamples[typeId];
       const root = `${example.dictionary}（${example.kana}）`;
@@ -1788,6 +1863,7 @@
       const cardDelay = Math.min(cardIndex * 8, 380);
       const flipped = state.cardFlips[cardId] === true;
       const exception = typeId === "godan" && formId === "te";
+      const detail = buildExampleDetail(example, typeId, formId);
       return `
         <div class="rule-card ${flipped ? "is-flipped" : ""}" data-card-id="${cardId}" style="--card-delay: ${cardDelay}ms">
           <button class="rule-card-button" type="button" data-action="flip-card"
@@ -1805,8 +1881,8 @@
                 <span>
                   <span class="card-kicker">${exception ? "例外提示 · て形" : "代表示例"}</span>
                   <span class="card-example">
-                    <span class="card-example-result">${result}</span>
-                    <span class="card-example-process">${getProcess(typeId, formId, result)}</span>
+                    <span class="card-example-result">${detail.ruby}</span>
+                    <span class="card-example-process">${detail.breakdown || getProcess(typeId, formId, result)}</span>
                     <span class="card-example-meaning">${example.dictionary}：${example.meaning}</span>
                   </span>
                 </span>

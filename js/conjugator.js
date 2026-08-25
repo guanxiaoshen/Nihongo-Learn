@@ -124,7 +124,11 @@
     FORM_IDS.forEach(function (id) {
       kanaForms[id] = forms[id].replace(stemDict, stemKana);
     });
-    return { forms: forms, kanaForms: kanaForms };
+    return {
+      forms: forms,
+      kanaForms: kanaForms,
+      stem: { kanji: stemDict, kana: stemKana }
+    };
   }
 
   /* 一段：去「る」接后缀 */
@@ -165,13 +169,17 @@
     FORM_IDS.forEach(function (id) {
       kanaForms[id] = forms[id].replace(stemDict, stemKana);
     });
-    return { forms: forms, kanaForms: kanaForms };
+    return {
+      forms: forms,
+      kanaForms: kanaForms,
+      stem: { kanji: stemDict, kana: stemKana }
+    };
   }
 
   /* か変：来る 模板 */
   function buildKuru(verb) {
     assert(verb.dictionary === "来る", "か変仅支持「来る」：" + verb.dictionary);
-    return { forms: KURU_FORMS, kanaForms: KURU_KANA_FORMS };
+    return { forms: KURU_FORMS, kanaForms: KURU_KANA_FORMS, stem: null };
   }
 
   /* さ変：する / 复合さ変（勉强する）＝ 前缀 + 后缀 */
@@ -186,7 +194,11 @@
       forms[id] = prefix + SURU_SUFFIXES[id];
       kanaForms[id] = prefixKana + SURU_SUFFIXES[id];
     });
-    return { forms: forms, kanaForms: kanaForms };
+    return {
+      forms: forms,
+      kanaForms: kanaForms,
+      stem: prefix ? { kanji: prefix, kana: prefixKana } : null
+    };
   }
 
   function conjugate(verb) {

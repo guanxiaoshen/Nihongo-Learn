@@ -52,6 +52,9 @@ dom.window.addEventListener('load', function () {
       assert('4 类动词列', ['五段', '一段', 'か変', 'さ変'].every(function (s) { return shell.innerHTML.includes(s); }));
       assert('基础六形卡片 24 张', doc.querySelectorAll('.rule-card').length === 24);
       assert('音变表存在', shell.innerHTML.includes('sound-reference'));
+      assert('卡片背面含 ruby 注音', doc.querySelectorAll('.card-example-result ruby').length > 0);
+      assert('卡片背面含词干/接续分解', doc.querySelectorAll('.breakdown').length > 0);
+      assert('分解标注使用 <ruby> 汉字注音', shell.innerHTML.includes('<ruby>'));
 
       console.log('--- 练习视图 ---');
       doc.querySelector('[data-view="practice"]').click();
