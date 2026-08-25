@@ -1,0 +1,2513 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="description" content="日语学习・印谱方格：用清晰的表格、规则卡片和练习整理い形容词、な形容词与名词的活用。">
+  <title>日语形容词・名词变形表 · 印谱方格</title>
+  <style>
+    :root {
+      --paper: #f6f3ee;
+      --surface: #fffdfa;
+      --surface-strong: #ffffff;
+      --ink: #493934;
+      --muted: #806e68;
+      --line: #ddd5cd;
+      --line-strong: #bcaea3;
+      --vermilion: #b9655b;
+      --vermilion-deep: #94463e;
+      --vermilion-soft: #f1dcd6;
+      --accent-muted: #9b8978;
+      --wash: #f0ece6;
+      --wash-hover: #ebe4dc;
+      --success: #4b8068;
+      --success-soft: #e4f0e7;
+      --danger: #a75550;
+      --danger-soft: #f6e3e0;
+      --shadow: 0 18px 42px rgba(100, 55, 43, .12);
+      --shadow-small: 0 7px 16px rgba(100, 55, 43, .09);
+      --radius: 9px;
+      --radius-small: 4px;
+      --sans: "Segoe UI", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+      --display: "Noto Serif SC", "Yu Mincho", "Hiragino Mincho ProN", serif;
+      --mono: "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+      font-family: var(--sans);
+      color: var(--ink);
+      background: var(--paper);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-width: 320px;
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 91% 2%, rgba(185, 101, 91, .12), transparent 18rem),
+        radial-gradient(circle at 3% 94%, rgba(155, 137, 120, .06), transparent 22rem),
+        repeating-linear-gradient(0deg, rgba(148, 70, 62, .018) 0 1px, transparent 1px 5px),
+        repeating-linear-gradient(90deg, transparent 0 23px, rgba(155, 137, 120, .014) 24px 25px, transparent 26px 49px),
+        var(--paper);
+      font-size: 15px;
+      line-height: 1.55;
+    }
+
+    body::before {
+      position: fixed;
+      z-index: -1;
+      inset: 0;
+      pointer-events: none;
+      background:
+        repeating-radial-gradient(circle at 0 100%, transparent 0 17px, rgba(185, 101, 91, .045) 18px 19px, transparent 20px 36px),
+        linear-gradient(135deg, transparent 0 47%, rgba(185, 101, 91, .025) 48% 49%, transparent 50% 100%);
+      background-size: 72px 42px, 100% 100%;
+      opacity: .45;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      color: inherit;
+    }
+
+    button:focus-visible,
+    input:focus-visible {
+      outline: 3px solid rgba(148, 70, 62, .48);
+      outline-offset: 3px;
+    }
+
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .page {
+      width: min(1450px, 100%);
+      margin: 0 auto;
+      padding: 26px clamp(12px, 3vw, 42px) 58px;
+    }
+
+    .page-heading {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 18px 20px;
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius);
+      background:
+        linear-gradient(120deg, rgba(185, 101, 91, .09), transparent 55%),
+        repeating-linear-gradient(135deg, transparent 0 18px, rgba(155, 137, 120, .02) 19px 20px, transparent 21px 38px),
+        var(--surface);
+      box-shadow: var(--shadow-small);
+      overflow: hidden;
+    }
+
+    .page-heading::before {
+      position: absolute;
+      top: -4.4rem;
+      right: 5%;
+      width: 11rem;
+      height: 8rem;
+      border: 1px solid rgba(185, 101, 91, .22);
+      border-radius: 50%;
+      content: "";
+      transform: rotate(-9deg);
+    }
+
+    .page-heading::after {
+      position: absolute;
+      right: 18px;
+      bottom: 9px;
+      left: 20px;
+      height: 3px;
+      border-radius: 50%;
+      background: linear-gradient(90deg, var(--vermilion), var(--accent-muted), transparent 84%);
+      content: "";
+      transform-origin: left center;
+      animation: ink-sweep .85s cubic-bezier(.2, .8, .25, 1) both;
+    }
+
+    .page-heading > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .page-heading h1 {
+      margin: 0;
+      color: var(--vermilion-deep);
+      font-family: var(--display);
+      font-size: clamp(1.55rem, 3vw, 2.55rem);
+      letter-spacing: -.04em;
+      line-height: 1.12;
+      text-shadow: 1px 1px 0 rgba(155, 137, 120, .08);
+    }
+
+    .page-heading p {
+      max-width: 780px;
+      margin: 7px 0 0;
+      color: var(--muted);
+    }
+
+    .page-heading-mark {
+      display: grid;
+      width: 64px;
+      height: 64px;
+      place-items: center;
+      flex: 0 0 auto;
+      border: 3px double var(--vermilion);
+      border-radius: 2px;
+      color: var(--vermilion-deep);
+      background:
+        repeating-linear-gradient(45deg, transparent 0 8px, rgba(185, 101, 91, .04) 9px 10px),
+        var(--wash);
+      box-shadow: 5px 5px 0 rgba(148, 70, 62, .1);
+      font-family: var(--display);
+      font-size: 1.9rem;
+      font-weight: 900;
+      transform: rotate(2deg);
+      animation: seal-arrive .7s cubic-bezier(.18, .8, .2, 1) both;
+    }
+
+    #app-shell {
+      position: relative;
+      display: grid;
+      gap: 20px;
+      margin-top: 22px;
+      padding: clamp(15px, 2.7vw, 30px);
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius);
+      background:
+        radial-gradient(circle at 100% 0, rgba(185, 101, 91, .08) 0 8rem, transparent 8.2rem),
+        repeating-linear-gradient(135deg, transparent 0 25px, rgba(185, 101, 91, .016) 26px 27px, transparent 28px 54px),
+        var(--surface);
+      box-shadow: var(--shadow);
+      isolation: isolate;
+      overflow: hidden;
+    }
+
+    #app-shell::before {
+      position: absolute;
+      z-index: 2;
+      inset: 0 0 auto;
+      height: 6px;
+      background: linear-gradient(90deg, var(--vermilion-deep), var(--vermilion), var(--accent-muted), var(--vermilion));
+      background-size: 220% 100%;
+      content: "";
+      animation: ink-flow 9s linear infinite;
+    }
+
+    .app-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding-top: 2px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+    }
+
+    .brand-link {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .brand-link:hover .brand-seal {
+      transform: translateY(-1px) rotate(-1.5deg);
+    }
+
+    .brand-seal {
+      display: grid;
+      width: 48px;
+      height: 48px;
+      place-items: center;
+      border: 3px double var(--vermilion);
+      border-radius: 2px;
+      color: var(--surface-strong);
+      background: var(--vermilion);
+      box-shadow: 4px 4px 0 rgba(148, 70, 62, .14);
+      font-family: var(--display);
+      font-size: 1.35rem;
+      font-weight: 900;
+      transform: rotate(-1.5deg);
+    }
+
+    .brand h2 {
+      margin: 0;
+      color: var(--vermilion-deep);
+      font-family: var(--display);
+      font-size: 1.35rem;
+      line-height: 1.1;
+    }
+
+    .brand p {
+      margin: 3px 0 0;
+      color: var(--muted);
+      font-size: .84rem;
+    }
+
+    .edition-note {
+      color: var(--accent-muted);
+      font-family: var(--display);
+      font-size: .9rem;
+      font-weight: 900;
+      letter-spacing: .06em;
+    }
+
+    .main-tabs {
+      display: flex;
+      gap: 7px;
+      padding: 5px;
+      border: 1px solid var(--line-strong);
+      border-radius: 2px;
+      background:
+        repeating-linear-gradient(135deg, transparent 0 15px, rgba(185, 101, 91, .02) 16px 17px, transparent 18px 32px),
+        var(--wash);
+    }
+
+    .main-tab {
+      min-width: 125px;
+      padding: 10px 15px;
+      border: 2px solid transparent;
+      border-radius: 2px;
+      color: var(--muted);
+      background: transparent;
+      cursor: pointer;
+      font-weight: 900;
+      transition: border-color .25s ease, background-color .25s ease, color .25s ease, transform .25s ease, box-shadow .25s ease;
+    }
+
+    .main-tab:hover {
+      border-color: var(--line-strong);
+      color: var(--vermilion-deep);
+      background: var(--surface-strong);
+      transform: translateY(-1px);
+    }
+
+    .main-tab[aria-selected="true"] {
+      border: 3px double var(--vermilion);
+      color: var(--vermilion-deep);
+      background: var(--vermilion-soft);
+      box-shadow: 4px 4px 0 rgba(148, 70, 62, .1);
+      transform: rotate(-.25deg);
+      animation: tab-press .42s cubic-bezier(.18, .8, .2, 1) both;
+    }
+
+    .panel {
+      display: grid;
+      gap: 18px;
+      min-width: 0;
+      animation: panel-enter .42s ease both;
+    }
+
+    .panel-intro {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .eyebrow {
+      margin: 0 0 5px;
+      color: var(--vermilion-deep);
+      font-size: .74rem;
+      font-weight: 900;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .panel-intro h3 {
+      margin: 0;
+      color: var(--ink);
+      font-family: var(--display);
+      font-size: clamp(1.35rem, 2.3vw, 1.95rem);
+      line-height: 1.16;
+    }
+
+    .panel-intro p {
+      max-width: 760px;
+      margin: 7px 0 0;
+      color: var(--muted);
+    }
+
+    .intro-note {
+      max-width: 260px;
+      padding: 10px 12px;
+      border-left: 4px solid var(--accent-muted);
+      color: var(--muted);
+      background: var(--wash);
+      font-size: .78rem;
+    }
+
+    .conjugation-tabs {
+      display: flex;
+      gap: 8px;
+      padding: 5px;
+      border: 1px solid var(--line-strong);
+      border-radius: 2px;
+      background:
+        linear-gradient(90deg, rgba(185, 101, 91, .055), transparent 55%),
+        var(--surface-strong);
+    }
+
+    .conjugation-tab {
+      display: grid;
+      flex: 1 1 0;
+      gap: 1px;
+      min-width: 0;
+      padding: 10px 13px;
+      border: 2px solid transparent;
+      border-radius: 2px;
+      color: var(--muted);
+      background: transparent;
+      cursor: pointer;
+      text-align: left;
+      transition: border-color .25s ease, background-color .25s ease, color .25s ease, transform .25s ease, box-shadow .25s ease;
+    }
+
+    .conjugation-tab:hover {
+      border-color: var(--line-strong);
+      color: var(--vermilion-deep);
+      background: var(--wash-hover);
+      transform: translateY(-1px);
+    }
+
+    .conjugation-tab[aria-selected="true"] {
+      border: 3px double var(--vermilion);
+      color: var(--vermilion-deep);
+      background: var(--vermilion-soft);
+      box-shadow: 4px 4px 0 rgba(148, 70, 62, .1);
+      transform: rotate(-.25deg);
+      animation: tab-press .42s cubic-bezier(.18, .8, .2, 1) both;
+    }
+
+    .conjugation-tab strong {
+      font-family: var(--display);
+      font-size: .92rem;
+    }
+
+    .conjugation-tab small {
+      color: currentColor;
+      font-size: .7rem;
+      opacity: .76;
+    }
+
+    .rules-layout {
+      display: grid;
+      gap: 18px;
+      min-width: 0;
+    }
+
+    .group-body {
+      width: 100%;
+      min-width: 0;
+      animation: panel-enter .45s ease both;
+    }
+
+    .table-scroll {
+      width: 100%;
+      max-width: 100%;
+      min-width: 0;
+      overflow: auto;
+      border: 2px solid var(--vermilion-deep);
+      border-radius: 2px;
+      background: var(--surface-strong);
+      box-shadow: 6px 7px 0 rgba(148, 70, 62, .08);
+      scrollbar-color: var(--vermilion) var(--vermilion-soft);
+    }
+
+    .rule-table {
+      width: 100%;
+      min-width: 1060px;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+
+    .rule-table th,
+    .rule-table td {
+      padding: 10px;
+      border: 1px solid rgba(148, 70, 62, .28);
+      vertical-align: top;
+    }
+
+    .rule-table thead th {
+      position: sticky;
+      z-index: 5;
+      top: 0;
+      color: var(--surface-strong);
+      background:
+        repeating-linear-gradient(45deg, transparent 0 11px, rgba(255, 253, 248, .08) 12px 13px, transparent 14px 26px),
+        var(--vermilion-deep);
+      font-size: .83rem;
+      text-align: left;
+    }
+
+    .rule-table thead th:first-child {
+      left: 0;
+      z-index: 8;
+      width: 150px;
+    }
+
+    .rule-table .form-cell {
+      position: sticky;
+      left: 0;
+      z-index: 4;
+      width: 150px;
+      min-width: 150px;
+      color: var(--vermilion-deep);
+      background:
+        repeating-linear-gradient(45deg, transparent 0 9px, rgba(185, 101, 91, .025) 10px 11px, transparent 12px 22px),
+        var(--wash);
+      box-shadow: inset 4px 0 0 var(--vermilion);
+      text-align: center;
+    }
+
+    .rule-table tbody tr:hover .form-cell {
+      background: var(--vermilion-soft);
+    }
+
+    .rule-table tr:last-child td,
+    .rule-table tr:last-child .form-cell {
+      border-bottom: 0;
+    }
+
+    .rule-table th:last-child,
+    .rule-table td:last-child {
+      border-right: 0;
+    }
+
+    .form-name {
+      display: block;
+      font-family: var(--display);
+      font-weight: 900;
+    }
+
+    .form-jp {
+      display: block;
+      margin-top: 2px;
+      font-size: .75rem;
+    }
+
+    .rule-card {
+      min-width: 190px;
+      height: 162px;
+      perspective: none;
+      animation: stamp-card-in .5s cubic-bezier(.18, .8, .2, 1) both;
+      animation-delay: var(--card-delay, 0ms);
+    }
+
+    .rule-card-button {
+      display: block;
+      width: 100%;
+      height: 100%;
+      padding: 0;
+      border: 0;
+      border-radius: 2px;
+      background: transparent;
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .rule-card-inner {
+      position: relative;
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    .rule-card-face {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 12px;
+      border: 3px double var(--vermilion);
+      border-radius: 2px;
+      background:
+        repeating-linear-gradient(45deg, transparent 0 10px, rgba(185, 101, 91, .025) 11px 12px, transparent 13px 24px),
+        var(--surface);
+      box-shadow: 4px 5px 0 rgba(148, 70, 62, .08);
+      overflow: hidden;
+      pointer-events: none;
+      transition: opacity .32s ease, transform .38s cubic-bezier(.18, .8, .2, 1), box-shadow .25s ease;
+    }
+
+    .rule-card-face::before {
+      position: absolute;
+      top: 7px;
+      right: 8px;
+      width: 9px;
+      height: 9px;
+      border: 1px solid var(--accent-muted);
+      content: "";
+      transform: rotate(45deg);
+    }
+
+    .rule-card-front {
+      opacity: 1;
+      transform: scale(1) rotate(0);
+    }
+
+    .rule-card-back {
+      border-color: var(--vermilion-deep);
+      color: var(--surface-strong);
+      background:
+        repeating-linear-gradient(45deg, transparent 0 10px, rgba(255, 253, 248, .04) 11px 12px, transparent 13px 24px),
+        var(--vermilion);
+      opacity: 0;
+      transform: scale(.88) rotate(2deg);
+    }
+
+    .rule-card.is-flipped .rule-card-front {
+      opacity: 0;
+      transform: scale(.88) rotate(-2deg);
+    }
+
+    .rule-card.is-flipped .rule-card-back {
+      opacity: 1;
+      transform: scale(1) rotate(-.25deg);
+    }
+
+    .rule-card:hover {
+      z-index: 7;
+    }
+
+    .rule-card:hover .rule-card-front,
+    .rule-card:hover .rule-card-back {
+      box-shadow: 7px 8px 0 rgba(148, 70, 62, .12);
+    }
+
+    .card-kicker {
+      color: var(--vermilion-deep);
+      font-size: .68rem;
+      font-weight: 900;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    .rule-card-back .card-kicker,
+    .rule-card-back .card-example-result,
+    .rule-card-back .card-example-process,
+    .rule-card-back .card-example-meaning,
+    .rule-card-back .flip-hint {
+      color: var(--surface-strong);
+    }
+
+    .card-rule {
+      display: block;
+      margin: 8px 0;
+      color: var(--ink);
+      font-family: var(--display);
+      font-size: .94rem;
+      font-weight: 900;
+      line-height: 1.3;
+    }
+
+    .card-detail,
+    .card-example-process,
+    .card-example-meaning {
+      color: var(--muted);
+      font-size: .74rem;
+      line-height: 1.4;
+    }
+
+    .card-example {
+      display: grid;
+      gap: 4px;
+      margin-top: auto;
+    }
+
+    .card-example-result {
+      color: var(--vermilion-deep);
+      font-family: var(--display);
+      font-size: 1.25rem;
+      font-weight: 900;
+    }
+
+    /* 振り仮名（ruby）与词干/接续分解 */
+    .card-example-result ruby,
+    .breakdown ruby {
+      ruby-position: over;
+    }
+
+    .card-example-result rt {
+      font-size: .58rem;
+      font-weight: 600;
+      color: var(--accent-muted);
+    }
+
+    .breakdown {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 4px;
+      color: var(--accent-muted);
+      font-size: .72rem;
+    }
+
+    .breakdown ruby {
+      color: var(--vermilion-deep);
+      font-weight: 900;
+    }
+
+    .breakdown rt {
+      font-size: .55rem;
+      font-weight: 600;
+      color: var(--accent-muted);
+    }
+
+    .breakdown .affix {
+      padding: 1px 5px;
+      border: 1px dashed var(--line-strong);
+      border-radius: 2px;
+      color: var(--success);
+      background: var(--success-soft);
+      font-weight: 800;
+    }
+
+    .flip-hint {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--muted);
+      font-size: .69rem;
+      font-weight: 800;
+    }
+
+    .flip-hint::before {
+      display: inline-grid;
+      width: 18px;
+      height: 18px;
+      place-items: center;
+      border: 1px solid var(--accent-muted);
+      border-radius: 2px;
+      color: var(--vermilion-deep);
+      background: var(--wash);
+      content: "印";
+      font-family: var(--display);
+      font-size: .64rem;
+      font-weight: 900;
+    }
+
+    .rule-card-back .flip-hint::before {
+      border-color: rgba(255, 253, 248, .7);
+      color: var(--surface-strong);
+      background: transparent;
+    }
+
+    .sound-reference {
+      display: grid;
+      gap: 12px;
+      padding: 15px;
+      border: 1px solid var(--line-strong);
+      border-radius: 2px;
+      background:
+        repeating-linear-gradient(135deg, transparent 0 16px, rgba(185, 101, 91, .02) 17px 18px, transparent 19px 34px),
+        var(--wash);
+      box-shadow: var(--shadow-small);
+    }
+
+    .sound-reference h3 {
+      margin: 0;
+      color: var(--vermilion-deep);
+      font-family: var(--display);
+      font-size: 1.1rem;
+    }
+
+    .sound-reference p {
+      margin: -5px 0 0;
+      color: var(--muted);
+      font-size: .78rem;
+    }
+
+    .sound-summary {
+      display: grid;
+      gap: 9px;
+      padding: 11px;
+      border: 1px solid var(--line);
+      border-left: 4px solid var(--vermilion);
+      border-radius: 2px;
+      background: var(--surface-strong);
+    }
+
+    .sound-summary-heading {
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 7px 10px;
+    }
+
+    .sound-summary-heading strong {
+      color: var(--vermilion-deep);
+      font-family: var(--display);
+      font-size: .9rem;
+    }
+
+    .sound-summary-heading span {
+      color: var(--muted);
+      font-size: .74rem;
+    }
+
+    .sound-summary-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 7px;
+    }
+
+    .sound-summary-item {
+      display: grid;
+      gap: 2px;
+      padding: 8px 9px;
+      border: 1px solid var(--line);
+      border-radius: 2px;
+      background: var(--wash);
+    }
+
+    .sound-summary-item strong {
+      color: var(--vermilion-deep);
+      font-size: .72rem;
+    }
+
+    .sound-summary-item span {
+      color: var(--ink);
+      font-family: var(--display);
+      font-size: .83rem;
+      font-weight: 800;
+    }
+
+    .sound-summary-note {
+      margin: 0;
+      color: var(--muted);
+      font-size: .72rem;
+    }
+
+    .sound-table {
+      width: 100%;
+      min-width: 860px;
+      border-collapse: collapse;
+      font-size: .78rem;
+    }
+
+    .sound-table th,
+    .sound-table td {
+      padding: 8px 9px;
+      border: 1px solid rgba(148, 70, 62, .24);
+      text-align: left;
+    }
+
+    .sound-table th {
+      color: var(--vermilion-deep);
+      background: var(--surface-strong);
+      font-weight: 900;
+    }
+
+    .sound-table tbody th {
+      background: var(--vermilion-soft);
+      font-family: var(--display);
+    }
+
+    .exception-callout {
+      display: flex;
+      align-items: start;
+      gap: 9px;
+      padding: 10px 12px;
+      border: 1px solid var(--vermilion);
+      border-radius: 2px;
+      color: var(--muted);
+      background: var(--surface);
+      font-size: .78rem;
+    }
+
+    .exception-callout strong {
+      color: var(--vermilion-deep);
+    }
+
+    .practice-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 12px;
+      border: 1px solid var(--line-strong);
+      border-radius: 2px;
+      background: var(--wash);
+    }
+
+    /* 练习设置区（类型筛选 / 形范围 / 题数） */
+    .practice-config {
+      display: grid;
+      gap: 10px;
+      margin-top: 14px;
+      padding: 14px 16px;
+      border: 1px dashed var(--line-strong);
+      border-radius: var(--radius-small);
+      background: var(--surface-strong);
+    }
+
+    .config-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .config-label {
+      width: 64px;
+      flex: 0 0 auto;
+      color: var(--muted);
+      font-size: .78rem;
+      font-weight: 900;
+    }
+
+    .type-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .type-chip {
+      padding: 6px 11px;
+      border: 1px solid var(--line-strong);
+      border-radius: 2px;
+      color: var(--muted);
+      background: var(--wash);
+      cursor: pointer;
+      font-size: .78rem;
+      font-weight: 900;
+      transition: border-color .2s ease, color .2s ease, background-color .2s ease;
+    }
+
+    .type-chip:hover {
+      border-color: var(--vermilion);
+    }
+
+    .type-chip[aria-pressed="true"],
+    .type-chip.is-active {
+      border-color: var(--vermilion);
+      color: var(--vermilion-deep);
+      background: var(--vermilion-soft);
+    }
+
+    .count-select {
+      padding: 6px 10px;
+      border: 1px solid var(--line-strong);
+      border-radius: 2px;
+      color: var(--ink);
+      background: var(--surface);
+      font-size: .8rem;
+      font-weight: 700;
+    }
+
+    .start-actions {
+      margin-top: 12px;
+    }
+
+    .start-actions .primary-button,
+    .start-actions .secondary-button {
+      padding: 9px 18px;
+    }
+
+    .start-actions .secondary-button:disabled {
+      opacity: .45;
+      cursor: not-allowed;
+    }
+
+    .mode-switch {
+      display: flex;
+      gap: 5px;
+      padding: 4px;
+      border: 1px solid var(--line);
+      border-radius: 2px;
+      background: var(--surface);
+    }
+
+    .mode-button {
+      padding: 7px 12px;
+      border: 2px solid transparent;
+      border-radius: 2px;
+      color: var(--muted);
+      background: transparent;
+      cursor: pointer;
+      font-size: .8rem;
+      font-weight: 900;
+    }
+
+    .mode-button[aria-pressed="true"] {
+      border-color: var(--vermilion);
+      color: var(--vermilion-deep);
+      background: var(--vermilion-soft);
+    }
+
+    .practice-prompt {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 16px;
+      border: 1px solid var(--line-strong);
+      border-radius: 2px;
+      background:
+        linear-gradient(110deg, rgba(185, 101, 91, .08), transparent 62%),
+        var(--surface-strong);
+    }
+
+    .practice-word {
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 9px 14px;
+    }
+
+    .practice-word strong {
+      color: var(--vermilion-deep);
+      font-family: var(--display);
+      font-size: clamp(2rem, 4vw, 3rem);
+      letter-spacing: .05em;
+      line-height: 1;
+    }
+
+    .practice-word span {
+      color: var(--accent-muted);
+      font-size: 1rem;
+      font-weight: 900;
+    }
+
+    .practice-word small {
+      flex-basis: 100%;
+      color: var(--muted);
+      font-size: .84rem;
+    }
+
+    .practice-prompt-side {
+      color: var(--muted);
+      font-size: .77rem;
+      text-align: right;
+    }
+
+    .practice-prompt-side strong {
+      display: block;
+      margin-bottom: 3px;
+      color: var(--vermilion-deep);
+      font-size: .95rem;
+    }
+
+    .practice-group {
+      display: grid;
+      gap: 10px;
+    }
+
+    .practice-group h3 {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin: 0;
+      color: var(--vermilion-deep);
+      font-family: var(--display);
+      font-size: 1.15rem;
+    }
+
+    .practice-group h3::after {
+      flex: 1;
+      height: 1px;
+      background: var(--line);
+      content: "";
+    }
+
+    .practice-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .practice-row {
+      display: grid;
+      grid-template-columns: 190px minmax(0, 1fr);
+      align-items: start;
+      gap: 14px;
+      padding: 11px 13px;
+      border: 1px solid var(--line);
+      border-radius: 2px;
+      background: var(--surface-strong);
+    }
+
+    .practice-row.is-correct {
+      border-color: var(--success);
+      background: var(--success-soft);
+    }
+
+    .practice-row.is-wrong {
+      border-color: var(--danger);
+      background: var(--danger-soft);
+    }
+
+    .practice-row-label {
+      display: grid;
+      gap: 2px;
+    }
+
+    .practice-row-label strong {
+      font-family: var(--display);
+      font-size: .9rem;
+    }
+
+    .practice-row-label span {
+      color: var(--vermilion-deep);
+      font-size: .74rem;
+    }
+
+    .practice-row-label small {
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: .71rem;
+    }
+
+    .answer-field {
+      width: 100%;
+      min-height: 40px;
+      padding: 8px 10px;
+      border: 1px solid var(--line-strong);
+      border-radius: 2px;
+      color: var(--ink);
+      background: var(--surface);
+    }
+
+    .answer-field::placeholder {
+      color: rgba(128, 110, 104, .72);
+    }
+
+    .choice-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 7px;
+    }
+
+    .choice-option {
+      position: relative;
+      display: flex;
+      align-items: center;
+      min-height: 40px;
+      padding: 7px 9px;
+      border: 1px solid var(--line);
+      border-radius: 2px;
+      color: var(--ink);
+      background: var(--surface);
+      cursor: pointer;
+      font-family: var(--display);
+      font-size: .9rem;
+      font-weight: 800;
+      transition: border-color .2s ease, background-color .2s ease, transform .2s ease;
+    }
+
+    .choice-option:hover {
+      border-color: var(--vermilion);
+      background: var(--vermilion-soft);
+      transform: translateY(-1px);
+    }
+
+    .choice-option:has(input:checked) {
+      border: 2px solid var(--vermilion);
+      color: var(--vermilion-deep);
+      background: var(--vermilion-soft);
+    }
+
+    .choice-option input {
+      position: absolute;
+      opacity: 0;
+    }
+
+    .choice-option em {
+      margin-left: auto;
+      color: var(--accent-muted);
+      font-family: var(--sans);
+      font-size: .64rem;
+      font-style: normal;
+    }
+
+    .practice-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      padding-top: 2px;
+    }
+
+    .primary-button,
+    .secondary-button {
+      padding: 9px 14px;
+      border-radius: 2px;
+      cursor: pointer;
+      font-weight: 900;
+      transition: transform .2s ease, box-shadow .2s ease, background-color .2s ease;
+    }
+
+    .primary-button {
+      border: 3px double var(--vermilion-deep);
+      color: var(--surface-strong);
+      background: var(--vermilion);
+      box-shadow: 4px 4px 0 rgba(148, 70, 62, .1);
+    }
+
+    .secondary-button {
+      border: 1px solid var(--line-strong);
+      color: var(--vermilion-deep);
+      background: var(--surface-strong);
+    }
+
+    .primary-button:hover,
+    .secondary-button:hover {
+      box-shadow: 6px 6px 0 rgba(148, 70, 62, .1);
+      transform: translateY(-1px);
+    }
+
+    .assistive-copy {
+      margin-left: auto;
+      color: var(--muted);
+      font-size: .72rem;
+    }
+
+    .result-summary {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 14px;
+      padding: 14px;
+      border: 1px solid var(--vermilion);
+      border-radius: 2px;
+      background: var(--vermilion-soft);
+    }
+
+    .score-bubble {
+      display: grid;
+      width: 72px;
+      height: 72px;
+      place-items: center;
+      border: 4px double var(--vermilion);
+      border-radius: 2px;
+      color: var(--vermilion-deep);
+      background: var(--surface-strong);
+      font-family: var(--display);
+      font-size: 1.2rem;
+      font-weight: 900;
+      transform: rotate(-2deg);
+    }
+
+    .score-bubble span {
+      display: block;
+      margin-top: -17px;
+      font-family: var(--sans);
+      font-size: .62rem;
+      font-weight: 700;
+    }
+
+    .result-summary h3 {
+      margin: 0;
+      color: var(--vermilion-deep);
+      font-family: var(--display);
+      font-size: 1.05rem;
+    }
+
+    .result-summary p {
+      margin: 3px 0 0;
+      color: var(--muted);
+      font-size: .79rem;
+    }
+
+    .result-items {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+      gap: 6px;
+      margin-top: 9px;
+    }
+
+    .result-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 7px;
+      padding: 6px 8px;
+      border: 1px solid var(--line);
+      border-radius: 2px;
+      background: var(--surface-strong);
+      font-size: .73rem;
+    }
+
+    .result-item strong {
+      font-family: var(--display);
+    }
+
+    .result-item.is-correct {
+      color: var(--success);
+    }
+
+    .result-item.is-wrong {
+      color: var(--danger);
+    }
+
+    .result-item small {
+      color: var(--muted);
+      font-family: var(--display);
+      font-size: .76rem;
+    }
+
+    .data-error {
+      padding: 16px;
+      border: 2px solid var(--danger);
+      border-radius: 2px;
+      color: var(--danger);
+      background: var(--danger-soft);
+    }
+
+    .data-error strong {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    @keyframes ink-sweep {
+      from {
+        opacity: .2;
+        transform: scaleX(0);
+      }
+      to {
+        opacity: .84;
+        transform: scaleX(1);
+      }
+    }
+
+    @keyframes ink-flow {
+      from {
+        background-position: 0 50%;
+      }
+      to {
+        background-position: 220% 50%;
+      }
+    }
+
+    @keyframes seal-arrive {
+      from {
+        opacity: 0;
+        transform: translateY(-8px) rotate(8deg) scale(.9);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) rotate(2deg) scale(1);
+      }
+    }
+
+    @keyframes panel-enter {
+      from {
+        opacity: 0;
+        transform: translateY(7px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes tab-press {
+      from {
+        opacity: .55;
+        transform: translateY(3px) rotate(-.25deg) scale(.98);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) rotate(-.25deg) scale(1);
+      }
+    }
+
+    @keyframes stamp-card-in {
+      from {
+        opacity: 0;
+        transform: translateY(9px) rotate(.8deg);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) rotate(0);
+      }
+    }
+
+    @media (max-width: 900px) {
+      .panel-intro {
+        display: grid;
+      }
+
+      .intro-note {
+        max-width: none;
+      }
+
+      .page-heading-mark {
+        width: 54px;
+        height: 54px;
+        font-size: 1.55rem;
+      }
+    }
+
+    @media (max-width: 640px) {
+      body {
+        font-size: 14px;
+      }
+
+      .page {
+        padding: 12px 9px 38px;
+      }
+
+      .page-heading {
+        align-items: start;
+        padding: 15px;
+      }
+
+      .page-heading-mark {
+        width: 45px;
+        height: 45px;
+        font-size: 1.3rem;
+      }
+
+      #app-shell {
+        gap: 15px;
+        margin-top: 14px;
+        padding: 13px;
+      }
+
+      .app-header {
+        align-items: start;
+      }
+
+      .edition-note {
+        display: none;
+      }
+
+      .main-tab {
+        flex: 1;
+        min-width: 0;
+      }
+
+      .conjugation-tabs {
+        gap: 4px;
+      }
+
+      .conjugation-tab {
+        padding: 8px 9px;
+      }
+
+      .conjugation-tab small {
+        font-size: .63rem;
+        line-height: 1.3;
+      }
+
+      .sound-summary-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .practice-prompt {
+        display: grid;
+      }
+
+      .practice-prompt-side {
+        text-align: left;
+      }
+
+      .practice-row {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+
+      .choice-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .assistive-copy {
+        width: 100%;
+        margin-left: 0;
+      }
+
+      .result-summary {
+        grid-template-columns: 1fr;
+      }
+
+      .score-bubble {
+        width: 62px;
+        height: 62px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+      }
+    }
+  </style>
+</head>
+<body data-theme="stamp">
+  <div class="page">
+    <header class="page-heading">
+      <div>
+        <h1>日语形容词・名词变形表 · 印谱方格</h1>
+        <p>以柔和朱红、米白和和纸灰整理い形容词、な形容词与名词的活用。像翻阅印谱一样，先看规则，再翻开卡片确认实例。</p>
+      </div>
+      <div class="page-heading-mark" aria-hidden="true">印</div>
+    </header>
+    <main id="app-shell" data-theme="stamp"></main>
+    <div id="live-region" class="visually-hidden" aria-live="polite" aria-atomic="true"></div>
+  </div>
+
+  <script src="data/adj-noun.js"></script>
+  <script src="js/adj-conjugator.js"></script>
+
+  <script>
+    "use strict";
+
+    const STORAGE_KEY = "adj-noun-stamp-state-v1";
+    const STATS_KEY = "adj-noun-practice-stats-v1";
+
+    const theme = {
+      id: "stamp",
+      name: "印谱方格"
+    };
+
+    /* ===== 数据层：从 data/adj-noun.js 读取 ===== */
+    const adjData = window.NIHONGO_DATA.adjNoun;
+    const baseForms = adjData.forms;
+    const derivedForms = [];
+    const allForms = adjData.forms;
+    const typeColumns = adjData.typeColumns;
+    const formRules = adjData.formRules;
+    const soundRows = adjData.summaryRows;
+    const typeExamples = adjData.examples;
+    const lexicon = adjData.lexicon;
+
+    const answerSets = {};
+    allForms.forEach((form) => {
+      answerSets[form.id] = {
+        canonical: typeExamples["i-adj"].forms[form.id],
+        acceptedAnswers: [typeExamples["i-adj"].forms[form.id]]
+      };
+    });
+
+    const state = {
+      view: "rules",
+      practiceMode: "simple",
+      activeGroups: { rules: "base", practice: "base" },
+      cardFlips: {},
+      answers: {},
+      choices: {},
+      result: null,
+      onlyWrong: false,
+      /* 练习改造（词库随机抽词） */
+      practiceTypes: ["i-adj", "na-adj", "noun"],
+      practiceScope: "all",
+      practiceCount: 6,
+      currentVerb: null,
+      currentForms: [],
+      stats: null
+    };
+
+    state.stats = loadStats();
+
+    /* 累计练习统计（localStorage 长期保存）：错题集 + 各词/各形正确率 */
+    function emptyStats() {
+      return { byVerb: {}, byForm: {}, wrongItems: [] };
+    }
+
+    function loadStats() {
+      try {
+        const raw = window.localStorage.getItem(STATS_KEY);
+        if (!raw) {
+          return emptyStats();
+        }
+        const parsed = JSON.parse(raw);
+        if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
+          return emptyStats();
+        }
+        return {
+          byVerb: parsed.byVerb && typeof parsed.byVerb === "object" ? parsed.byVerb : {},
+          byForm: parsed.byForm && typeof parsed.byForm === "object" ? parsed.byForm : {},
+          wrongItems: Array.isArray(parsed.wrongItems) ? parsed.wrongItems : []
+        };
+      } catch (error) {
+        console.error("练习统计读取失败，已重置。", error);
+        return emptyStats();
+      }
+    }
+
+    function saveStats() {
+      try {
+        window.localStorage.setItem(STATS_KEY, JSON.stringify(state.stats));
+      } catch (error) {
+        console.warn("练习统计保存失败（可能处于隐私模式）：", error && error.message);
+      }
+    }
+
+    function clearStats() {
+      state.stats = emptyStats();
+      saveStats();
+    }
+
+    function shuffle(items) {
+      const copy = items.slice();
+      for (let i = copy.length - 1; i > 0; i -= 1) {
+        const j = Math.floor(Math.random() * (i + 1));
+        const tmp = copy[i];
+        copy[i] = copy[j];
+        copy[j] = tmp;
+      }
+      return copy;
+    }
+
+    /* 在选定的类型范围内随机抽取一个练习动词 */
+    function pickPracticeVerb() {
+      const pool = lexicon.filter((verb) => state.practiceTypes.includes(verb.type));
+      if (pool.length === 0) {
+        return null;
+      }
+      return pool[Math.floor(Math.random() * pool.length)];
+    }
+
+    /* 抽取 N 个活用形（形容词/名词模块共 6 形，无分组） */
+    function pickPracticeForms(count) {
+      const pool = allForms;
+      const shuffled = shuffle(pool.map((form) => form.id));
+      return shuffled.slice(0, Math.min(count, pool.length));
+    }
+
+    /* 构建当前词某个形的可接受答案集（A4：多可接受写法，含 ではない 等价） */
+    function buildAcceptedAnswers(formId, forms, kanaForms, stem) {
+      const dictForm = forms[formId];
+      const kanaForm = kanaForms[formId];
+      const set = [dictForm, kanaForm];
+      // 剥离括号注音（形容词模块无此场景，保留兼容）
+      const stripped = String(dictForm || "").replace(/（[^）]*）/g, "");
+      if (stripped && !set.includes(stripped)) {
+        set.push(stripped);
+      }
+      // な形容词/名词：じゃない ↔ ではない、じゃなかった ↔ ではなかった
+      if (stem && (formId === "hitei" || formId === "kakoHitei")) {
+        const alt = formId === "hitei"
+          ? stem.kanji + "ではない"
+          : stem.kanji + "ではなかった";
+        if (!set.includes(alt)) {
+          set.push(alt);
+        }
+      }
+      return set.filter(Boolean);
+    }
+
+    function getCurrentVerbData() {
+      if (!state.currentVerb) {
+        return null;
+      }
+      return window.NIHONGO_DATA["adj-conjugator"].conjugate(state.currentVerb);
+    }
+
+    /* A3：简易模式干扰项 = 同一动词的其他活用形（不足时用全局答案池补位） */
+    function getOptions(verb, formId) {
+      const data = window.NIHONGO_DATA["adj-conjugator"].conjugate(verb);
+      const expected = data.forms[formId];
+      const distractors = [...new Set(
+        window.NIHONGO_DATA["adj-conjugator"].formIds
+          .filter((id) => id !== formId)
+          .map((id) => data.forms[id])
+          .filter((value) => value !== expected)
+      )];
+      if (distractors.length < 3) {
+        // 同词形不足（极少见）：从全局答案池补位
+        const allValues = [...new Set(allForms.map((form) => answerSets[form.id].canonical))];
+        allValues.forEach((value) => {
+          if (distractors.length >= 3) {
+            return;
+          }
+          if (value !== expected && !distractors.includes(value)) {
+            distractors.push(value);
+          }
+        });
+      }
+      const picked = shuffle(distractors).slice(0, 3);
+      return shuffle([expected, ...picked]);
+    }
+
+    const elements = {
+      appShell: document.getElementById("app-shell"),
+      liveRegion: document.getElementById("live-region")
+    };
+
+    function loadSessionState() {
+      const rawState = sessionStorage.getItem(STORAGE_KEY);
+      if (!rawState) {
+        return;
+      }
+
+      let stored;
+      try {
+        stored = JSON.parse(rawState);
+      } catch (error) {
+        console.error("印谱页临时状态解析失败，已清理损坏状态。", error);
+        sessionStorage.removeItem(STORAGE_KEY);
+        return;
+      }
+
+      if (!stored || typeof stored !== "object" || Array.isArray(stored)) {
+        console.error("印谱页临时状态格式无效，已清理损坏状态。");
+        sessionStorage.removeItem(STORAGE_KEY);
+        return;
+      }
+
+      if (stored.activeGroups && typeof stored.activeGroups === "object") {
+        if (stored.activeGroups.rules === "base" || stored.activeGroups.rules === "derived") {
+          state.activeGroups.rules = stored.activeGroups.rules;
+        }
+        if (stored.activeGroups.practice === "base" || stored.activeGroups.practice === "derived") {
+          state.activeGroups.practice = stored.activeGroups.practice;
+        }
+      }
+      if (stored.practiceMode === "simple" || stored.practiceMode === "standard") {
+        state.practiceMode = stored.practiceMode;
+      }
+      if (stored.cardFlips && typeof stored.cardFlips === "object") {
+        state.cardFlips = stored.cardFlips;
+      }
+      if (stored.answers && typeof stored.answers === "object") {
+        state.answers = stored.answers;
+      }
+      if (stored.choices && typeof stored.choices === "object") {
+        state.choices = stored.choices;
+      }
+      if (stored.result && typeof stored.result === "object") {
+        state.result = stored.result;
+      }
+      state.onlyWrong = stored.onlyWrong === true;
+      if (Array.isArray(stored.practiceTypes) && stored.practiceTypes.length > 0) {
+        const validTypes = stored.practiceTypes.filter((type) => typeColumns.some((column) => column.id === type));
+        if (validTypes.length > 0) {
+          state.practiceTypes = validTypes;
+        }
+      }
+      if (stored.practiceScope === "base" || stored.practiceScope === "derived" || stored.practiceScope === "all") {
+        state.practiceScope = stored.practiceScope;
+      }
+      if (Number(stored.practiceCount) >= 5 && Number(stored.practiceCount) <= 25) {
+        state.practiceCount = Number(stored.practiceCount);
+      }
+      if (stored.currentVerb && stored.currentVerb.dictionary && stored.currentVerb.kana && stored.currentVerb.type) {
+        const found = lexicon.find((verb) => verb.dictionary === stored.currentVerb.dictionary);
+        if (found) {
+          state.currentVerb = found;
+        }
+      }
+      if (Array.isArray(stored.currentForms)) {
+        state.currentForms = stored.currentForms.filter((id) => allForms.some((form) => form.id === id));
+      }
+    }
+
+    function saveSessionState() {
+      sessionStorage.setItem(STORAGE_KEY, JSON.stringify({
+        activeGroups: state.activeGroups,
+        practiceMode: state.practiceMode,
+        cardFlips: state.cardFlips,
+        answers: state.answers,
+        choices: state.choices,
+        result: state.result,
+        onlyWrong: state.onlyWrong,
+        practiceTypes: state.practiceTypes,
+        practiceScope: state.practiceScope,
+        practiceCount: state.practiceCount,
+        currentVerb: state.currentVerb,
+        currentForms: state.currentForms
+      }));
+    }
+
+    function readUrlState() {
+      const params = new URLSearchParams(window.location.search);
+      state.view = params.get("view") === "practice" ? "practice" : "rules";
+    }
+
+    function writeUrlState(addHistory) {
+      try {
+        const url = new URL(window.location.href);
+        url.searchParams.set("view", state.view);
+        const method = addHistory ? "pushState" : "replaceState";
+        window.history[method]({ view: state.view }, "", url);
+      } catch (error) {
+        // file:// 双击打开或受限环境可能禁止修改历史记录：静默降级，仅保留内存状态
+        console.warn("无法更新地址栏状态：", error && error.message);
+      }
+    }
+
+    function announce(message) {
+      elements.liveRegion.textContent = "";
+      window.setTimeout(() => {
+        elements.liveRegion.textContent = message;
+      }, 20);
+    }
+
+    function validateData() {
+      const errors = [];
+      const formIds = new Set(allForms.map((form) => form.id));
+
+      allForms.forEach((form) => {
+        if (!form.label || !form.jp || !form.note) {
+          errors.push(`${form.id}: 缺少名称、假名或说明`);
+        }
+        if (!answerSets[form.id]) {
+          errors.push(`${form.id}: 缺少练习答案`);
+        }
+        if (!formRules[form.id]) {
+          errors.push(`${form.id}: 缺少规则`);
+        }
+        typeColumns.forEach((type) => {
+          if (!formRules[form.id] || !formRules[form.id][type.id]) {
+            errors.push(`${form.id}/${type.id}: 缺少类型规则`);
+          }
+          if (!typeExamples[type.id].forms[form.id]) {
+            errors.push(`${type.id}/${form.id}: 缺少示例`);
+          }
+        });
+      });
+
+      Object.entries(answerSets).forEach(([formId, answer]) => {
+        if (!formIds.has(formId) || !answer.canonical || !answer.acceptedAnswers.includes(answer.canonical)) {
+          errors.push(`${formId}: 答案集合无效`);
+        }
+      });
+
+      if (errors.length > 0) {
+        throw new Error(errors.join("\n"));
+      }
+    }
+
+    function getActiveGroup(scope) {
+      return state.activeGroups[scope] === "derived" ? "derived" : "base";
+    }
+
+    function getFormsForGroup(groupId) {
+      return groupId === "derived" ? derivedForms : baseForms;
+    }
+
+    function getForm(formId) {
+      return allForms.find((form) => form.id === formId);
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    /* B3：卡片背面的振り仮名（<ruby>）与词干/接续分解 */
+    function buildExampleDetail(example, typeId, formId) {
+      const data = window.NIHONGO_DATA["adj-conjugator"].conjugate({
+        dictionary: example.dictionary,
+        kana: example.kana,
+        meaning: example.meaning,
+        type: typeId
+      });
+      const formValue = data.forms[formId];
+      const stem = data.stem;
+      if (!stem) {
+        return { ruby: escapeHtml(formValue), breakdown: "" };
+      }
+      const index = formValue.indexOf(stem.kanji);
+      if (index < 0) {
+        return { ruby: escapeHtml(formValue), breakdown: "" };
+      }
+      const head = formValue.slice(0, index);
+      const tail = formValue.slice(index + stem.kanji.length);
+      const stemRuby = `<ruby>${escapeHtml(stem.kanji)}<rt>${escapeHtml(stem.kana)}</rt></ruby>`;
+      const breakdown = index === 0
+        ? `<span class="breakdown">${stemRuby}<span class="affix">＋ ${escapeHtml(tail)}</span></span>`
+        : `<span class="breakdown">${escapeHtml(head)}${stemRuby}<span class="affix">＋ ${escapeHtml(tail)}</span></span>`;
+      return { ruby: `${escapeHtml(head)}${stemRuby}${escapeHtml(tail)}`, breakdown };
+    }
+
+    function getProcess(typeId, formId, result) {
+      const example = typeExamples[typeId];
+      const root = `${example.dictionary}（${example.kana}）`;
+      if (typeId === "godan" && (formId === "te" || formId === "ta")) {
+        return `${root} → く音便 → ${result}`;
+      }
+      if (typeId === "ichidan") {
+        return `${root} → 去「る」 → ${result}`;
+      }
+      return `${root} → ${result}`;
+    }
+
+    function getRuleCard(typeId, formId) {
+      const form = getForm(formId);
+      const type = typeColumns.find((column) => column.id === typeId);
+      const example = typeExamples[typeId];
+      const result = example.forms[formId];
+      const cardId = `${typeId}-${formId}`;
+      const cardIndex = allForms.findIndex((item) => item.id === formId) * typeColumns.length
+        + typeColumns.findIndex((item) => item.id === typeId);
+      const cardDelay = Math.min(cardIndex * 8, 380);
+      const flipped = state.cardFlips[cardId] === true;
+      const exception = typeId === "godan" && formId === "te";
+      const detail = buildExampleDetail(example, typeId, formId);
+      return `
+        <div class="rule-card ${flipped ? "is-flipped" : ""}" data-card-id="${cardId}" style="--card-delay: ${cardDelay}ms">
+          <button class="rule-card-button" type="button" data-action="flip-card"
+            aria-expanded="${flipped}" aria-label="${flipped ? "收起" : "查看"}${type.label}${form.label}示例">
+            <span class="rule-card-inner">
+              <span class="rule-card-face rule-card-front">
+                <span>
+                  <span class="card-kicker">${type.label} · 规则</span>
+                  <strong class="card-rule">${formRules[formId][typeId]}</strong>
+                  <span class="card-detail">${form.note}</span>
+                </span>
+                <span class="flip-hint">点击查看示例</span>
+              </span>
+              <span class="rule-card-face rule-card-back">
+                <span>
+                  <span class="card-kicker">${exception ? "例外提示 · て形" : "代表示例"}</span>
+                  <span class="card-example">
+                    <span class="card-example-result">${detail.ruby}</span>
+                    <span class="card-example-process">${detail.breakdown || getProcess(typeId, formId, result)}</span>
+                    <span class="card-example-meaning">${example.dictionary}：${example.meaning}</span>
+                  </span>
+                </span>
+                <span class="flip-hint">${exception ? "く→いて；行く为特殊例外" : "点击翻回规则"}</span>
+              </span>
+            </span>
+          </button>
+        </div>
+      `;
+    }
+
+    function renderRuleTable(forms) {
+      return `
+        <div class="table-scroll">
+          <table class="rule-table">
+            <caption class="visually-hidden">活用形与动词类型变化规则。点击卡片查看代表示例。</caption>
+            <thead>
+              <tr>
+                <th scope="col">活用形</th>
+                ${typeColumns.map((type) => `<th scope="col">${type.label}</th>`).join("")}
+              </tr>
+            </thead>
+            <tbody>
+              ${forms.map((form) => `
+                <tr>
+                  <th class="form-cell" scope="row">
+                    <span class="form-name">${form.label}</span>
+                    <span class="form-jp">${form.jp}</span>
+                  </th>
+                  ${typeColumns.map((type) => `<td>${getRuleCard(type.id, form.id)}</td>`).join("")}
+                </tr>
+              `).join("")}
+            </tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    function renderSoundReference() {
+      return `
+        <aside class="sound-reference" aria-labelledby="sound-reference-title">
+          <div>
+            <h3 id="sound-reference-title">三类变形速查</h3>
+            <p>用印谱页的方式集中查看い形容词、な形容词与名词的六种变形，先记骨架再查表格。</p>
+          </div>
+          <div class="sound-summary" aria-label="变形速记">
+            <div class="sound-summary-heading">
+              <strong>一页速记</strong>
+              <span>い形容词去「い」接くない／かった；な形容词与名词直接接 だ／じゃない／だった／で／なら。</span>
+            </div>
+            <div class="sound-summary-grid">
+              <div class="sound-summary-item">
+                <strong>い形容词</strong>
+                <span>词干＋くない／かった／くて／ければ</span>
+              </div>
+              <div class="sound-summary-item">
+                <strong>な形容词</strong>
+                <span>词干＋だ／じゃない／だった／で／なら</span>
+              </div>
+              <div class="sound-summary-item">
+                <strong>名词</strong>
+                <span>与な形容词同型（だ系）</span>
+              </div>
+            </div>
+            <p class="sound-summary-note">补充：「いい」是特殊例外，变形为 よくない／よかった／よくて／よければ；「きれい」虽是「い」结尾，却属于な形容词。</p>
+          </div>
+          <div class="table-scroll">
+            <table class="sound-table">
+              <caption class="visually-hidden">三类变形速查</caption>
+              <thead>
+                <tr>
+                  ${allForms.map((form) => `<th scope="col">${form.label}</th>`).join("")}
+                </tr>
+              </thead>
+              <tbody>
+                ${soundRows.map((row) => `
+                  <tr>
+                    ${row.map((cell, index) => index === 0
+                      ? `<th scope="row">${cell}</th>`
+                      : `<td>${cell}</td>`).join("")}
+                  </tr>
+                `).join("")}
+              </tbody>
+            </table>
+          </div>
+          <div class="exception-callout">
+            <span aria-hidden="true">!</span>
+            <span><strong>易错提醒：</strong>「いい」的变形是 よくない／よかった／よくて／よければ，不按「词干＋くない」生成。</span>
+          </div>
+        </aside>
+      `;
+    }
+
+    function renderConjugationTabs(scope) {
+      const activeGroup = getActiveGroup(scope);
+      const tabs = [
+        { id: "base", label: "基础六形", description: "未然・连用・终止・连体・假定・命令" },
+        { id: "derived", label: "派生／接续形", description: "ない・ます・て・た・可能・敬语等" }
+      ];
+      return `
+        <div class="conjugation-tabs" role="tablist" aria-label="${scope === "rules" ? "规则类型" : "练习类型"}">
+          ${tabs.map((tab) => `
+            <button class="conjugation-tab" type="button" role="tab"
+              id="${scope}-group-${tab.id}-tab"
+              ${activeGroup === tab.id ? `aria-controls="${scope}-group-${tab.id}-panel"` : ""}
+              aria-selected="${activeGroup === tab.id}"
+              data-action="set-form-group" data-scope="${scope}" data-group-id="${tab.id}">
+              <strong>${tab.label}</strong>
+              <small>${tab.description}</small>
+            </button>
+          `).join("")}
+        </div>
+      `;
+    }
+
+    function renderRulesPanel() {
+      return `
+        <section id="rules-panel" class="panel" role="tabpanel" aria-labelledby="view-rules-tab">
+          <div class="panel-intro">
+            <div>
+              <p class="eyebrow">Rules / 规则讲解</p>
+              <h3>把每一种词形盖成一方印</h3>
+              <p>主表只保留活用形和词类，规则摘要在卡片正面，翻开后查看代表词、结果和推导过程。</p>
+            </div>
+            <div class="intro-note">样例固定词：<strong>高い（たかい）</strong><br>用于展示い形容词「い → く」变形。</div>
+          </div>
+          <section class="group-body">
+            ${renderRuleTable(allForms)}
+          </section>
+          ${renderSoundReference()}
+        </section>
+      `;
+    }
+
+    function normalizeAnswer(value) {
+      return String(value || "").trim().normalize("NFKC");
+    }
+
+    /* 当前练习的题目列表：[{ form, accepted }] */
+    function getPracticeItems() {
+      if (!state.currentVerb || !state.currentForms.length) {
+        return [];
+      }
+      const data = getCurrentVerbData();
+      const byId = {};
+      allForms.forEach((form) => {
+        byId[form.id] = form;
+      });
+      return state.currentForms.map((id) => ({
+        form: byId[id],
+        accepted: buildAcceptedAnswers(id, data.forms, data.kanaForms, data.stem)
+      }));
+    }
+
+    /* A6：开始新练习 = 随机动词 + 随机 N 形 */
+    function startNewPractice() {
+      const verb = pickPracticeVerb();
+      if (!verb) {
+        announce("当前筛选下没有可选动词，请调整类型范围。");
+        return;
+      }
+      state.currentVerb = verb;
+      state.currentForms = pickPracticeForms(state.practiceCount);
+      state.answers = {};
+      state.choices = {};
+      state.result = null;
+      state.onlyWrong = false;
+      saveSessionState();
+      renderApp();
+      announce(`已抽取新练习：${verb.dictionary}（${verb.kana}），共 ${state.currentForms.length} 个活用形。`);
+    }
+
+    /* 错题再练：从累计错题集随机选一个动词，取它的错形 */
+    function retryWrongPractice() {
+      const wrongs = state.stats.wrongItems.filter(
+        (w) => w && w.dict && w.formId && lexicon.some((v) => v.dictionary === w.dict)
+      );
+      if (!wrongs.length) {
+        announce("暂无错题记录，先做一组练习吧。");
+        return;
+      }
+      const byVerb = {};
+      wrongs.forEach((w) => {
+        if (!byVerb[w.dict]) {
+          byVerb[w.dict] = [];
+        }
+        if (!byVerb[w.dict].includes(w.formId)) {
+          byVerb[w.dict].push(w.formId);
+        }
+      });
+      const dicts = Object.keys(byVerb);
+      const dict = dicts[Math.floor(Math.random() * dicts.length)];
+      const verb = lexicon.find((v) => v.dictionary === dict);
+      state.currentVerb = verb;
+      state.currentForms = shuffle(byVerb[dict]).slice(0, state.practiceCount);
+      state.answers = {};
+      state.choices = {};
+      state.result = null;
+      state.onlyWrong = true;
+      saveSessionState();
+      renderApp();
+      announce(`错题再练：${verb.dictionary}，共 ${state.currentForms.length} 个待复习形。`);
+    }
+
+    function renderPracticeRow(form) {
+      const resultItem = state.result && state.result.items[form.id]
+        ? state.result.items[form.id] : null;
+      const rowClass = resultItem ? (resultItem.correct ? "is-correct" : "is-wrong") : "";
+      const label = `
+        <div class="practice-row-label">
+          <strong>${form.label}</strong>
+          <span>${form.jp}</span>
+          <small>${form.note}</small>
+        </div>
+      `;
+
+      if (state.practiceMode === "simple") {
+        const selected = state.choices[form.id] || "";
+        return `
+          <article class="practice-row ${rowClass}" data-form-id="${form.id}">
+            ${label}
+            <fieldset class="choice-grid">
+              <legend class="visually-hidden">${form.label}选择题</legend>
+              ${getOptions(state.currentVerb, form.id).map((option, index) => `
+                <label class="choice-option">
+                  <input type="radio" name="choice-${form.id}" value="${option}"
+                    ${selected === option ? "checked" : ""} data-action="choose-answer" data-form-id="${form.id}">
+                  <span>${option}</span><em>${String.fromCharCode(65 + index)}</em>
+                </label>
+              `).join("")}
+            </fieldset>
+          </article>
+        `;
+      }
+
+      return `
+        <article class="practice-row ${rowClass}" data-form-id="${form.id}">
+          ${label}
+          <div>
+            <label class="visually-hidden" for="answer-${form.id}">${form.label}答案</label>
+            <input id="answer-${form.id}" class="answer-field" type="text" inputmode="text"
+              autocomplete="off" placeholder="输入${form.label}结果" value="${state.answers[form.id] || ""}"
+              data-action="type-answer" data-form-id="${form.id}">
+          </div>
+        </article>
+      `;
+    }
+
+    function getResultSummary() {
+      if (!state.result || !state.currentVerb) {
+        return "";
+      }
+      const items = Object.values(state.result.items);
+      const correct = items.filter((item) => item.correct).length;
+      const total = items.length;
+      const percentage = total === 0 ? 0 : Math.round((correct / total) * 100);
+      const verbStats = state.stats.byVerb[state.currentVerb.dictionary];
+      const allAttempts = Object.values(state.stats.byForm).reduce((sum, s) => sum + s.t, 0);
+      const allCorrect = Object.values(state.stats.byForm).reduce((sum, s) => sum + s.c, 0);
+      const allPct = allAttempts === 0 ? null : Math.round((allCorrect / allAttempts) * 100);
+      const data = getCurrentVerbData();
+      const wrongList = Object.entries(state.result.items)
+        .filter(([, item]) => !item.correct);
+      return `
+        <section class="result-summary" aria-labelledby="result-title">
+          <div class="score-bubble">${percentage}%<span>${correct}/${total}</span></div>
+          <div>
+            <h3 id="result-title">检查完成</h3>
+            <p>本次：<strong>${state.currentVerb.dictionary}</strong>（${state.currentVerb.kana}）的 ${total} 个形，答对 ${correct} 个。
+              ${verbStats ? `该词累计 ${verbStats.t} 次，正确率 ${Math.round((verbStats.c / verbStats.t) * 100)}%。` : ""}
+              ${allPct !== null ? `全部形累计 ${allAttempts} 次，正确率 ${allPct}%。` : ""}
+            </p>
+            ${wrongList.length > 0 ? `
+              <div class="result-items">
+                ${wrongList.map(([formId]) => {
+                  const form = getForm(formId);
+                  return `
+                    <div class="result-item is-wrong">
+                      <strong>${form.label}</strong>
+                      <span>需复习</span>
+                      <small>${data.forms[formId]}</small>
+                    </div>
+                  `;
+                }).join("")}
+              </div>
+            ` : `
+              <div class="exception-callout"><span aria-hidden="true">✓</span><span><strong>全部答对！</strong>可以再抽一组巩固，或查看错题集继续。</span></div>
+            `}
+          </div>
+        </section>
+      `;
+    }
+
+    function renderPracticePanel() {
+      const hasSession = !!state.currentVerb && state.currentForms.length > 0;
+      const wrongCount = state.stats.wrongItems.length;
+      const items = getPracticeItems();
+      const scopeLabel = "全部 6 形";
+      return `
+        <section id="practice-panel" class="panel" role="tabpanel" aria-labelledby="view-practice-tab">
+          <div class="panel-intro">
+            <div>
+              <p class="eyebrow">Practice / 练习</p>
+              <h3>翻开一页，亲手盖出答案</h3>
+              <p>从词库随机抽词、按规则实时变形；选好类型与题数后开始，错题会进入累计错题集。</p>
+            </div>
+            <div class="intro-note">词库 <strong>${lexicon.length} 词</strong><br>累计错题 ${wrongCount} 条</div>
+          </div>
+          <div class="practice-toolbar">
+            <div class="mode-switch" aria-label="练习模式">
+              <button class="mode-button" type="button" data-action="set-mode" data-mode="simple"
+                aria-pressed="${state.practiceMode === "simple"}">简易模式</button>
+              <button class="mode-button" type="button" data-action="set-mode" data-mode="standard"
+                aria-pressed="${state.practiceMode === "standard"}">标准模式</button>
+            </div>
+            <span class="assistive-copy">统计保存在本机浏览器（localStorage）</span>
+          </div>
+
+          <section class="practice-config" aria-label="练习设置">
+            <div class="config-row">
+              <span class="config-label">词类</span>
+              <div class="type-chips">
+                ${typeColumns.map((type) => `
+                  <button class="type-chip ${state.practiceTypes.includes(type.id) ? "is-active" : ""}"
+                    type="button" data-action="toggle-practice-type" data-type-id="${type.id}"
+                    aria-pressed="${state.practiceTypes.includes(type.id)}">${type.label}</button>
+                `).join("")}
+              </div>
+            </div>
+            <div class="config-row">
+              <span class="config-label">题数</span>
+              <select class="count-select" data-action="set-practice-count" aria-label="每次练习题数">
+                ${[3, 6].map((n) => `
+                  <option value="${n}" ${state.practiceCount === n ? "selected" : ""}>${n} 题</option>
+                `).join("")}
+              </select>
+              <span class="assistive-copy">从「${scopeLabel}」中随机抽取</span>
+            </div>
+          </section>
+
+          <div class="practice-actions start-actions">
+            <button class="primary-button" type="button" data-action="start-practice">开始新练习</button>
+            <button class="secondary-button" type="button" data-action="retry-wrong"
+              ${wrongCount === 0 ? "disabled" : ""}>错题再练（${wrongCount}）</button>
+            <button class="secondary-button" type="button" data-action="clear-stats">清空统计</button>
+          </div>
+
+          ${hasSession ? `
+            <div class="practice-prompt">
+              <div class="practice-word">
+                <strong>${state.currentVerb.dictionary}</strong>
+                <span>${state.currentVerb.kana}</span>
+                <small>中文：${state.currentVerb.meaning}</small>
+              </div>
+              <div class="practice-prompt-side">
+                <strong>${state.onlyWrong ? "错题复习" : "本次练习"}</strong>
+                <span>范围：${scopeLabel} · 共 ${items.length} 题 · 动词类型不直接显示，先自行判断。</span>
+              </div>
+            </div>
+            ${getResultSummary()}
+            <section class="practice-group">
+              <h3>${state.currentVerb.dictionary} 的 ${items.length} 个活用形</h3>
+              <div class="practice-list">${items.map((item) => renderPracticeRow(item.form)).join("")}</div>
+            </section>
+            <div class="practice-actions">
+              <button class="primary-button" type="button" data-action="check-practice">检查答案</button>
+              <button class="secondary-button" type="button" data-action="reset-practice">清空作答</button>
+              <button class="secondary-button" type="button" data-action="start-practice">重新抽题</button>
+            </div>
+          ` : `
+            <div class="exception-callout"><span aria-hidden="true">印</span><span><strong>还没有练习会话。</strong>设置好类型与题数后，点击「开始新练习」随机抽词。</span></div>
+          `}
+        </section>
+      `;
+    }
+
+    function renderApp() {
+      document.body.dataset.theme = theme.id;
+      elements.appShell.dataset.theme = theme.id;
+      elements.appShell.innerHTML = `
+        <header class="app-header">
+          <a class="brand brand-link" href="index.html" aria-label="返回日语学习印谱方格首页">
+            <span class="brand-seal" aria-hidden="true">活</span>
+            <div>
+              <h2>動詞ノート</h2>
+              <p>印谱方格 · 形容词与名词规则与练习</p>
+            </div>
+          </a>
+          <span class="edition-note">和風 · 印谱六号</span>
+        </header>
+        <nav class="main-tabs" role="tablist" aria-label="主要区域">
+          <button class="main-tab" id="view-rules-tab" type="button" role="tab"
+            ${state.view === "rules" ? 'aria-controls="rules-panel"' : ""}
+            aria-selected="${state.view === "rules"}" data-view="rules">规则讲解</button>
+          <button class="main-tab" id="view-practice-tab" type="button" role="tab"
+            ${state.view === "practice" ? 'aria-controls="practice-panel"' : ""}
+            aria-selected="${state.view === "practice"}" data-view="practice">练习</button>
+        </nav>
+        ${state.view === "rules" ? renderRulesPanel() : renderPracticePanel()}
+      `;
+    }
+
+    function setView(view, addHistory = true) {
+      state.view = view === "practice" ? "practice" : "rules";
+      writeUrlState(addHistory);
+      renderApp();
+      announce(state.view === "rules" ? "已切换到规则讲解" : "已切换到练习");
+    }
+
+    function checkPractice() {
+      const items = getPracticeItems();
+      if (!items.length) {
+        announce("还没有练习题目，请先「开始新练习」。");
+        return;
+      }
+      const data = getCurrentVerbData();
+      const verbKey = state.currentVerb.dictionary;
+      const resultItems = {};
+      items.forEach(({ form, accepted }) => {
+        const submitted = state.practiceMode === "simple"
+          ? state.choices[form.id] || ""
+          : state.answers[form.id] || "";
+        const correct = accepted.map(normalizeAnswer).includes(normalizeAnswer(submitted));
+        resultItems[form.id] = { correct, submitted };
+        // 累计统计（A5：localStorage 长期保存）
+        state.stats.byVerb[verbKey] = state.stats.byVerb[verbKey] || { t: 0, c: 0 };
+        state.stats.byVerb[verbKey].t += 1;
+        state.stats.byForm[form.id] = state.stats.byForm[form.id] || { t: 0, c: 0 };
+        state.stats.byForm[form.id].t += 1;
+        if (correct) {
+          state.stats.byVerb[verbKey].c += 1;
+          state.stats.byForm[form.id].c += 1;
+        } else {
+          state.stats.wrongItems.push({ dict: verbKey, formId: form.id });
+          // 控制错题集规模：仅保留最近 200 条
+          if (state.stats.wrongItems.length > 200) {
+            state.stats.wrongItems.splice(0, state.stats.wrongItems.length - 200);
+          }
+        }
+      });
+      state.result = { verb: verbKey, items: resultItems, checkedAt: Date.now() };
+      state.onlyWrong = false;
+      saveStats();
+      saveSessionState();
+      renderApp();
+      announce(`答案已检查：${verbKey} 本次 ${items.length} 题，累计统计已更新。`);
+    }
+
+    function resetPractice() {
+      state.answers = {};
+      state.choices = {};
+      state.result = null;
+      state.onlyWrong = false;
+      saveSessionState();
+      renderApp();
+      announce("当前练习的作答已清空，可以重新填写。");
+    }
+
+    function handleAction(target) {
+      const action = target.dataset.action;
+      if (!action) {
+        return;
+      }
+
+      if (action === "flip-card") {
+        const card = target.closest("[data-card-id]");
+        if (!card) {
+          return;
+        }
+        const cardId = card.dataset.cardId;
+        const flipped = !state.cardFlips[cardId];
+        state.cardFlips[cardId] = flipped;
+        saveSessionState();
+        card.classList.toggle("is-flipped", flipped);
+        const button = card.querySelector(".rule-card-button");
+        if (button) {
+          button.setAttribute("aria-expanded", String(flipped));
+          const label = button.getAttribute("aria-label") || "";
+          button.setAttribute("aria-label", flipped
+            ? label.replace(/^查看/, "收起")
+            : label.replace(/^收起/, "查看"));
+        }
+        return;
+      }
+
+      if (action === "set-form-group") {
+        const scope = target.dataset.scope === "practice" ? "practice" : "rules";
+        state.activeGroups[scope] = target.dataset.groupId === "derived" ? "derived" : "base";
+        saveSessionState();
+        renderApp();
+        announce(`${scope === "rules" ? "规则讲解" : "练习"}已切换到${state.activeGroups[scope] === "base" ? "基础六形" : "派生／接续形"}。`);
+        return;
+      }
+
+      if (action === "set-mode") {
+        state.practiceMode = target.dataset.mode === "standard" ? "standard" : "simple";
+        state.result = null;
+        saveSessionState();
+        renderApp();
+        announce(state.practiceMode === "simple" ? "已切换到简易模式" : "已切换到标准模式");
+        return;
+      }
+
+      if (action === "toggle-practice-type") {
+        const typeId = target.dataset.typeId;
+        const index = state.practiceTypes.indexOf(typeId);
+        if (index >= 0) {
+          if (state.practiceTypes.length > 1) {
+            state.practiceTypes.splice(index, 1);
+          } else {
+            announce("至少保留一种动词类型。");
+            return;
+          }
+        } else {
+          state.practiceTypes.push(typeId);
+        }
+        saveSessionState();
+        renderApp();
+        announce("练习动词类型范围已更新。");
+        return;
+      }
+
+      if (action === "set-practice-scope") {
+        const scope = target.dataset.scope;
+        if (scope === "base" || scope === "derived" || scope === "all") {
+          state.practiceScope = scope;
+          saveSessionState();
+          renderApp();
+          announce(scope === "base" ? "抽题范围：基础六形" : scope === "derived" ? "抽题范围：派生形" : "抽题范围：全部 25 形");
+        }
+        return;
+      }
+
+      if (action === "set-practice-count") {
+        const count = Number(target.value);
+        if (count >= 5 && count <= 25) {
+          state.practiceCount = count;
+          saveSessionState();
+          renderApp();
+          announce(`每次练习 ${count} 题。`);
+        }
+        return;
+      }
+
+      if (action === "start-practice") {
+        startNewPractice();
+        return;
+      }
+
+      if (action === "retry-wrong") {
+        retryWrongPractice();
+        return;
+      }
+
+      if (action === "clear-stats") {
+        clearStats();
+        renderApp();
+        announce("累计练习统计已清空。");
+        return;
+      }
+
+      if (action === "check-practice") {
+        checkPractice();
+        return;
+      }
+
+      if (action === "reset-practice") {
+        resetPractice();
+        return;
+      }
+    }
+
+    elements.appShell.addEventListener("click", (event) => {
+      const viewTab = event.target.closest("[data-view]");
+      if (viewTab) {
+        setView(viewTab.dataset.view);
+        return;
+      }
+      const actionTarget = event.target.closest("[data-action]");
+      if (actionTarget) {
+        handleAction(actionTarget);
+      }
+    });
+
+    elements.appShell.addEventListener("change", (event) => {
+      const target = event.target;
+      if (target.dataset.action === "choose-answer") {
+        state.choices[target.dataset.formId] = target.value;
+        state.result = null;
+        saveSessionState();
+        return;
+      }
+      if (target.dataset.action === "type-answer") {
+        state.answers[target.dataset.formId] = target.value;
+        state.result = null;
+        saveSessionState();
+        return;
+      }
+      if (target.dataset.action === "set-practice-count") {
+        handleAction(target);
+      }
+    });
+
+    window.addEventListener("popstate", () => {
+      readUrlState();
+      renderApp();
+      announce(`已返回${state.view === "rules" ? "规则讲解" : "练习"}。`);
+    });
+
+    loadSessionState();
+    readUrlState();
+    try {
+      validateData();
+      writeUrlState(false);
+      renderApp();
+    } catch (error) {
+      elements.appShell.innerHTML = `<div class="data-error"><strong>数据校验失败，页面未初始化。</strong><pre>${error.message}</pre></div>`;
+      console.error(error);
+    }
+  </script>
+</body>
+</html>
