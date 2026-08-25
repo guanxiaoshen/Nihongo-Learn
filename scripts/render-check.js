@@ -56,6 +56,8 @@ dom.window.addEventListener('load', function () {
       assert('卡片背面含词干/接续分解', doc.querySelectorAll('.breakdown').length > 0);
       assert('分解标注使用 <ruby> 汉字注音', shell.innerHTML.includes('<ruby>'));
 
+      assert('品牌印章 動', shell.innerHTML.includes('brand-seal') && doc.querySelector('.brand-seal').textContent === '動');
+
       console.log('--- 练习视图 ---');
       doc.querySelector('[data-view="practice"]').click();
       assert('练习配置区存在', shell.innerHTML.includes('practice-config'));
