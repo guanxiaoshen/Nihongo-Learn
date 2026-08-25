@@ -151,7 +151,7 @@
       align-items: center;
       justify-content: space-between;
       gap: 20px;
-      padding: 18px 20px;
+      padding: 20px 24px;
       border: 3px solid var(--line-strong);
       border-radius: 0;
       background:
@@ -467,6 +467,47 @@
       min-width: 0;
       animation: panel-enter .45s ease both;
     }
+
+    /* P3：练习设置折叠 */
+    .config-head {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px 14px;
+      margin-bottom: 10px;
+    }
+
+    .config-title {
+      color: var(--vermilion-deep);
+      font-family: var(--display);
+      font-size: .92rem;
+      font-weight: 900;
+    }
+
+    .config-toggle {
+      padding: 0;
+      border: 0;
+      color: var(--vermilion-deep);
+      background: transparent;
+      cursor: pointer;
+      font-size: .78rem;
+      font-weight: 900;
+    }
+
+    .config-toggle:hover {
+      text-decoration: underline;
+    }
+
+    .config-summary {
+      margin-left: auto;
+      color: var(--muted);
+      font-size: .74rem;
+    }
+
+    .practice-config.is-folded .config-rows {
+      display: none;
+    }
+
 
     .table-scroll {
       width: 100%;
@@ -904,7 +945,7 @@
       display: grid;
       gap: 10px;
       margin-top: 14px;
-      padding: 14px 16px;
+      padding: 16px;
       border: 1px dashed var(--line-strong);
       border-radius: var(--radius-small);
       background: var(--surface-strong);
@@ -1234,7 +1275,7 @@
       display: grid;
       grid-template-columns: auto minmax(0, 1fr);
       gap: 14px;
-      padding: 14px;
+      padding: 16px;
       border: 1px solid var(--vermilion);
       border-radius: 2px;
       background: var(--vermilion-soft);
@@ -1595,7 +1636,8 @@
       practiceCount: 6,
       currentVerb: null,
       currentForms: [],
-      stats: null
+      stats: null,
+      configOpen: true
     };
 
     state.stats = loadStats();
@@ -1789,6 +1831,7 @@
           state.currentVerb = found;
         }
       }
+      state.configOpen = stored.configOpen !== false;
       if (Array.isArray(stored.currentForms)) {
         state.currentForms = stored.currentForms.filter((id) => allForms.some((form) => form.id === id));
       }
@@ -1807,7 +1850,8 @@
         practiceScope: state.practiceScope,
         practiceCount: state.practiceCount,
         currentVerb: state.currentVerb,
-        currentForms: state.currentForms
+        currentForms: state.currentForms,
+        configOpen: state.configOpen
       }));
     }
 
@@ -2277,7 +2321,16 @@
             <span class="assistive-copy">统计保存在本机浏览器（localStorage）</span>
           </div>
 
-          <section class="practice-config" aria-label="练习设置">
+          <section class="practice-config ${hasSession && !state.configOpen ? "is-folded" : ""}" aria-label="练习设置">
+            <div class="config-head">
+              <span class="config-title">练习设置</span>
+              ${hasSession ? `
+                <button class="config-toggle" type="button" data-action="toggle-config"
+                  aria-expanded="${state.configOpen ? "true" : "false"}">${state.configOpen ? "收起设置" : "展开设置"}</button>
+                <span class="config-summary">当前：${scopeLabel} · ${state.practiceCount} 题</span>
+              ` : ""}
+            </div>
+            <div class="config-rows">
             <div class="config-row">
               <span class="config-label">词类</span>
               <div class="type-chips">
@@ -2296,6 +2349,7 @@
                 `).join("")}
               </select>
               <span class="assistive-copy">从「${scopeLabel}」中随机抽取</span>
+            </div>
             </div>
           </section>
 
@@ -2523,6 +2577,14 @@
         return;
       }
 
+      if (action === "toggle-config") {
+        state.configOpen = !state.configOpen;
+        saveSessionState();
+        renderApp();
+        announce(state.configOpen ? "已展开练习设置" : "已收起练习设置");
+        return;
+      }
+
       if (action === "start-practice") {
         startNewPractice();
         return;
@@ -2586,6 +2648,18 @@
       readUrlState();
       renderApp();
       announce(`已返回${state.view === "rules" ? "规则讲解" : "练习"}。`);
+    });
+
+    /* P3：ESC 关闭主题面板 */
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        document.querySelectorAll(".theme-switcher.is-open").forEach((el) => {
+          el.classList.remove("is-open");
+        });
+        document.querySelectorAll('.theme-switcher-button[aria-expanded="true"]').forEach((btn) => {
+          btn.setAttribute("aria-expanded", "false");
+        });
+      }
     });
 
     loadSessionState();

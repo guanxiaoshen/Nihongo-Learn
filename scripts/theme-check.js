@@ -62,6 +62,10 @@ async function main() {
     assert('localStorage 写入 sumi', dom.window.localStorage.getItem('nihongo-learn-theme') === 'sumi');
     assert('面板收起', !doc.querySelector('.theme-switcher').classList.contains('is-open'));
     assert('选中态更新', sumi.getAttribute('aria-pressed') === 'true');
+    // P3：ESC 关闭面板
+    doc.querySelector('.theme-switcher-button').click();
+    dom.window.document.dispatchEvent(new dom.window.KeyboardEvent('keydown', { key: 'Escape' }));
+    assert('ESC 关闭面板', !doc.querySelector('.theme-switcher').classList.contains('is-open'));
     assert('无运行时错误', errors.length === 0);
   });
 

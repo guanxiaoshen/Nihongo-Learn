@@ -254,3 +254,19 @@
   outline: 3px solid var(--vermilion);
   outline-offset: 2px;
 }
+
+/* ── P2：移动端触控目标 ≥40px ─────────────── */
+@media (max-width: 640px) {
+  .type-chip, .mode-button, .theme-option, .theme-switcher-button, .count-select {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    min-height: 40px;
+  }
+}
+
+/* ── P2：中间断点 641-768px 结果区单列 ─────── */
+@media (max-width: 768px) and (min-width: 641px) {
+  .result-summary {
+    grid-template-columns: 1fr;
+  }
+}

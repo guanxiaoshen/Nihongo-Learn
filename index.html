@@ -269,7 +269,7 @@
       display: grid;
       min-height: 280px;
       gap: 20px;
-      padding: 22px;
+      padding: 24px;
       border: 2px solid var(--line);
       border-radius: 4px;
       background:
@@ -540,6 +540,17 @@
           el.classList.remove("is-open");
         });
         window.NihongoTheme.updateSwitcher();
+      }
+    });
+    // ESC 关闭主题面板
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape") {
+        document.querySelectorAll(".theme-switcher.is-open").forEach(function (el) {
+          el.classList.remove("is-open");
+        });
+        document.querySelectorAll('.theme-switcher-button[aria-expanded="true"]').forEach(function (btn) {
+          btn.setAttribute("aria-expanded", "false");
+        });
       }
     });
     window.NihongoTheme.init();

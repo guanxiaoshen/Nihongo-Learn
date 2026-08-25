@@ -110,6 +110,18 @@ dom.window.addEventListener('load', function () {
       doc.querySelector('[data-view="rules"]').click();
       assert('规则页可正常渲染', shell.innerHTML.includes('rule-table'));
 
+      console.log('--- P3 增强（锚点 / 折叠） ---');
+      doc.querySelector('[data-action="set-form-group"][data-group-id="derived"]').click();
+      assert('派生组行锚点胶囊存在', doc.querySelectorAll('.row-anchor').length === 19);
+      assert('表格行带锚点 id', doc.querySelector('#form-row-te') !== null);
+      doc.querySelector('[data-view="practice"]').click();
+      doc.querySelector('[data-action="start-practice"]').click();
+      assert('会话后 config-head 出现', shell.innerHTML.includes('config-head'));
+      doc.querySelector('[data-action="toggle-config"]').click();
+      assert('折叠后 is-folded', doc.querySelector('.practice-config').classList.contains('is-folded'));
+      doc.querySelector('[data-action="toggle-config"]').click();
+      assert('再次展开', !doc.querySelector('.practice-config').classList.contains('is-folded'));
+
       console.log('页面运行时错误: ' + (errors.length === 0 ? '无' : errors.join(' | ')));
       assert('无运行时错误', errors.length === 0);
     } catch (e) {
