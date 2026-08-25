@@ -51,6 +51,8 @@ dom.window.addEventListener('load', function () {
       assert('变形速查表存在', shell.innerHTML.includes('三类变形速查'));
       assert('无 base/derived 分组 tab', doc.querySelectorAll('.conjugation-tab').length === 0);
 
+      assert('品牌标题 形・名詞ノート', shell.innerHTML.includes('形・名詞ノート'));
+
       console.log('--- 练习视图 ---');
       doc.querySelector('[data-view="practice"]').click();
       assert('词类筛选 chips ×3', doc.querySelectorAll('.type-chip[data-action="toggle-practice-type"]').length === 3);
