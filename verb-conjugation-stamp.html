@@ -815,6 +815,85 @@
       background: var(--wash);
     }
 
+    /* 练习设置区（类型筛选 / 形范围 / 题数） */
+    .practice-config {
+      display: grid;
+      gap: 10px;
+      margin-top: 14px;
+      padding: 14px 16px;
+      border: 1px dashed var(--line-strong);
+      border-radius: var(--radius-small);
+      background: var(--surface-strong);
+    }
+
+    .config-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .config-label {
+      width: 64px;
+      flex: 0 0 auto;
+      color: var(--muted);
+      font-size: .78rem;
+      font-weight: 900;
+    }
+
+    .type-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .type-chip {
+      padding: 6px 11px;
+      border: 1px solid var(--line-strong);
+      border-radius: 2px;
+      color: var(--muted);
+      background: var(--wash);
+      cursor: pointer;
+      font-size: .78rem;
+      font-weight: 900;
+      transition: border-color .2s ease, color .2s ease, background-color .2s ease;
+    }
+
+    .type-chip:hover {
+      border-color: var(--vermilion);
+    }
+
+    .type-chip[aria-pressed="true"],
+    .type-chip.is-active {
+      border-color: var(--vermilion);
+      color: var(--vermilion-deep);
+      background: var(--vermilion-soft);
+    }
+
+    .count-select {
+      padding: 6px 10px;
+      border: 1px solid var(--line-strong);
+      border-radius: 2px;
+      color: var(--ink);
+      background: var(--surface);
+      font-size: .8rem;
+      font-weight: 700;
+    }
+
+    .start-actions {
+      margin-top: 12px;
+    }
+
+    .start-actions .primary-button,
+    .start-actions .secondary-button {
+      padding: 9px 18px;
+    }
+
+    .start-actions .secondary-button:disabled {
+      opacity: .45;
+      cursor: not-allowed;
+    }
+
     .mode-switch {
       display: flex;
       gap: 5px;
@@ -1364,6 +1443,7 @@
     "use strict";
 
     const STORAGE_KEY = "verb-conjugation-stamp-state-v1";
+    const STATS_KEY = "verb-conjugation-practice-stats-v1";
 
     const theme = {
       id: "stamp",
@@ -1398,8 +1478,131 @@
       answers: {},
       choices: {},
       result: null,
-      onlyWrong: false
+      onlyWrong: false,
+      /* 练习改造（词库随机抽词） */
+      practiceTypes: ["godan", "ichidan", "kuru", "suru"],
+      practiceScope: "all",
+      practiceCount: 10,
+      currentVerb: null,
+      currentForms: [],
+      stats: null
     };
+
+    state.stats = loadStats();
+
+    /* 累计练习统计（localStorage 长期保存）：错题集 + 各词/各形正确率 */
+    function emptyStats() {
+      return { byVerb: {}, byForm: {}, wrongItems: [] };
+    }
+
+    function loadStats() {
+      try {
+        const raw = window.localStorage.getItem(STATS_KEY);
+        if (!raw) {
+          return emptyStats();
+        }
+        const parsed = JSON.parse(raw);
+        if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
+          return emptyStats();
+        }
+        return {
+          byVerb: parsed.byVerb && typeof parsed.byVerb === "object" ? parsed.byVerb : {},
+          byForm: parsed.byForm && typeof parsed.byForm === "object" ? parsed.byForm : {},
+          wrongItems: Array.isArray(parsed.wrongItems) ? parsed.wrongItems : []
+        };
+      } catch (error) {
+        console.error("练习统计读取失败，已重置。", error);
+        return emptyStats();
+      }
+    }
+
+    function saveStats() {
+      try {
+        window.localStorage.setItem(STATS_KEY, JSON.stringify(state.stats));
+      } catch (error) {
+        console.warn("练习统计保存失败（可能处于隐私模式）：", error && error.message);
+      }
+    }
+
+    function clearStats() {
+      state.stats = emptyStats();
+      saveStats();
+    }
+
+    function shuffle(items) {
+      const copy = items.slice();
+      for (let i = copy.length - 1; i > 0; i -= 1) {
+        const j = Math.floor(Math.random() * (i + 1));
+        const tmp = copy[i];
+        copy[i] = copy[j];
+        copy[j] = tmp;
+      }
+      return copy;
+    }
+
+    /* 在选定的类型范围内随机抽取一个练习动词 */
+    function pickPracticeVerb() {
+      const pool = lexicon.filter((verb) => state.practiceTypes.includes(verb.type));
+      if (pool.length === 0) {
+        return null;
+      }
+      return pool[Math.floor(Math.random() * pool.length)];
+    }
+
+    /* 在选定的形范围内随机抽取 N 个活用形 */
+    function pickPracticeForms(count) {
+      const pool = state.practiceScope === "base"
+        ? baseForms
+        : state.practiceScope === "derived" ? derivedForms : allForms;
+      const shuffled = shuffle(pool.map((form) => form.id));
+      return shuffled.slice(0, Math.min(count, pool.length));
+    }
+
+    /* 构建当前动词某个形的可接受答案集（A4：多可接受写法） */
+    function buildAcceptedAnswers(formId, forms, kanaForms) {
+      const dictForm = forms[formId];
+      const kanaForm = kanaForms[formId];
+      const set = [dictForm, kanaForm];
+      // 剥离括号注音：来（こ）→ 来；来る（くる）→ 来る
+      const stripped = String(dictForm || "").replace(/（[^）]*）/g, "");
+      if (stripped && !set.includes(stripped)) {
+        set.push(stripped);
+      }
+      return set.filter(Boolean);
+    }
+
+    function getCurrentVerbData() {
+      if (!state.currentVerb) {
+        return null;
+      }
+      return window.NIHONGO_DATA.conjugator.conjugate(state.currentVerb);
+    }
+
+    /* A3：简易模式干扰项 = 同一动词的其他活用形（不足时用全局答案池补位） */
+    function getOptions(verb, formId) {
+      const data = window.NIHONGO_DATA.conjugator.conjugate(verb);
+      const expected = data.forms[formId];
+      const distractors = [...new Set(
+        window.NIHONGO_DATA.conjugator.formIds
+          .filter((id) => id !== formId)
+          .map((id) => data.forms[id])
+          .filter((value) => value !== expected)
+      )];
+      if (distractors.length < 3) {
+        // 同词形不足（极少见）：从全局答案池补位
+        const allValues = [...new Set(allForms.map((form) => answerSets[form.id].canonical))];
+        allValues.forEach((value) => {
+          if (distractors.length >= 3) {
+            return;
+          }
+          if (value !== expected && !distractors.includes(value)) {
+            distractors.push(value);
+          }
+        });
+      }
+      const picked = shuffle(distractors).slice(0, 3);
+      return shuffle([expected, ...picked]);
+    }
 
     const elements = {
       appShell: document.getElementById("app-shell"),
@@ -1451,6 +1654,27 @@
         state.result = stored.result;
       }
       state.onlyWrong = stored.onlyWrong === true;
+      if (Array.isArray(stored.practiceTypes) && stored.practiceTypes.length > 0) {
+        const validTypes = stored.practiceTypes.filter((type) => typeColumns.some((column) => column.id === type));
+        if (validTypes.length > 0) {
+          state.practiceTypes = validTypes;
+        }
+      }
+      if (stored.practiceScope === "base" || stored.practiceScope === "derived" || stored.practiceScope === "all") {
+        state.practiceScope = stored.practiceScope;
+      }
+      if (Number(stored.practiceCount) >= 5 && Number(stored.practiceCount) <= 25) {
+        state.practiceCount = Number(stored.practiceCount);
+      }
+      if (stored.currentVerb && stored.currentVerb.dictionary && stored.currentVerb.kana && stored.currentVerb.type) {
+        const found = lexicon.find((verb) => verb.dictionary === stored.currentVerb.dictionary);
+        if (found) {
+          state.currentVerb = found;
+        }
+      }
+      if (Array.isArray(stored.currentForms)) {
+        state.currentForms = stored.currentForms.filter((id) => allForms.some((form) => form.id === id));
+      }
     }
 
     function saveSessionState() {
@@ -1461,7 +1685,12 @@
         answers: state.answers,
         choices: state.choices,
         result: state.result,
-        onlyWrong: state.onlyWrong
+        onlyWrong: state.onlyWrong,
+        practiceTypes: state.practiceTypes,
+        practiceScope: state.practiceScope,
+        practiceCount: state.practiceCount,
+        currentVerb: state.currentVerb,
+        currentForms: state.currentForms
       }));
     }
 
@@ -1546,23 +1775,6 @@
         return `${root} → 去「る」 → ${result}`;
       }
       return `${root} → ${result}`;
-    }
-
-    function getOptions(formId) {
-      const expected = answerSets[formId].canonical;
-      const values = [...new Set([
-        expected,
-        ...allForms.map((form) => answerSets[form.id].canonical),
-        "書かない",
-        "書きます",
-        "書いて",
-        "書けば",
-        "お書きになる"
-      ])];
-      const distractors = values.filter((value) => value !== expected);
-      const offset = allForms.findIndex((form) => form.id === formId) % distractors.length;
-      const rotated = [...distractors.slice(offset), ...distractors.slice(0, offset)];
-      return [expected, ...rotated.slice(0, 3)];
     }
 
     function getRuleCard(typeId, formId) {
@@ -1747,17 +1959,75 @@
       return String(value || "").trim().normalize("NFKC");
     }
 
-    function getPracticeForms() {
-      const groupForms = getFormsForGroup(getActiveGroup("practice"));
-      if (!state.onlyWrong || !state.result || state.result.group !== getActiveGroup("practice")) {
-        return groupForms;
+    /* 当前练习的题目列表：[{ form, accepted }] */
+    function getPracticeItems() {
+      if (!state.currentVerb || !state.currentForms.length) {
+        return [];
       }
-      return groupForms.filter((form) => state.result.items[form.id] && !state.result.items[form.id].correct);
+      const data = getCurrentVerbData();
+      const byId = {};
+      allForms.forEach((form) => {
+        byId[form.id] = form;
+      });
+      return state.currentForms.map((id) => ({
+        form: byId[id],
+        accepted: buildAcceptedAnswers(id, data.forms, data.kanaForms)
+      }));
+    }
+
+    /* A6：开始新练习 = 随机动词 + 随机 N 形 */
+    function startNewPractice() {
+      const verb = pickPracticeVerb();
+      if (!verb) {
+        announce("当前筛选下没有可选动词，请调整类型范围。");
+        return;
+      }
+      state.currentVerb = verb;
+      state.currentForms = pickPracticeForms(state.practiceCount);
+      state.answers = {};
+      state.choices = {};
+      state.result = null;
+      state.onlyWrong = false;
+      saveSessionState();
+      renderApp();
+      announce(`已抽取新练习：${verb.dictionary}（${verb.kana}），共 ${state.currentForms.length} 个活用形。`);
+    }
+
+    /* 错题再练：从累计错题集随机选一个动词，取它的错形 */
+    function retryWrongPractice() {
+      const wrongs = state.stats.wrongItems.filter(
+        (w) => w && w.dict && w.formId && lexicon.some((v) => v.dictionary === w.dict)
+      );
+      if (!wrongs.length) {
+        announce("暂无错题记录，先做一组练习吧。");
+        return;
+      }
+      const byVerb = {};
+      wrongs.forEach((w) => {
+        if (!byVerb[w.dict]) {
+          byVerb[w.dict] = [];
+        }
+        if (!byVerb[w.dict].includes(w.formId)) {
+          byVerb[w.dict].push(w.formId);
+        }
+      });
+      const dicts = Object.keys(byVerb);
+      const dict = dicts[Math.floor(Math.random() * dicts.length)];
+      const verb = lexicon.find((v) => v.dictionary === dict);
+      state.currentVerb = verb;
+      state.currentForms = shuffle(byVerb[dict]).slice(0, state.practiceCount);
+      state.answers = {};
+      state.choices = {};
+      state.result = null;
+      state.onlyWrong = true;
+      saveSessionState();
+      renderApp();
+      announce(`错题再练：${verb.dictionary}，共 ${state.currentForms.length} 个待复习形。`);
     }
 
     function renderPracticeRow(form) {
-      const resultItem = state.result && state.result.group === getActiveGroup("practice")
-        && state.result.items[form.id] ? state.result.items[form.id] : null;
+      const resultItem = state.result && state.result.items[form.id]
+        ? state.result.items[form.id] : null;
       const rowClass = resultItem ? (resultItem.correct ? "is-correct" : "is-wrong") : "";
       const label = `
         <div class="practice-row-label">
@@ -1774,7 +2044,7 @@
             ${label}
             <fieldset class="choice-grid">
               <legend class="visually-hidden">${form.label}选择题</legend>
-              ${getOptions(form.id).map((option, index) => `
+              ${getOptions(state.currentVerb, form.id).map((option, index) => `
                 <label class="choice-option">
                   <input type="radio" name="choice-${form.id}" value="${option}"
                     ${selected === option ? "checked" : ""} data-action="choose-answer" data-form-id="${form.id}">
@@ -1800,48 +2070,65 @@
     }
 
     function getResultSummary() {
-      if (!state.result || state.result.group !== getActiveGroup("practice")) {
+      if (!state.result || !state.currentVerb) {
         return "";
       }
       const items = Object.values(state.result.items);
       const correct = items.filter((item) => item.correct).length;
       const total = items.length;
       const percentage = total === 0 ? 0 : Math.round((correct / total) * 100);
+      const verbStats = state.stats.byVerb[state.currentVerb.dictionary];
+      const allAttempts = Object.values(state.stats.byForm).reduce((sum, s) => sum + s.t, 0);
+      const allCorrect = Object.values(state.stats.byForm).reduce((sum, s) => sum + s.c, 0);
+      const allPct = allAttempts === 0 ? null : Math.round((allCorrect / allAttempts) * 100);
+      const data = getCurrentVerbData();
+      const wrongList = Object.entries(state.result.items)
+        .filter(([, item]) => !item.correct);
       return `
         <section class="result-summary" aria-labelledby="result-title">
           <div class="score-bubble">${percentage}%<span>${correct}/${total}</span></div>
           <div>
-            <h3 id="result-title">本组检查完成</h3>
-            <p>本次按当前标签的“动词＋变形项目”计分；错误项目可以继续错题再练。</p>
-            <div class="result-items">
-              ${Object.entries(state.result.items).map(([formId, item]) => {
-                const form = getForm(formId);
-                return `
-                  <div class="result-item ${item.correct ? "is-correct" : "is-wrong"}">
-                    <strong>${form.label}</strong>
-                    <span>${item.correct ? "正确" : "需复习"}</span>
-                    ${item.correct ? "" : `<small>${answerSets[formId].canonical}</small>`}
-                  </div>
-                `;
-              }).join("")}
-            </div>
+            <h3 id="result-title">检查完成</h3>
+            <p>本次：<strong>${state.currentVerb.dictionary}</strong>（${state.currentVerb.kana}）的 ${total} 个形，答对 ${correct} 个。
+              ${verbStats ? `该词累计 ${verbStats.t} 次，正确率 ${Math.round((verbStats.c / verbStats.t) * 100)}%。` : ""}
+              ${allPct !== null ? `全部形累计 ${allAttempts} 次，正确率 ${allPct}%。` : ""}
+            </p>
+            ${wrongList.length > 0 ? `
+              <div class="result-items">
+                ${wrongList.map(([formId]) => {
+                  const form = getForm(formId);
+                  return `
+                    <div class="result-item is-wrong">
+                      <strong>${form.label}</strong>
+                      <span>需复习</span>
+                      <small>${data.forms[formId]}</small>
+                    </div>
+                  `;
+                }).join("")}
+              </div>
+            ` : `
+              <div class="exception-callout"><span aria-hidden="true">✓</span><span><strong>全部答对！</strong>可以再抽一组巩固，或查看错题集继续。</span></div>
+            `}
           </div>
         </section>
       `;
     }
 
     function renderPracticePanel() {
-      const activeGroup = getActiveGroup("practice");
-      const forms = getPracticeForms();
+      const hasSession = !!state.currentVerb && state.currentForms.length > 0;
+      const wrongCount = state.stats.wrongItems.length;
+      const items = getPracticeItems();
+      const scopeLabel = state.practiceScope === "base" ? "基础六形"
+        : state.practiceScope === "derived" ? "派生形" : "全部 25 形";
       return `
         <section id="practice-panel" class="panel" role="tabpanel" aria-labelledby="view-practice-tab">
           <div class="panel-intro">
             <div>
               <p class="eyebrow">Practice / 练习</p>
               <h3>翻开一页，亲手盖出答案</h3>
-              <p>简易模式选择答案，标准模式直接输入。当前标签只显示对应的一组项目，方便集中练习。</p>
+              <p>从词库随机抽词、按规则实时变形；选好类型与题数后开始，错题会进入累计错题集。</p>
             </div>
-            <div class="intro-note">题干：<strong>書く（かく）</strong><br>中文：书写；写</div>
+            <div class="intro-note">词库 <strong>${lexicon.length} 词</strong><br>累计错题 ${wrongCount} 条</div>
           </div>
           <div class="practice-toolbar">
             <div class="mode-switch" aria-label="练习模式">
@@ -1850,34 +2137,77 @@
               <button class="mode-button" type="button" data-action="set-mode" data-mode="standard"
                 aria-pressed="${state.practiceMode === "standard"}">标准模式</button>
             </div>
-            <span class="assistive-copy">当前练习：${activeGroup === "base" ? "基础六形" : "派生／接续形"}</span>
+            <span class="assistive-copy">统计保存在本机浏览器（localStorage）</span>
           </div>
-          <div class="practice-prompt">
-            <div class="practice-word">
-              <strong>書く</strong><span>かく</span><small>中文：书写；写</small>
+
+          <section class="practice-config" aria-label="练习设置">
+            <div class="config-row">
+              <span class="config-label">动词类型</span>
+              <div class="type-chips">
+                ${typeColumns.map((type) => `
+                  <button class="type-chip ${state.practiceTypes.includes(type.id) ? "is-active" : ""}"
+                    type="button" data-action="toggle-practice-type" data-type-id="${type.id}"
+                    aria-pressed="${state.practiceTypes.includes(type.id)}">${type.label}</button>
+                `).join("")}
+              </div>
             </div>
-            <div class="practice-prompt-side">
-              <strong>${state.onlyWrong ? "错题项目" : "当前标签项目"}</strong>
-              <span>动词类型不直接显示，先自行判断。</span>
+            <div class="config-row">
+              <span class="config-label">形范围</span>
+              <div class="type-chips">
+                <button class="type-chip ${state.practiceScope === "base" ? "is-active" : ""}"
+                  type="button" data-action="set-practice-scope" data-scope="base"
+                  aria-pressed="${state.practiceScope === "base"}">基础六形</button>
+                <button class="type-chip ${state.practiceScope === "derived" ? "is-active" : ""}"
+                  type="button" data-action="set-practice-scope" data-scope="derived"
+                  aria-pressed="${state.practiceScope === "derived"}">派生形</button>
+                <button class="type-chip ${state.practiceScope === "all" ? "is-active" : ""}"
+                  type="button" data-action="set-practice-scope" data-scope="all"
+                  aria-pressed="${state.practiceScope === "all"}">全部</button>
+              </div>
             </div>
+            <div class="config-row">
+              <span class="config-label">题数</span>
+              <select class="count-select" data-action="set-practice-count" aria-label="每次练习题数">
+                ${[5, 10, 15, 20, 25].map((n) => `
+                  <option value="${n}" ${state.practiceCount === n ? "selected" : ""}>${n} 题</option>
+                `).join("")}
+              </select>
+              <span class="assistive-copy">从「${scopeLabel}」中随机抽取</span>
+            </div>
+          </section>
+
+          <div class="practice-actions start-actions">
+            <button class="primary-button" type="button" data-action="start-practice">开始新练习</button>
+            <button class="secondary-button" type="button" data-action="retry-wrong"
+              ${wrongCount === 0 ? "disabled" : ""}>错题再练（${wrongCount}）</button>
+            <button class="secondary-button" type="button" data-action="clear-stats">清空统计</button>
           </div>
-          ${getResultSummary()}
-          ${renderConjugationTabs("practice")}
-          ${forms.length > 0 ? `
-            <section class="practice-group" id="practice-group-${activeGroup}-panel" role="tabpanel"
-              aria-labelledby="practice-group-${activeGroup}-tab">
-              <h3>${activeGroup === "base" ? "基础六形" : "派生／接续形"}</h3>
-              <div class="practice-list">${forms.map(renderPracticeRow).join("")}</div>
+
+          ${hasSession ? `
+            <div class="practice-prompt">
+              <div class="practice-word">
+                <strong>${state.currentVerb.dictionary}</strong>
+                <span>${state.currentVerb.kana}</span>
+                <small>中文：${state.currentVerb.meaning}</small>
+              </div>
+              <div class="practice-prompt-side">
+                <strong>${state.onlyWrong ? "错题复习" : "本次练习"}</strong>
+                <span>范围：${scopeLabel} · 共 ${items.length} 题 · 动词类型不直接显示，先自行判断。</span>
+              </div>
+            </div>
+            ${getResultSummary()}
+            <section class="practice-group">
+              <h3>${state.currentVerb.dictionary} 的 ${items.length} 个活用形</h3>
+              <div class="practice-list">${items.map((item) => renderPracticeRow(item.form)).join("")}</div>
             </section>
+            <div class="practice-actions">
+              <button class="primary-button" type="button" data-action="check-practice">检查答案</button>
+              <button class="secondary-button" type="button" data-action="reset-practice">清空作答</button>
+              <button class="secondary-button" type="button" data-action="start-practice">重新抽题</button>
+            </div>
           ` : `
-            <div class="exception-callout"><span aria-hidden="true">✓</span><span><strong>当前标签没有待复习项目。</strong>可以切换另一个标签。</span></div>
+            <div class="exception-callout"><span aria-hidden="true">印</span><span><strong>还没有练习会话。</strong>设置好类型与题数后，点击「开始新练习」随机抽词。</span></div>
           `}
-          <div class="practice-actions">
-            <button class="primary-button" type="button" data-action="check-practice">检查答案</button>
-            <button class="secondary-button" type="button" data-action="reset-practice">重置本组</button>
-            ${state.result && state.result.group === activeGroup ? `<button class="secondary-button" type="button" data-action="show-wrong">错题再练</button>` : ""}
-            ${state.onlyWrong ? `<button class="secondary-button" type="button" data-action="show-all">显示全部</button>` : ""}
-          </div>
         </section>
       `;
     }
@@ -1916,34 +2246,52 @@
     }
 
     function checkPractice() {
-      const group = getActiveGroup("practice");
-      const forms = getFormsForGroup(group);
-      const items = {};
-      forms.forEach((form) => {
+      const items = getPracticeItems();
+      if (!items.length) {
+        announce("还没有练习题目，请先「开始新练习」。");
+        return;
+      }
+      const data = getCurrentVerbData();
+      const verbKey = state.currentVerb.dictionary;
+      const resultItems = {};
+      items.forEach(({ form, accepted }) => {
         const submitted = state.practiceMode === "simple"
           ? state.choices[form.id] || ""
           : state.answers[form.id] || "";
-        const accepted = answerSets[form.id].acceptedAnswers.map(normalizeAnswer);
-        items[form.id] = { correct: accepted.includes(normalizeAnswer(submitted)), submitted };
+        const correct = accepted.map(normalizeAnswer).includes(normalizeAnswer(submitted));
+        resultItems[form.id] = { correct, submitted };
+        // 累计统计（A5：localStorage 长期保存）
+        state.stats.byVerb[verbKey] = state.stats.byVerb[verbKey] || { t: 0, c: 0 };
+        state.stats.byVerb[verbKey].t += 1;
+        state.stats.byForm[form.id] = state.stats.byForm[form.id] || { t: 0, c: 0 };
+        state.stats.byForm[form.id].t += 1;
+        if (correct) {
+          state.stats.byVerb[verbKey].c += 1;
+          state.stats.byForm[form.id].c += 1;
+        } else {
+          state.stats.wrongItems.push({ dict: verbKey, formId: form.id });
+          // 控制错题集规模：仅保留最近 200 条
+          if (state.stats.wrongItems.length > 200) {
+            state.stats.wrongItems.splice(0, state.stats.wrongItems.length - 200);
+          }
+        }
       });
-      state.result = { group, items, checkedAt: Date.now() };
+      state.result = { verb: verbKey, items: resultItems, checkedAt: Date.now() };
       state.onlyWrong = false;
+      saveStats();
       saveSessionState();
       renderApp();
-      announce("答案已检查，当前标签的结果已显示。");
+      announce(`答案已检查：${verbKey} 本次 ${items.length} 题，累计统计已更新。`);
     }
 
     function resetPractice() {
-      const forms = getFormsForGroup(getActiveGroup("practice"));
-      forms.forEach((form) => {
-        delete state.answers[form.id];
-        delete state.choices[form.id];
-      });
+      state.answers = {};
+      state.choices = {};
       state.result = null;
       state.onlyWrong = false;
       saveSessionState();
       renderApp();
-      announce("当前练习组已重置。");
+      announce("当前练习的作答已清空，可以重新填写。");
     }
 
     function handleAction(target) {
@@ -1976,10 +2324,6 @@
       if (action === "set-form-group") {
         const scope = target.dataset.scope === "practice" ? "practice" : "rules";
         state.activeGroups[scope] = target.dataset.groupId === "derived" ? "derived" : "base";
-        if (scope === "practice") {
-          state.result = null;
-          state.onlyWrong = false;
-        }
         saveSessionState();
         renderApp();
         announce(`${scope === "rules" ? "规则讲解" : "练习"}已切换到${state.activeGroups[scope] === "base" ? "基础六形" : "派生／接续形"}。`);
@@ -1989,10 +2333,67 @@
       if (action === "set-mode") {
         state.practiceMode = target.dataset.mode === "standard" ? "standard" : "simple";
         state.result = null;
-        state.onlyWrong = false;
         saveSessionState();
         renderApp();
         announce(state.practiceMode === "simple" ? "已切换到简易模式" : "已切换到标准模式");
+        return;
+      }
+
+      if (action === "toggle-practice-type") {
+        const typeId = target.dataset.typeId;
+        const index = state.practiceTypes.indexOf(typeId);
+        if (index >= 0) {
+          if (state.practiceTypes.length > 1) {
+            state.practiceTypes.splice(index, 1);
+          } else {
+            announce("至少保留一种动词类型。");
+            return;
+          }
+        } else {
+          state.practiceTypes.push(typeId);
+        }
+        saveSessionState();
+        renderApp();
+        announce("练习动词类型范围已更新。");
+        return;
+      }
+
+      if (action === "set-practice-scope") {
+        const scope = target.dataset.scope;
+        if (scope === "base" || scope === "derived" || scope === "all") {
+          state.practiceScope = scope;
+          saveSessionState();
+          renderApp();
+          announce(scope === "base" ? "抽题范围：基础六形" : scope === "derived" ? "抽题范围：派生形" : "抽题范围：全部 25 形");
+        }
+        return;
+      }
+
+      if (action === "set-practice-count") {
+        const count = Number(target.value);
+        if (count >= 5 && count <= 25) {
+          state.practiceCount = count;
+          saveSessionState();
+          renderApp();
+          announce(`每次练习 ${count} 题。`);
+        }
+        return;
+      }
+
+      if (action === "start-practice") {
+        startNewPractice();
+        return;
+      }
+
+      if (action === "retry-wrong") {
+        retryWrongPractice();
+        return;
+      }
+
+      if (action === "clear-stats") {
+        clearStats();
+        renderApp();
+        announce("累计练习统计已清空。");
         return;
       }
 
@@ -2004,21 +2405,6 @@
       if (action === "reset-practice") {
         resetPractice();
         return;
-      }
-
-      if (action === "show-wrong") {
-        state.onlyWrong = true;
-        saveSessionState();
-        renderApp();
-        announce("已切换到当前标签的错题项目。");
-        return;
-      }
-
-      if (action === "show-all") {
-        state.onlyWrong = false;
-        saveSessionState();
-        renderApp();
-        announce("已显示当前标签的全部项目。");
       }
     }
 
@@ -2046,6 +2432,10 @@
         state.answers[target.dataset.formId] = target.value;
         state.result = null;
         saveSessionState();
+        return;
+      }
+      if (target.dataset.action === "set-practice-count") {
+        handleAction(target);
       }
     });
 
