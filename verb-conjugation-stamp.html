@@ -1,0 +1,2188 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>日语动词变形表 · 印谱方格</title>
+  <style>
+    :root {
+      --paper: #f6f3ee;
+      --surface: #fffdfa;
+      --surface-strong: #ffffff;
+      --ink: #493934;
+      --muted: #806e68;
+      --line: #ddd5cd;
+      --line-strong: #bcaea3;
+      --vermilion: #b9655b;
+      --vermilion-deep: #94463e;
+      --vermilion-soft: #f1dcd6;
+      --accent-muted: #9b8978;
+      --wash: #f0ece6;
+      --wash-hover: #ebe4dc;
+      --success: #4b8068;
+      --success-soft: #e4f0e7;
+      --danger: #a75550;
+      --danger-soft: #f6e3e0;
+      --shadow: 0 18px 42px rgba(100, 55, 43, .12);
+      --shadow-small: 0 7px 16px rgba(100, 55, 43, .09);
+      --radius: 9px;
+      --radius-small: 4px;
+      --sans: "Segoe UI", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+      --display: "Noto Serif SC", "Yu Mincho", "Hiragino Mincho ProN", serif;
+      --mono: "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+      font-family: var(--sans);
+      color: var(--ink);
+      background: var(--paper);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-width: 320px;
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 91% 2%, rgba(185, 101, 91, .12), transparent 18rem),
+        radial-gradient(circle at 3% 94%, rgba(155, 137, 120, .06), transparent 22rem),
+        repeating-linear-gradient(0deg, rgba(148, 70, 62, .018) 0 1px, transparent 1px 5px),
+        repeating-linear-gradient(90deg, transparent 0 23px, rgba(155, 137, 120, .014) 24px 25px, transparent 26px 49px),
+        var(--paper);
+      font-size: 15px;
+      line-height: 1.55;
+    }
+
+    body::before {
+      position: fixed;
+      z-index: -1;
+      inset: 0;
+      pointer-events: none;
+      background:
+        repeating-radial-gradient(circle at 0 100%, transparent 0 17px, rgba(185, 101, 91, .045) 18px 19px, transparent 20px 36px),
+        linear-gradient(135deg, transparent 0 47%, rgba(185, 101, 91, .025) 48% 49%, transparent 50% 100%);
+      background-size: 72px 42px, 100% 100%;
+      opacity: .45;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      color: inherit;
+    }
+
+    button:focus-visible,
+    input:focus-visible {
+      outline: 3px solid rgba(148, 70, 62, .48);
+      outline-offset: 3px;
+    }
+
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .page {
+      width: min(1450px, 100%);
+      margin: 0 auto;
+      padding: 26px clamp(12px, 3vw, 42px) 58px;
+    }
+
+    .page-heading {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 18px 20px;
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius);
+      background:
+        linear-gradient(120deg, rgba(185, 101, 91, .09), transparent 55%),
+        repeating-linear-gradient(135deg, transparent 0 18px, rgba(155, 137, 120, .02) 19px 20px, transparent 21px 38px),
+        var(--surface);
+      box-shadow: var(--shadow-small);
+      overflow: hidden;
+    }
+
+    .page-heading::before {
+      position: absolute;
+      top: -4.4rem;
+      right: 5%;
+      width: 11rem;
+      height: 8rem;
+      border: 1px solid rgba(185, 101, 91, .22);
+      border-radius: 50%;
+      content: "";
+      transform: rotate(-9deg);
+    }
+
+    .page-heading::after {
+      position: absolute;
+      right: 18px;
+      bottom: 9px;
+      left: 20px;
+      height: 3px;
+      border-radius: 50%;
+      background: linear-gradient(90deg, var(--vermilion), var(--accent-muted), transparent 84%);
+      content: "";
+      transform-origin: left center;
+      animation: ink-sweep .85s cubic-bezier(.2, .8, .25, 1) both;
+    }
+
+    .page-heading > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .page-heading h1 {
+      margin: 0;
+      color: var(--vermilion-deep);
+      font-family: var(--display);
+      font-size: clamp(1.55rem, 3vw, 2.55rem);
+      letter-spacing: -.04em;
+      line-height: 1.12;
+      text-shadow: 1px 1px 0 rgba(155, 137, 120, .08);
+    }
+
+    .page-heading p {
+      max-width: 780px;
+      margin: 7px 0 0;
+      color: var(--muted);
+    }
+
+    .page-heading-mark {
+      display: grid;
+      width: 64px;
+      height: 64px;
+      place-items: center;
+      flex: 0 0 auto;
+      border: 3px double var(--vermilion);
+      border-radius: 2px;
+      color: var(--vermilion-deep);
+      background:
+        repeating-linear-gradient(45deg, transparent 0 8px, rgba(185, 101, 91, .04) 9px 10px),
+        var(--wash);
+      box-shadow: 5px 5px 0 rgba(148, 70, 62, .1);
+      font-family: var(--display);
+      font-size: 1.9rem;
+      font-weight: 900;
+      transform: rotate(2deg);
+      animation: seal-arrive .7s cubic-bezier(.18, .8, .2, 1) both;
+    }
+
+    #app-shell {
+      position: relative;
+      display: grid;
+      gap: 20px;
+      margin-top: 22px;
+      padding: clamp(15px, 2.7vw, 30px);
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius);
+      background:
+        radial-gradient(circle at 100% 0, rgba(185, 101, 91, .08) 0 8rem, transparent 8.2rem),
+        repeating-linear-gradient(135deg, transparent 0 25px, rgba(185, 101, 91, .016) 26px 27px, transparent 28px 54px),
+        var(--surface);
+      box-shadow: var(--shadow);
+      isolation: isolate;
+      overflow: hidden;
+    }
+
+    #app-shell::before {
+      position: absolute;
+      z-index: 2;
+      inset: 0 0 auto;
+      height: 6px;
+      background: linear-gradient(90deg, var(--vermilion-deep), var(--vermilion), var(--accent-muted), var(--vermilion));
+      background-size: 220% 100%;
+      content: "";
+      animation: ink-flow 9s linear infinite;
+    }
+
+    .app-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding-top: 2px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+    }
+
+    .brand-link {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .brand-link:hover .brand-seal {
+      transform: translateY(-1px) rotate(-1.5deg);
+    }
+
+    .brand-seal {
+      display: grid;
+      width: 48px;
+      height: 48px;
+      place-items: center;
+      border: 3px double var(--vermilion);
+      border-radius: 2px;
+      color: var(--surface-strong);
+      background: var(--vermilion);
+      box-shadow: 4px 4px 0 rgba(148, 70, 62, .14);
+      font-family: var(--display);
+      font-size: 1.35rem;
+      font-weight: 900;
+      transform: rotate(-1.5deg);
+    }
+
+    .brand h2 {
+      margin: 0;
+      color: var(--vermilion-deep);
+      font-family: var(--display);
+      font-size: 1.35rem;
+      line-height: 1.1;
+    }
+
+    .brand p {
+      margin: 3px 0 0;
+      color: var(--muted);
+      font-size: .84rem;
+    }
+
+    .edition-note {
+      color: var(--accent-muted);
+      font-family: var(--display);
+      font-size: .9rem;
+      font-weight: 900;
+      letter-spacing: .06em;
+    }
+
+    .main-tabs {
+      display: flex;
+      gap: 7px;
+      padding: 5px;
+      border: 1px solid var(--line-strong);
+      border-radius: 2px;
+      background:
+        repeating-linear-gradient(135deg, transparent 0 15px, rgba(185, 101, 91, .02) 16px 17px, transparent 18px 32px),
+        var(--wash);
+    }
+
+    .main-tab {
+      min-width: 125px;
+      padding: 10px 15px;
+      border: 2px solid transparent;
+      border-radius: 2px;
+      color: var(--muted);
+      background: transparent;
+      cursor: pointer;
+      font-weight: 900;
+      transition: border-color .25s ease, background-color .25s ease, color .25s ease, transform .25s ease, box-shadow .25s ease;
+    }
+
+    .main-tab:hover {
+      border-color: var(--line-strong);
+      color: var(--vermilion-deep);
+      background: var(--surface-strong);
+      transform: translateY(-1px);
+    }
+
+    .main-tab[aria-selected="true"] {
+      border: 3px double var(--vermilion);
+      color: var(--vermilion-deep);
+      background: var(--vermilion-soft);
+      box-shadow: 4px 4px 0 rgba(148, 70, 62, .1);
+      transform: rotate(-.25deg);
+      animation: tab-press .42s cubic-bezier(.18, .8, .2, 1) both;
+    }
+
+    .panel {
+      display: grid;
+      gap: 18px;
+      min-width: 0;
+      animation: panel-enter .42s ease both;
+    }
+
+    .panel-intro {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .eyebrow {
+      margin: 0 0 5px;
+      color: var(--vermilion-deep);
+      font-size: .74rem;
+      font-weight: 900;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .panel-intro h3 {
+      margin: 0;
+      color: var(--ink);
+      font-family: var(--display);
+      font-size: clamp(1.35rem, 2.3vw, 1.95rem);
+      line-height: 1.16;
+    }
+
+    .panel-intro p {
+      max-width: 760px;
+      margin: 7px 0 0;
+      color: var(--muted);
+    }
+
+    .intro-note {
+      max-width: 260px;
+      padding: 10px 12px;
+      border-left: 4px solid var(--accent-muted);
+      color: var(--muted);
+      background: var(--wash);
+      font-size: .78rem;
+    }
+
+    .conjugation-tabs {
+      display: flex;
+      gap: 8px;
+      padding: 5px;
+      border: 1px solid var(--line-strong);
+      border-radius: 2px;
+      background:
+        linear-gradient(90deg, rgba(185, 101, 91, .055), transparent 55%),
+        var(--surface-strong);
+    }
+
+    .conjugation-tab {
+      display: grid;
+      flex: 1 1 0;
+      gap: 1px;
+      min-width: 0;
+      padding: 10px 13px;
+      border: 2px solid transparent;
+      border-radius: 2px;
+      color: var(--muted);
+      background: transparent;
+      cursor: pointer;
+      text-align: left;
+      transition: border-color .25s ease, background-color .25s ease, color .25s ease, transform .25s ease, box-shadow .25s ease;
+    }
+
+    .conjugation-tab:hover {
+      border-color: var(--line-strong);
+      color: var(--vermilion-deep);
+      background: var(--wash-hover);
+      transform: translateY(-1px);
+    }
+
+    .conjugation-tab[aria-selected="true"] {
+      border: 3px double var(--vermilion);
+      color: var(--vermilion-deep);
+      background: var(--vermilion-soft);
+      box-shadow: 4px 4px 0 rgba(148, 70, 62, .1);
+      transform: rotate(-.25deg);
+      animation: tab-press .42s cubic-bezier(.18, .8, .2, 1) both;
+    }
+
+    .conjugation-tab strong {
+      font-family: var(--display);
+      font-size: .92rem;
+    }
+
+    .conjugation-tab small {
+      color: currentColor;
+      font-size: .7rem;
+      opacity: .76;
+    }
+
+    .rules-layout {
+      display: grid;
+      gap: 18px;
+      min-width: 0;
+    }
+
+    .group-body {
+      width: 100%;
+      min-width: 0;
+      animation: panel-enter .45s ease both;
+    }
+
+    .table-scroll {
+      width: 100%;
+      max-width: 100%;
+      min-width: 0;
+      overflow: auto;
+      border: 2px solid var(--vermilion-deep);
+      border-radius: 2px;
+      background: var(--surface-strong);
+      box-shadow: 6px 7px 0 rgba(148, 70, 62, .08);
+      scrollbar-color: var(--vermilion) var(--vermilion-soft);
+    }
+
+    .rule-table {
+      width: 100%;
+      min-width: 1060px;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+
+    .rule-table th,
+    .rule-table td {
+      padding: 10px;
+      border: 1px solid rgba(148, 70, 62, .28);
+      vertical-align: top;
+    }
+
+    .rule-table thead th {
+      position: sticky;
+      z-index: 5;
+      top: 0;
+      color: var(--surface-strong);
+      background:
+        repeating-linear-gradient(45deg, transparent 0 11px, rgba(255, 253, 248, .08) 12px 13px, transparent 14px 26px),
+        var(--vermilion-deep);
+      font-size: .83rem;
+      text-align: left;
+    }
+
+    .rule-table thead th:first-child {
+      left: 0;
+      z-index: 8;
+      width: 150px;
+    }
+
+    .rule-table .form-cell {
+      position: sticky;
+      left: 0;
+      z-index: 4;
+      width: 150px;
+      min-width: 150px;
+      color: var(--vermilion-deep);
+      background:
+        repeating-linear-gradient(45deg, transparent 0 9px, rgba(185, 101, 91, .025) 10px 11px, transparent 12px 22px),
+        var(--wash);
+      box-shadow: inset 4px 0 0 var(--vermilion);
+      text-align: center;
+    }
+
+    .rule-table tbody tr:hover .form-cell {
+      background: var(--vermilion-soft);
+    }
+
+    .rule-table tr:last-child td,
+    .rule-table tr:last-child .form-cell {
+      border-bottom: 0;
+    }
+
+    .rule-table th:last-child,
+    .rule-table td:last-child {
+      border-right: 0;
+    }
+
+    .form-name {
+      display: block;
+      font-family: var(--display);
+      font-weight: 900;
+    }
+
+    .form-jp {
+      display: block;
+      margin-top: 2px;
+      font-size: .75rem;
+    }
+
+    .rule-card {
+      min-width: 190px;
+      height: 162px;
+      perspective: none;
+      animation: stamp-card-in .5s cubic-bezier(.18, .8, .2, 1) both;
+      animation-delay: var(--card-delay, 0ms);
+    }
+
+    .rule-card-button {
+      display: block;
+      width: 100%;
+      height: 100%;
+      padding: 0;
+      border: 0;
+      border-radius: 2px;
+      background: transparent;
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .rule-card-inner {
+      position: relative;
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    .rule-card-face {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 12px;
+      border: 3px double var(--vermilion);
+      border-radius: 2px;
+      background:
+        repeating-linear-gradient(45deg, transparent 0 10px, rgba(185, 101, 91, .025) 11px 12px, transparent 13px 24px),
+        var(--surface);
+      box-shadow: 4px 5px 0 rgba(148, 70, 62, .08);
+      overflow: hidden;
+      pointer-events: none;
+      transition: opacity .32s ease, transform .38s cubic-bezier(.18, .8, .2, 1), box-shadow .25s ease;
+    }
+
+    .rule-card-face::before {
+      position: absolute;
+      top: 7px;
+      right: 8px;
+      width: 9px;
+      height: 9px;
+      border: 1px solid var(--accent-muted);
+      content: "";
+      transform: rotate(45deg);
+    }
+
+    .rule-card-front {
+      opacity: 1;
+      transform: scale(1) rotate(0);
+    }
+
+    .rule-card-back {
+      border-color: var(--vermilion-deep);
+      color: var(--surface-strong);
+      background:
+        repeating-linear-gradient(45deg, transparent 0 10px, rgba(255, 253, 248, .04) 11px 12px, transparent 13px 24px),
+        var(--vermilion);
+      opacity: 0;
+      transform: scale(.88) rotate(2deg);
+    }
+
+    .rule-card.is-flipped .rule-card-front {
+      opacity: 0;
+      transform: scale(.88) rotate(-2deg);
+    }
+
+    .rule-card.is-flipped .rule-card-back {
+      opacity: 1;
+      transform: scale(1) rotate(-.25deg);
+    }
+
+    .rule-card:hover {
+      z-index: 7;
+    }
+
+    .rule-card:hover .rule-card-front,
+    .rule-card:hover .rule-card-back {
+      box-shadow: 7px 8px 0 rgba(148, 70, 62, .12);
+    }
+
+    .card-kicker {
+      color: var(--vermilion-deep);
+      font-size: .68rem;
+      font-weight: 900;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    .rule-card-back .card-kicker,
+    .rule-card-back .card-example-result,
+    .rule-card-back .card-example-process,
+    .rule-card-back .card-example-meaning,
+    .rule-card-back .flip-hint {
+      color: var(--surface-strong);
+    }
+
+    .card-rule {
+      display: block;
+      margin: 8px 0;
+      color: var(--ink);
+      font-family: var(--display);
+      font-size: .94rem;
+      font-weight: 900;
+      line-height: 1.3;
+    }
+
+    .card-detail,
+    .card-example-process,
+    .card-example-meaning {
+      color: var(--muted);
+      font-size: .74rem;
+      line-height: 1.4;
+    }
+
+    .card-example {
+      display: grid;
+      gap: 4px;
+      margin-top: auto;
+    }
+
+    .card-example-result {
+      color: var(--vermilion-deep);
+      font-family: var(--display);
+      font-size: 1.25rem;
+      font-weight: 900;
+    }
+
+    .flip-hint {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--muted);
+      font-size: .69rem;
+      font-weight: 800;
+    }
+
+    .flip-hint::before {
+      display: inline-grid;
+      width: 18px;
+      height: 18px;
+      place-items: center;
+      border: 1px solid var(--accent-muted);
+      border-radius: 2px;
+      color: var(--vermilion-deep);
+      background: var(--wash);
+      content: "印";
+      font-family: var(--display);
+      font-size: .64rem;
+      font-weight: 900;
+    }
+
+    .rule-card-back .flip-hint::before {
+      border-color: rgba(255, 253, 248, .7);
+      color: var(--surface-strong);
+      background: transparent;
+    }
+
+    .sound-reference {
+      display: grid;
+      gap: 12px;
+      padding: 15px;
+      border: 1px solid var(--line-strong);
+      border-radius: 2px;
+      background:
+        repeating-linear-gradient(135deg, transparent 0 16px, rgba(185, 101, 91, .02) 17px 18px, transparent 19px 34px),
+        var(--wash);
+      box-shadow: var(--shadow-small);
+    }
+
+    .sound-reference h3 {
+      margin: 0;
+      color: var(--vermilion-deep);
+      font-family: var(--display);
+      font-size: 1.1rem;
+    }
+
+    .sound-reference p {
+      margin: -5px 0 0;
+      color: var(--muted);
+      font-size: .78rem;
+    }
+
+    .sound-summary {
+      display: grid;
+      gap: 9px;
+      padding: 11px;
+      border: 1px solid var(--line);
+      border-left: 4px solid var(--vermilion);
+      border-radius: 2px;
+      background: var(--surface-strong);
+    }
+
+    .sound-summary-heading {
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 7px 10px;
+    }
+
+    .sound-summary-heading strong {
+      color: var(--vermilion-deep);
+      font-family: var(--display);
+      font-size: .9rem;
+    }
+
+    .sound-summary-heading span {
+      color: var(--muted);
+      font-size: .74rem;
+    }
+
+    .sound-summary-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 7px;
+    }
+
+    .sound-summary-item {
+      display: grid;
+      gap: 2px;
+      padding: 8px 9px;
+      border: 1px solid var(--line);
+      border-radius: 2px;
+      background: var(--wash);
+    }
+
+    .sound-summary-item strong {
+      color: var(--vermilion-deep);
+      font-size: .72rem;
+    }
+
+    .sound-summary-item span {
+      color: var(--ink);
+      font-family: var(--display);
+      font-size: .83rem;
+      font-weight: 800;
+    }
+
+    .sound-summary-note {
+      margin: 0;
+      color: var(--muted);
+      font-size: .72rem;
+    }
+
+    .sound-table {
+      width: 100%;
+      min-width: 860px;
+      border-collapse: collapse;
+      font-size: .78rem;
+    }
+
+    .sound-table th,
+    .sound-table td {
+      padding: 8px 9px;
+      border: 1px solid rgba(148, 70, 62, .24);
+      text-align: left;
+    }
+
+    .sound-table th {
+      color: var(--vermilion-deep);
+      background: var(--surface-strong);
+      font-weight: 900;
+    }
+
+    .sound-table tbody th {
+      background: var(--vermilion-soft);
+      font-family: var(--display);
+    }
+
+    .exception-callout {
+      display: flex;
+      align-items: start;
+      gap: 9px;
+      padding: 10px 12px;
+      border: 1px solid var(--vermilion);
+      border-radius: 2px;
+      color: var(--muted);
+      background: var(--surface);
+      font-size: .78rem;
+    }
+
+    .exception-callout strong {
+      color: var(--vermilion-deep);
+    }
+
+    .practice-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 12px;
+      border: 1px solid var(--line-strong);
+      border-radius: 2px;
+      background: var(--wash);
+    }
+
+    .mode-switch {
+      display: flex;
+      gap: 5px;
+      padding: 4px;
+      border: 1px solid var(--line);
+      border-radius: 2px;
+      background: var(--surface);
+    }
+
+    .mode-button {
+      padding: 7px 12px;
+      border: 2px solid transparent;
+      border-radius: 2px;
+      color: var(--muted);
+      background: transparent;
+      cursor: pointer;
+      font-size: .8rem;
+      font-weight: 900;
+    }
+
+    .mode-button[aria-pressed="true"] {
+      border-color: var(--vermilion);
+      color: var(--vermilion-deep);
+      background: var(--vermilion-soft);
+    }
+
+    .practice-prompt {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 16px;
+      border: 1px solid var(--line-strong);
+      border-radius: 2px;
+      background:
+        linear-gradient(110deg, rgba(185, 101, 91, .08), transparent 62%),
+        var(--surface-strong);
+    }
+
+    .practice-word {
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 9px 14px;
+    }
+
+    .practice-word strong {
+      color: var(--vermilion-deep);
+      font-family: var(--display);
+      font-size: clamp(2rem, 4vw, 3rem);
+      letter-spacing: .05em;
+      line-height: 1;
+    }
+
+    .practice-word span {
+      color: var(--accent-muted);
+      font-size: 1rem;
+      font-weight: 900;
+    }
+
+    .practice-word small {
+      flex-basis: 100%;
+      color: var(--muted);
+      font-size: .84rem;
+    }
+
+    .practice-prompt-side {
+      color: var(--muted);
+      font-size: .77rem;
+      text-align: right;
+    }
+
+    .practice-prompt-side strong {
+      display: block;
+      margin-bottom: 3px;
+      color: var(--vermilion-deep);
+      font-size: .95rem;
+    }
+
+    .practice-group {
+      display: grid;
+      gap: 10px;
+    }
+
+    .practice-group h3 {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin: 0;
+      color: var(--vermilion-deep);
+      font-family: var(--display);
+      font-size: 1.15rem;
+    }
+
+    .practice-group h3::after {
+      flex: 1;
+      height: 1px;
+      background: var(--line);
+      content: "";
+    }
+
+    .practice-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .practice-row {
+      display: grid;
+      grid-template-columns: 190px minmax(0, 1fr);
+      align-items: start;
+      gap: 14px;
+      padding: 11px 13px;
+      border: 1px solid var(--line);
+      border-radius: 2px;
+      background: var(--surface-strong);
+    }
+
+    .practice-row.is-correct {
+      border-color: var(--success);
+      background: var(--success-soft);
+    }
+
+    .practice-row.is-wrong {
+      border-color: var(--danger);
+      background: var(--danger-soft);
+    }
+
+    .practice-row-label {
+      display: grid;
+      gap: 2px;
+    }
+
+    .practice-row-label strong {
+      font-family: var(--display);
+      font-size: .9rem;
+    }
+
+    .practice-row-label span {
+      color: var(--vermilion-deep);
+      font-size: .74rem;
+    }
+
+    .practice-row-label small {
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: .71rem;
+    }
+
+    .answer-field {
+      width: 100%;
+      min-height: 40px;
+      padding: 8px 10px;
+      border: 1px solid var(--line-strong);
+      border-radius: 2px;
+      color: var(--ink);
+      background: var(--surface);
+    }
+
+    .answer-field::placeholder {
+      color: rgba(128, 110, 104, .72);
+    }
+
+    .choice-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 7px;
+    }
+
+    .choice-option {
+      position: relative;
+      display: flex;
+      align-items: center;
+      min-height: 40px;
+      padding: 7px 9px;
+      border: 1px solid var(--line);
+      border-radius: 2px;
+      color: var(--ink);
+      background: var(--surface);
+      cursor: pointer;
+      font-family: var(--display);
+      font-size: .9rem;
+      font-weight: 800;
+      transition: border-color .2s ease, background-color .2s ease, transform .2s ease;
+    }
+
+    .choice-option:hover {
+      border-color: var(--vermilion);
+      background: var(--vermilion-soft);
+      transform: translateY(-1px);
+    }
+
+    .choice-option:has(input:checked) {
+      border: 2px solid var(--vermilion);
+      color: var(--vermilion-deep);
+      background: var(--vermilion-soft);
+    }
+
+    .choice-option input {
+      position: absolute;
+      opacity: 0;
+    }
+
+    .choice-option em {
+      margin-left: auto;
+      color: var(--accent-muted);
+      font-family: var(--sans);
+      font-size: .64rem;
+      font-style: normal;
+    }
+
+    .practice-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      padding-top: 2px;
+    }
+
+    .primary-button,
+    .secondary-button {
+      padding: 9px 14px;
+      border-radius: 2px;
+      cursor: pointer;
+      font-weight: 900;
+      transition: transform .2s ease, box-shadow .2s ease, background-color .2s ease;
+    }
+
+    .primary-button {
+      border: 3px double var(--vermilion-deep);
+      color: var(--surface-strong);
+      background: var(--vermilion);
+      box-shadow: 4px 4px 0 rgba(148, 70, 62, .1);
+    }
+
+    .secondary-button {
+      border: 1px solid var(--line-strong);
+      color: var(--vermilion-deep);
+      background: var(--surface-strong);
+    }
+
+    .primary-button:hover,
+    .secondary-button:hover {
+      box-shadow: 6px 6px 0 rgba(148, 70, 62, .1);
+      transform: translateY(-1px);
+    }
+
+    .assistive-copy {
+      margin-left: auto;
+      color: var(--muted);
+      font-size: .72rem;
+    }
+
+    .result-summary {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 14px;
+      padding: 14px;
+      border: 1px solid var(--vermilion);
+      border-radius: 2px;
+      background: var(--vermilion-soft);
+    }
+
+    .score-bubble {
+      display: grid;
+      width: 72px;
+      height: 72px;
+      place-items: center;
+      border: 4px double var(--vermilion);
+      border-radius: 2px;
+      color: var(--vermilion-deep);
+      background: var(--surface-strong);
+      font-family: var(--display);
+      font-size: 1.2rem;
+      font-weight: 900;
+      transform: rotate(-2deg);
+    }
+
+    .score-bubble span {
+      display: block;
+      margin-top: -17px;
+      font-family: var(--sans);
+      font-size: .62rem;
+      font-weight: 700;
+    }
+
+    .result-summary h3 {
+      margin: 0;
+      color: var(--vermilion-deep);
+      font-family: var(--display);
+      font-size: 1.05rem;
+    }
+
+    .result-summary p {
+      margin: 3px 0 0;
+      color: var(--muted);
+      font-size: .79rem;
+    }
+
+    .result-items {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+      gap: 6px;
+      margin-top: 9px;
+    }
+
+    .result-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 7px;
+      padding: 6px 8px;
+      border: 1px solid var(--line);
+      border-radius: 2px;
+      background: var(--surface-strong);
+      font-size: .73rem;
+    }
+
+    .result-item strong {
+      font-family: var(--display);
+    }
+
+    .result-item.is-correct {
+      color: var(--success);
+    }
+
+    .result-item.is-wrong {
+      color: var(--danger);
+    }
+
+    .result-item small {
+      color: var(--muted);
+      font-family: var(--display);
+      font-size: .76rem;
+    }
+
+    .data-error {
+      padding: 16px;
+      border: 2px solid var(--danger);
+      border-radius: 2px;
+      color: var(--danger);
+      background: var(--danger-soft);
+    }
+
+    .data-error strong {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    @keyframes ink-sweep {
+      from {
+        opacity: .2;
+        transform: scaleX(0);
+      }
+      to {
+        opacity: .84;
+        transform: scaleX(1);
+      }
+    }
+
+    @keyframes ink-flow {
+      from {
+        background-position: 0 50%;
+      }
+      to {
+        background-position: 220% 50%;
+      }
+    }
+
+    @keyframes seal-arrive {
+      from {
+        opacity: 0;
+        transform: translateY(-8px) rotate(8deg) scale(.9);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) rotate(2deg) scale(1);
+      }
+    }
+
+    @keyframes panel-enter {
+      from {
+        opacity: 0;
+        transform: translateY(7px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes tab-press {
+      from {
+        opacity: .55;
+        transform: translateY(3px) rotate(-.25deg) scale(.98);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) rotate(-.25deg) scale(1);
+      }
+    }
+
+    @keyframes stamp-card-in {
+      from {
+        opacity: 0;
+        transform: translateY(9px) rotate(.8deg);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) rotate(0);
+      }
+    }
+
+    @media (max-width: 900px) {
+      .panel-intro {
+        display: grid;
+      }
+
+      .intro-note {
+        max-width: none;
+      }
+
+      .page-heading-mark {
+        width: 54px;
+        height: 54px;
+        font-size: 1.55rem;
+      }
+    }
+
+    @media (max-width: 640px) {
+      body {
+        font-size: 14px;
+      }
+
+      .page {
+        padding: 12px 9px 38px;
+      }
+
+      .page-heading {
+        align-items: start;
+        padding: 15px;
+      }
+
+      .page-heading-mark {
+        width: 45px;
+        height: 45px;
+        font-size: 1.3rem;
+      }
+
+      #app-shell {
+        gap: 15px;
+        margin-top: 14px;
+        padding: 13px;
+      }
+
+      .app-header {
+        align-items: start;
+      }
+
+      .edition-note {
+        display: none;
+      }
+
+      .main-tab {
+        flex: 1;
+        min-width: 0;
+      }
+
+      .conjugation-tabs {
+        gap: 4px;
+      }
+
+      .conjugation-tab {
+        padding: 8px 9px;
+      }
+
+      .conjugation-tab small {
+        font-size: .63rem;
+        line-height: 1.3;
+      }
+
+      .sound-summary-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .practice-prompt {
+        display: grid;
+      }
+
+      .practice-prompt-side {
+        text-align: left;
+      }
+
+      .practice-row {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+
+      .choice-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .assistive-copy {
+        width: 100%;
+        margin-left: 0;
+      }
+
+      .result-summary {
+        grid-template-columns: 1fr;
+      }
+
+      .score-bubble {
+        width: 62px;
+        height: 62px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+      }
+    }
+  </style>
+</head>
+<body data-theme="stamp">
+  <div class="page">
+    <header class="page-heading">
+      <div>
+        <h1>日语动词变形表 · 印谱方格</h1>
+        <p>以柔和朱红、米白和和纸灰整理动词活用。像翻阅印谱一样，先看规则，再翻开卡片确认实例。</p>
+      </div>
+      <div class="page-heading-mark" aria-hidden="true">印</div>
+    </header>
+    <main id="app-shell" data-theme="stamp"></main>
+    <div id="live-region" class="visually-hidden" aria-live="polite" aria-atomic="true"></div>
+  </div>
+
+  <script>
+    "use strict";
+
+    const STORAGE_KEY = "verb-conjugation-stamp-state-v1";
+
+    const theme = {
+      id: "stamp",
+      name: "印谱方格"
+    };
+
+    const baseForms = [
+      { id: "mizenkei", label: "未然形", jp: "みぜんけい", note: "接续否定、意志、使役、被动等助动词。" },
+      { id: "renyoukei", label: "连用形", jp: "れんようけい", note: "连接 ます、て、た、たい等表达，也可作词干。" },
+      { id: "shuushikei", label: "终止形", jp: "しゅうしけい", note: "用于句末叙述；现代日语中通常与连体形同形。" },
+      { id: "rentaikei", label: "连体形", jp: "れんたいけい", note: "放在名词前作定语；现代日语中通常与终止形同形。" },
+      { id: "kateikei", label: "假定形", jp: "かていけい", note: "五段改为え段并接 ば；表示假设条件。" },
+      { id: "meireikei", label: "命令形", jp: "めいれいけい", note: "表达直接命令；实际使用时需注意语气和场合。" }
+    ];
+
+    const derivedForms = [
+      { id: "nai", label: "ない形", jp: "ないけい", note: "否定表达：接 ない。" },
+      { id: "nakute", label: "なくて形", jp: "なくてけい", note: "否定连接：接 なくて。" },
+      { id: "naide", label: "ないで形", jp: "ないでけい", note: "不做某事：接 ないで。" },
+      { id: "masu", label: "ます形", jp: "ますけい", note: "礼貌表达：连用形接 ます。" },
+      { id: "te", label: "て形", jp: "てけい", note: "连接动作、请求和进行等表达。" },
+      { id: "ta", label: "た形", jp: "たけい", note: "表示过去或完成。" },
+      { id: "tai", label: "たい形", jp: "たいけい", note: "表示愿望：连用形接 たい。" },
+      { id: "ishi", label: "意志形", jp: "いしけい", note: "表示意志或提议：う／よう。" },
+      { id: "ba", label: "ば形", jp: "ばけい", note: "表示假设条件：接 ば。" },
+      { id: "tara", label: "たら形", jp: "たらけい", note: "表示条件或先后关系：た形接 ら。" },
+      { id: "kanou", label: "可能形", jp: "かのうけい", note: "表示能力或可能：标准教学形式。" },
+      { id: "ukemi", label: "被动形", jp: "うけみけい", note: "表示被动：接 れる／られる。" },
+      { id: "shieki", label: "使役形", jp: "しえきけい", note: "表示使役：接 せる／させる。" },
+      { id: "shiekiUkemi", label: "使役被动形", jp: "しえきうけみけい", note: "表示被迫：接 せられる／させられる。" },
+      { id: "kinshi", label: "禁止形", jp: "きんしけい", note: "表示禁止：终止形接 な。" },
+      { id: "nara", label: "なら条件", jp: "ならじょうけん", note: "以终止形为基础的条件表达。" },
+      { id: "suiryou", label: "推量表达", jp: "すいりょうひょうげん", note: "使用 う／よう等表达推量或意志。" },
+      { id: "sonkei", label: "尊敬表达", jp: "そんけいひょうげん", note: "示例：お＋连用形＋になる。" },
+      { id: "kenjou", label: "谦让表达", jp: "けんじょうひょうげん", note: "示例：お＋连用形＋する。" }
+    ];
+
+    const allForms = [...baseForms, ...derivedForms];
+
+    const typeColumns = [
+      { id: "godan", label: "第 I 类／五段" },
+      { id: "ichidan", label: "第 II 类／一段" },
+      { id: "kuru", label: "第 III 类／か変" },
+      { id: "suru", label: "第 III 类／さ変" }
+    ];
+
+    const typeExamples = {
+      godan: {
+        dictionary: "書く",
+        kana: "かく",
+        meaning: "书写；写",
+        forms: {
+          mizenkei: "書か", renyoukei: "書き", shuushikei: "書く", rentaikei: "書く",
+          kateikei: "書け", meireikei: "書け", nai: "書かない", nakute: "書かなくて",
+          naide: "書かないで", masu: "書きます", te: "書いて", ta: "書いた",
+          tai: "書きたい", ishi: "書こう", ba: "書けば", tara: "書いたら",
+          kanou: "書ける", ukemi: "書かれる", shieki: "書かせる",
+          shiekiUkemi: "書かせられる", kinshi: "書くな", nara: "書くなら",
+          suiryou: "書こう", sonkei: "お書きになる", kenjou: "お書きする"
+        }
+      },
+      ichidan: {
+        dictionary: "食べる",
+        kana: "たべる",
+        meaning: "吃",
+        forms: {
+          mizenkei: "食べ", renyoukei: "食べ", shuushikei: "食べる", rentaikei: "食べる",
+          kateikei: "食べれ", meireikei: "食べろ", nai: "食べない", nakute: "食べなくて",
+          naide: "食べないで", masu: "食べます", te: "食べて", ta: "食べた",
+          tai: "食べたい", ishi: "食べよう", ba: "食べれば", tara: "食べたら",
+          kanou: "食べられる", ukemi: "食べられる", shieki: "食べさせる",
+          shiekiUkemi: "食べさせられる", kinshi: "食べるな", nara: "食べるなら",
+          suiryou: "食べよう", sonkei: "お食べになる", kenjou: "お食べする"
+        }
+      },
+      kuru: {
+        dictionary: "来る",
+        kana: "くる",
+        meaning: "来",
+        forms: {
+          mizenkei: "来（こ）", renyoukei: "来（き）", shuushikei: "来る（くる）",
+          rentaikei: "来る（くる）", kateikei: "来れ（くれ）", meireikei: "来い（こい）",
+          nai: "来ない", nakute: "来なくて", naide: "来ないで", masu: "来ます",
+          te: "来て", ta: "来た", tai: "来たい", ishi: "来よう", ba: "来れば",
+          tara: "来たら", kanou: "来られる", ukemi: "来られる", shieki: "来させる",
+          shiekiUkemi: "来させられる", kinshi: "来るな", nara: "来るなら",
+          suiryou: "来よう", sonkei: "おいでになる", kenjou: "お越しする"
+        }
+      },
+      suru: {
+        dictionary: "する",
+        kana: "する",
+        meaning: "做",
+        forms: {
+          mizenkei: "し", renyoukei: "し", shuushikei: "する", rentaikei: "する",
+          kateikei: "すれ", meireikei: "しろ／せよ", nai: "しない", nakute: "しなくて",
+          naide: "しないで", masu: "します", te: "して", ta: "した", tai: "したい",
+          ishi: "しよう", ba: "すれば", tara: "したら", kanou: "できる",
+          ukemi: "される", shieki: "させる", shiekiUkemi: "させられる",
+          kinshi: "するな", nara: "するなら", suiryou: "しよう", sonkei: "なさる",
+          kenjou: "いたす"
+        }
+      }
+    };
+
+    const formRules = {
+      mizenkei: { godan: "词尾改为「あ」段", ichidan: "去掉「る」得词干", kuru: "くる → こ", suru: "する → し" },
+      renyoukei: { godan: "词尾改为「い」段", ichidan: "去掉「る」得词干", kuru: "くる → き", suru: "する → し" },
+      shuushikei: { godan: "保留「う」段词尾", ichidan: "保留词典形", kuru: "保留「る」", suru: "保留「する」" },
+      rentaikei: { godan: "保留「う」段词尾", ichidan: "保留词典形", kuru: "保留「る」", suru: "保留「する」" },
+      kateikei: { godan: "词尾改为「え」段", ichidan: "词干＋れば", kuru: "来れ（くれ）ば", suru: "すれ＋ば" },
+      meireikei: { godan: "词尾改为「え」段", ichidan: "词干＋ろ", kuru: "くる → こい", suru: "する → しろ／せよ" },
+      nai: { godan: "未然形＋ない", ichidan: "词干＋ない", kuru: "来（こ）＋ない", suru: "し＋ない" },
+      nakute: { godan: "未然形＋なくて", ichidan: "词干＋なくて", kuru: "来（こ）＋なくて", suru: "し＋なくて" },
+      naide: { godan: "未然形＋ないで", ichidan: "词干＋ないで", kuru: "来（こ）＋ないで", suru: "し＋ないで" },
+      masu: { godan: "连用形＋ます", ichidan: "词干＋ます", kuru: "来（き）＋ます", suru: "し＋ます" },
+      te: { godan: "按词尾发生音便＋て", ichidan: "词干＋て", kuru: "来（き）＋て", suru: "し＋て" },
+      ta: { godan: "按词尾发生音便＋た", ichidan: "词干＋た", kuru: "来（き）＋た", suru: "し＋た" },
+      tai: { godan: "连用形＋たい", ichidan: "词干＋たい", kuru: "来（き）＋たい", suru: "し＋たい" },
+      ishi: { godan: "词尾改为「お」段＋う", ichidan: "词干＋よう", kuru: "来（こ）＋よう", suru: "し＋よう" },
+      ba: { godan: "词尾改为「え」段＋ば", ichidan: "词干＋れば", kuru: "来れ（くれ）＋ば", suru: "すれ＋ば" },
+      tara: { godan: "た形＋ら", ichidan: "た形＋ら", kuru: "来た＋ら", suru: "した＋ら" },
+      kanou: { godan: "词尾改为「え」段＋る", ichidan: "词干＋られる", kuru: "来られる", suru: "できる" },
+      ukemi: { godan: "未然形＋れる", ichidan: "词干＋られる", kuru: "来られる", suru: "される" },
+      shieki: { godan: "未然形＋せる", ichidan: "词干＋させる", kuru: "来させる", suru: "させる" },
+      shiekiUkemi: { godan: "未然形＋せられる", ichidan: "词干＋させられる", kuru: "来させられる", suru: "させられる" },
+      kinshi: { godan: "终止形＋な", ichidan: "终止形＋な", kuru: "来る＋な", suru: "する＋な" },
+      nara: { godan: "终止形＋なら", ichidan: "终止形＋なら", kuru: "来る＋なら", suru: "する＋なら" },
+      suiryou: { godan: "お段＋う（与意志形同形）", ichidan: "词干＋よう", kuru: "来よう", suru: "しよう" },
+      sonkei: { godan: "お＋连用形＋になる", ichidan: "お＋词干＋になる", kuru: "おいでになる", suru: "なさる／お～になる" },
+      kenjou: { godan: "お＋连用形＋する", ichidan: "お＋词干＋する", kuru: "お越しする", suru: "いたす" }
+    };
+
+    const answerSets = {};
+    allForms.forEach((form) => {
+      answerSets[form.id] = {
+        canonical: typeExamples.godan.forms[form.id],
+        acceptedAnswers: [typeExamples.godan.forms[form.id]]
+      };
+    });
+
+    const soundRows = [
+      ["う", "わ", "い", "う", "え", "え", "って／った"],
+      ["く", "か", "き", "く", "け", "け", "いて／いた"],
+      ["ぐ", "が", "ぎ", "ぐ", "げ", "げ", "いで／いだ"],
+      ["す", "さ", "し", "す", "せ", "せ", "して／した"],
+      ["つ", "た", "ち", "つ", "て", "て", "って／った"],
+      ["ぬ", "な", "に", "ぬ", "ね", "ね", "んで／んだ"],
+      ["ぶ", "ば", "び", "ぶ", "べ", "べ", "んで／んだ"],
+      ["む", "ま", "み", "む", "め", "め", "んで／んだ"],
+      ["る", "ら", "り", "る", "れ", "れ", "って／った"]
+    ];
+
+    const state = {
+      view: "rules",
+      practiceMode: "simple",
+      activeGroups: { rules: "base", practice: "base" },
+      cardFlips: {},
+      answers: {},
+      choices: {},
+      result: null,
+      onlyWrong: false
+    };
+
+    const elements = {
+      appShell: document.getElementById("app-shell"),
+      liveRegion: document.getElementById("live-region")
+    };
+
+    function loadSessionState() {
+      const rawState = sessionStorage.getItem(STORAGE_KEY);
+      if (!rawState) {
+        return;
+      }
+
+      let stored;
+      try {
+        stored = JSON.parse(rawState);
+      } catch (error) {
+        console.error("印谱页临时状态解析失败，已清理损坏状态。", error);
+        sessionStorage.removeItem(STORAGE_KEY);
+        return;
+      }
+
+      if (!stored || typeof stored !== "object" || Array.isArray(stored)) {
+        console.error("印谱页临时状态格式无效，已清理损坏状态。");
+        sessionStorage.removeItem(STORAGE_KEY);
+        return;
+      }
+
+      if (stored.activeGroups && typeof stored.activeGroups === "object") {
+        if (stored.activeGroups.rules === "base" || stored.activeGroups.rules === "derived") {
+          state.activeGroups.rules = stored.activeGroups.rules;
+        }
+        if (stored.activeGroups.practice === "base" || stored.activeGroups.practice === "derived") {
+          state.activeGroups.practice = stored.activeGroups.practice;
+        }
+      }
+      if (stored.practiceMode === "simple" || stored.practiceMode === "standard") {
+        state.practiceMode = stored.practiceMode;
+      }
+      if (stored.cardFlips && typeof stored.cardFlips === "object") {
+        state.cardFlips = stored.cardFlips;
+      }
+      if (stored.answers && typeof stored.answers === "object") {
+        state.answers = stored.answers;
+      }
+      if (stored.choices && typeof stored.choices === "object") {
+        state.choices = stored.choices;
+      }
+      if (stored.result && typeof stored.result === "object") {
+        state.result = stored.result;
+      }
+      state.onlyWrong = stored.onlyWrong === true;
+    }
+
+    function saveSessionState() {
+      sessionStorage.setItem(STORAGE_KEY, JSON.stringify({
+        activeGroups: state.activeGroups,
+        practiceMode: state.practiceMode,
+        cardFlips: state.cardFlips,
+        answers: state.answers,
+        choices: state.choices,
+        result: state.result,
+        onlyWrong: state.onlyWrong
+      }));
+    }
+
+    function readUrlState() {
+      const params = new URLSearchParams(window.location.search);
+      state.view = params.get("view") === "practice" ? "practice" : "rules";
+    }
+
+    function writeUrlState(addHistory) {
+      const url = new URL(window.location.href);
+      url.searchParams.set("view", state.view);
+      const method = addHistory ? "pushState" : "replaceState";
+      window.history[method]({ view: state.view }, "", url);
+    }
+
+    function announce(message) {
+      elements.liveRegion.textContent = "";
+      window.setTimeout(() => {
+        elements.liveRegion.textContent = message;
+      }, 20);
+    }
+
+    function validateData() {
+      const errors = [];
+      const formIds = new Set(allForms.map((form) => form.id));
+
+      allForms.forEach((form) => {
+        if (!form.label || !form.jp || !form.note) {
+          errors.push(`${form.id}: 缺少名称、假名或说明`);
+        }
+        if (!answerSets[form.id]) {
+          errors.push(`${form.id}: 缺少练习答案`);
+        }
+        if (!formRules[form.id]) {
+          errors.push(`${form.id}: 缺少规则`);
+        }
+        typeColumns.forEach((type) => {
+          if (!formRules[form.id] || !formRules[form.id][type.id]) {
+            errors.push(`${form.id}/${type.id}: 缺少类型规则`);
+          }
+          if (!typeExamples[type.id].forms[form.id]) {
+            errors.push(`${type.id}/${form.id}: 缺少示例`);
+          }
+        });
+      });
+
+      Object.entries(answerSets).forEach(([formId, answer]) => {
+        if (!formIds.has(formId) || !answer.canonical || !answer.acceptedAnswers.includes(answer.canonical)) {
+          errors.push(`${formId}: 答案集合无效`);
+        }
+      });
+
+      if (errors.length > 0) {
+        throw new Error(errors.join("\n"));
+      }
+    }
+
+    function getActiveGroup(scope) {
+      return state.activeGroups[scope] === "derived" ? "derived" : "base";
+    }
+
+    function getFormsForGroup(groupId) {
+      return groupId === "derived" ? derivedForms : baseForms;
+    }
+
+    function getForm(formId) {
+      return allForms.find((form) => form.id === formId);
+    }
+
+    function getProcess(typeId, formId, result) {
+      const example = typeExamples[typeId];
+      const root = `${example.dictionary}（${example.kana}）`;
+      if (typeId === "godan" && (formId === "te" || formId === "ta")) {
+        return `${root} → く音便 → ${result}`;
+      }
+      if (typeId === "ichidan") {
+        return `${root} → 去「る」 → ${result}`;
+      }
+      return `${root} → ${result}`;
+    }
+
+    function getOptions(formId) {
+      const expected = answerSets[formId].canonical;
+      const values = [...new Set([
+        expected,
+        ...allForms.map((form) => answerSets[form.id].canonical),
+        "書かない",
+        "書きます",
+        "書いて",
+        "書けば",
+        "お書きになる"
+      ])];
+      const distractors = values.filter((value) => value !== expected);
+      const offset = allForms.findIndex((form) => form.id === formId) % distractors.length;
+      const rotated = [...distractors.slice(offset), ...distractors.slice(0, offset)];
+      return [expected, ...rotated.slice(0, 3)];
+    }
+
+    function getRuleCard(typeId, formId) {
+      const form = getForm(formId);
+      const type = typeColumns.find((column) => column.id === typeId);
+      const example = typeExamples[typeId];
+      const result = example.forms[formId];
+      const cardId = `${typeId}-${formId}`;
+      const cardIndex = allForms.findIndex((item) => item.id === formId) * typeColumns.length
+        + typeColumns.findIndex((item) => item.id === typeId);
+      const cardDelay = Math.min(cardIndex * 8, 380);
+      const flipped = state.cardFlips[cardId] === true;
+      const exception = typeId === "godan" && formId === "te";
+      return `
+        <div class="rule-card ${flipped ? "is-flipped" : ""}" data-card-id="${cardId}" style="--card-delay: ${cardDelay}ms">
+          <button class="rule-card-button" type="button" data-action="flip-card"
+            aria-expanded="${flipped}" aria-label="${flipped ? "收起" : "查看"}${type.label}${form.label}示例">
+            <span class="rule-card-inner">
+              <span class="rule-card-face rule-card-front">
+                <span>
+                  <span class="card-kicker">${type.label} · 规则</span>
+                  <strong class="card-rule">${formRules[formId][typeId]}</strong>
+                  <span class="card-detail">${form.note}</span>
+                </span>
+                <span class="flip-hint">点击查看示例</span>
+              </span>
+              <span class="rule-card-face rule-card-back">
+                <span>
+                  <span class="card-kicker">${exception ? "例外提示 · て形" : "代表示例"}</span>
+                  <span class="card-example">
+                    <span class="card-example-result">${result}</span>
+                    <span class="card-example-process">${getProcess(typeId, formId, result)}</span>
+                    <span class="card-example-meaning">${example.dictionary}：${example.meaning}</span>
+                  </span>
+                </span>
+                <span class="flip-hint">${exception ? "く→いて；行く为特殊例外" : "点击翻回规则"}</span>
+              </span>
+            </span>
+          </button>
+        </div>
+      `;
+    }
+
+    function renderRuleTable(forms) {
+      return `
+        <div class="table-scroll">
+          <table class="rule-table">
+            <caption class="visually-hidden">活用形与动词类型变化规则。点击卡片查看代表示例。</caption>
+            <thead>
+              <tr>
+                <th scope="col">活用形</th>
+                ${typeColumns.map((type) => `<th scope="col">${type.label}</th>`).join("")}
+              </tr>
+            </thead>
+            <tbody>
+              ${forms.map((form) => `
+                <tr>
+                  <th class="form-cell" scope="row">
+                    <span class="form-name">${form.label}</span>
+                    <span class="form-jp">${form.jp}</span>
+                  </th>
+                  ${typeColumns.map((type) => `<td>${getRuleCard(type.id, form.id)}</td>`).join("")}
+                </tr>
+              `).join("")}
+            </tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    function renderSoundReference() {
+      return `
+        <aside class="sound-reference" aria-labelledby="sound-reference-title">
+          <div>
+            <h3 id="sound-reference-title">五段词尾音变对照</h3>
+            <p>用印谱页的方式集中查看「あ・い・う・え」音段和 て／た 音便，先看速记再查表格。</p>
+          </div>
+          <div class="sound-summary" aria-label="五段词尾音变速记">
+            <div class="sound-summary-heading">
+              <strong>一页速记</strong>
+              <span>活用骨架先记「あ・い・う・え・え」，て／た形再按音便归组。</span>
+            </div>
+            <div class="sound-summary-grid">
+              <div class="sound-summary-item">
+                <strong>促音便</strong>
+                <span>う・つ・る → って／った</span>
+              </div>
+              <div class="sound-summary-item">
+                <strong>拨音便</strong>
+                <span>ぬ・ぶ・む → んで／んだ</span>
+              </div>
+              <div class="sound-summary-item">
+                <strong>い音便</strong>
+                <span>く → いて／いた；ぐ → いで／いだ</span>
+              </div>
+              <div class="sound-summary-item">
+                <strong>す结尾</strong>
+                <span>す → して／した</span>
+              </div>
+            </div>
+            <p class="sound-summary-note">补充：词尾「う」的未然形为「わ」；意志形另记「お段＋う」；「行く」是て形／た形的特殊例外。</p>
+          </div>
+          <div class="table-scroll">
+            <table class="sound-table">
+              <caption class="visually-hidden">五段动词词尾音变</caption>
+              <thead>
+                <tr>
+                  <th scope="col">词尾</th>
+                  <th scope="col">未然「あ段」</th>
+                  <th scope="col">连用「い」</th>
+                  <th scope="col">终止／连体「う」</th>
+                  <th scope="col">假定「え」</th>
+                  <th scope="col">命令「え」</th>
+                  <th scope="col">て／た专项</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${soundRows.map((row) => `
+                  <tr>
+                    <th scope="row">${row[0]}</th>
+                    <td>${row[1]}</td><td>${row[2]}</td><td>${row[3]}</td>
+                    <td>${row[4]}</td><td>${row[5]}</td><td>${row[6]}</td>
+                  </tr>
+                `).join("")}
+              </tbody>
+            </table>
+          </div>
+          <div class="exception-callout">
+            <span aria-hidden="true">!</span>
+            <span><strong>易错提醒：</strong>「行く」的 て形／た形是「行って／行った」，不是按「く→いて／いた」直接生成。</span>
+          </div>
+        </aside>
+      `;
+    }
+
+    function renderConjugationTabs(scope) {
+      const activeGroup = getActiveGroup(scope);
+      const tabs = [
+        { id: "base", label: "基础六形", description: "未然・连用・终止・连体・假定・命令" },
+        { id: "derived", label: "派生／接续形", description: "ない・ます・て・た・可能・敬语等" }
+      ];
+      return `
+        <div class="conjugation-tabs" role="tablist" aria-label="${scope === "rules" ? "规则类型" : "练习类型"}">
+          ${tabs.map((tab) => `
+            <button class="conjugation-tab" type="button" role="tab"
+              id="${scope}-group-${tab.id}-tab"
+              ${activeGroup === tab.id ? `aria-controls="${scope}-group-${tab.id}-panel"` : ""}
+              aria-selected="${activeGroup === tab.id}"
+              data-action="set-form-group" data-scope="${scope}" data-group-id="${tab.id}">
+              <strong>${tab.label}</strong>
+              <small>${tab.description}</small>
+            </button>
+          `).join("")}
+        </div>
+      `;
+    }
+
+    function renderRulesPanel() {
+      const activeGroup = getActiveGroup("rules");
+      const forms = getFormsForGroup(activeGroup);
+      return `
+        <section id="rules-panel" class="panel" role="tabpanel" aria-labelledby="view-rules-tab">
+          <div class="panel-intro">
+            <div>
+              <p class="eyebrow">Rules / 规则讲解</p>
+              <h3>把每一种词形盖成一方印</h3>
+              <p>主表只保留活用形和动词类型，规则摘要在卡片正面，翻开后查看代表词、结果和推导过程。</p>
+            </div>
+            <div class="intro-note">样例固定词：<strong>書く（かく）</strong><br>用于展示五段「く」音便。</div>
+          </div>
+          ${renderConjugationTabs("rules")}
+          <section class="group-body" id="rules-group-${activeGroup}-panel" role="tabpanel"
+            aria-labelledby="rules-group-${activeGroup}-tab">
+            ${renderRuleTable(forms)}
+          </section>
+          ${renderSoundReference()}
+        </section>
+      `;
+    }
+
+    function normalizeAnswer(value) {
+      return String(value || "").trim().normalize("NFKC");
+    }
+
+    function getPracticeForms() {
+      const groupForms = getFormsForGroup(getActiveGroup("practice"));
+      if (!state.onlyWrong || !state.result || state.result.group !== getActiveGroup("practice")) {
+        return groupForms;
+      }
+      return groupForms.filter((form) => state.result.items[form.id] && !state.result.items[form.id].correct);
+    }
+
+    function renderPracticeRow(form) {
+      const resultItem = state.result && state.result.group === getActiveGroup("practice")
+        && state.result.items[form.id] ? state.result.items[form.id] : null;
+      const rowClass = resultItem ? (resultItem.correct ? "is-correct" : "is-wrong") : "";
+      const label = `
+        <div class="practice-row-label">
+          <strong>${form.label}</strong>
+          <span>${form.jp}</span>
+          <small>${form.note}</small>
+        </div>
+      `;
+
+      if (state.practiceMode === "simple") {
+        const selected = state.choices[form.id] || "";
+        return `
+          <article class="practice-row ${rowClass}" data-form-id="${form.id}">
+            ${label}
+            <fieldset class="choice-grid">
+              <legend class="visually-hidden">${form.label}选择题</legend>
+              ${getOptions(form.id).map((option, index) => `
+                <label class="choice-option">
+                  <input type="radio" name="choice-${form.id}" value="${option}"
+                    ${selected === option ? "checked" : ""} data-action="choose-answer" data-form-id="${form.id}">
+                  <span>${option}</span><em>${String.fromCharCode(65 + index)}</em>
+                </label>
+              `).join("")}
+            </fieldset>
+          </article>
+        `;
+      }
+
+      return `
+        <article class="practice-row ${rowClass}" data-form-id="${form.id}">
+          ${label}
+          <div>
+            <label class="visually-hidden" for="answer-${form.id}">${form.label}答案</label>
+            <input id="answer-${form.id}" class="answer-field" type="text" inputmode="text"
+              autocomplete="off" placeholder="输入${form.label}结果" value="${state.answers[form.id] || ""}"
+              data-action="type-answer" data-form-id="${form.id}">
+          </div>
+        </article>
+      `;
+    }
+
+    function getResultSummary() {
+      if (!state.result || state.result.group !== getActiveGroup("practice")) {
+        return "";
+      }
+      const items = Object.values(state.result.items);
+      const correct = items.filter((item) => item.correct).length;
+      const total = items.length;
+      const percentage = total === 0 ? 0 : Math.round((correct / total) * 100);
+      return `
+        <section class="result-summary" aria-labelledby="result-title">
+          <div class="score-bubble">${percentage}%<span>${correct}/${total}</span></div>
+          <div>
+            <h3 id="result-title">本组检查完成</h3>
+            <p>本次按当前标签的“动词＋变形项目”计分；错误项目可以继续错题再练。</p>
+            <div class="result-items">
+              ${Object.entries(state.result.items).map(([formId, item]) => {
+                const form = getForm(formId);
+                return `
+                  <div class="result-item ${item.correct ? "is-correct" : "is-wrong"}">
+                    <strong>${form.label}</strong>
+                    <span>${item.correct ? "正确" : "需复习"}</span>
+                    ${item.correct ? "" : `<small>${answerSets[formId].canonical}</small>`}
+                  </div>
+                `;
+              }).join("")}
+            </div>
+          </div>
+        </section>
+      `;
+    }
+
+    function renderPracticePanel() {
+      const activeGroup = getActiveGroup("practice");
+      const forms = getPracticeForms();
+      return `
+        <section id="practice-panel" class="panel" role="tabpanel" aria-labelledby="view-practice-tab">
+          <div class="panel-intro">
+            <div>
+              <p class="eyebrow">Practice / 练习</p>
+              <h3>翻开一页，亲手盖出答案</h3>
+              <p>简易模式选择答案，标准模式直接输入。当前标签只显示对应的一组项目，方便集中练习。</p>
+            </div>
+            <div class="intro-note">题干：<strong>書く（かく）</strong><br>中文：书写；写</div>
+          </div>
+          <div class="practice-toolbar">
+            <div class="mode-switch" aria-label="练习模式">
+              <button class="mode-button" type="button" data-action="set-mode" data-mode="simple"
+                aria-pressed="${state.practiceMode === "simple"}">简易模式</button>
+              <button class="mode-button" type="button" data-action="set-mode" data-mode="standard"
+                aria-pressed="${state.practiceMode === "standard"}">标准模式</button>
+            </div>
+            <span class="assistive-copy">当前练习：${activeGroup === "base" ? "基础六形" : "派生／接续形"}</span>
+          </div>
+          <div class="practice-prompt">
+            <div class="practice-word">
+              <strong>書く</strong><span>かく</span><small>中文：书写；写</small>
+            </div>
+            <div class="practice-prompt-side">
+              <strong>${state.onlyWrong ? "错题项目" : "当前标签项目"}</strong>
+              <span>动词类型不直接显示，先自行判断。</span>
+            </div>
+          </div>
+          ${getResultSummary()}
+          ${renderConjugationTabs("practice")}
+          ${forms.length > 0 ? `
+            <section class="practice-group" id="practice-group-${activeGroup}-panel" role="tabpanel"
+              aria-labelledby="practice-group-${activeGroup}-tab">
+              <h3>${activeGroup === "base" ? "基础六形" : "派生／接续形"}</h3>
+              <div class="practice-list">${forms.map(renderPracticeRow).join("")}</div>
+            </section>
+          ` : `
+            <div class="exception-callout"><span aria-hidden="true">✓</span><span><strong>当前标签没有待复习项目。</strong>可以切换另一个标签。</span></div>
+          `}
+          <div class="practice-actions">
+            <button class="primary-button" type="button" data-action="check-practice">检查答案</button>
+            <button class="secondary-button" type="button" data-action="reset-practice">重置本组</button>
+            ${state.result && state.result.group === activeGroup ? `<button class="secondary-button" type="button" data-action="show-wrong">错题再练</button>` : ""}
+            ${state.onlyWrong ? `<button class="secondary-button" type="button" data-action="show-all">显示全部</button>` : ""}
+          </div>
+        </section>
+      `;
+    }
+
+    function renderApp() {
+      document.body.dataset.theme = theme.id;
+      elements.appShell.dataset.theme = theme.id;
+      elements.appShell.innerHTML = `
+        <header class="app-header">
+          <a class="brand brand-link" href="index.html" aria-label="返回日语学习印谱方格首页">
+            <span class="brand-seal" aria-hidden="true">活</span>
+            <div>
+              <h2>動詞ノート</h2>
+              <p>印谱方格 · 日语动词规则与练习</p>
+            </div>
+          </a>
+          <span class="edition-note">和風 · 印谱六号</span>
+        </header>
+        <nav class="main-tabs" role="tablist" aria-label="主要区域">
+          <button class="main-tab" id="view-rules-tab" type="button" role="tab"
+            ${state.view === "rules" ? 'aria-controls="rules-panel"' : ""}
+            aria-selected="${state.view === "rules"}" data-view="rules">规则讲解</button>
+          <button class="main-tab" id="view-practice-tab" type="button" role="tab"
+            ${state.view === "practice" ? 'aria-controls="practice-panel"' : ""}
+            aria-selected="${state.view === "practice"}" data-view="practice">练习</button>
+        </nav>
+        ${state.view === "rules" ? renderRulesPanel() : renderPracticePanel()}
+      `;
+    }
+
+    function setView(view, addHistory = true) {
+      state.view = view === "practice" ? "practice" : "rules";
+      writeUrlState(addHistory);
+      renderApp();
+      announce(state.view === "rules" ? "已切换到规则讲解" : "已切换到练习");
+    }
+
+    function checkPractice() {
+      const group = getActiveGroup("practice");
+      const forms = getFormsForGroup(group);
+      const items = {};
+      forms.forEach((form) => {
+        const submitted = state.practiceMode === "simple"
+          ? state.choices[form.id] || ""
+          : state.answers[form.id] || "";
+        const accepted = answerSets[form.id].acceptedAnswers.map(normalizeAnswer);
+        items[form.id] = { correct: accepted.includes(normalizeAnswer(submitted)), submitted };
+      });
+      state.result = { group, items, checkedAt: Date.now() };
+      state.onlyWrong = false;
+      saveSessionState();
+      renderApp();
+      announce("答案已检查，当前标签的结果已显示。");
+    }
+
+    function resetPractice() {
+      const forms = getFormsForGroup(getActiveGroup("practice"));
+      forms.forEach((form) => {
+        delete state.answers[form.id];
+        delete state.choices[form.id];
+      });
+      state.result = null;
+      state.onlyWrong = false;
+      saveSessionState();
+      renderApp();
+      announce("当前练习组已重置。");
+    }
+
+    function handleAction(target) {
+      const action = target.dataset.action;
+      if (!action) {
+        return;
+      }
+
+      if (action === "flip-card") {
+        const card = target.closest("[data-card-id]");
+        if (!card) {
+          return;
+        }
+        const cardId = card.dataset.cardId;
+        const flipped = !state.cardFlips[cardId];
+        state.cardFlips[cardId] = flipped;
+        saveSessionState();
+        card.classList.toggle("is-flipped", flipped);
+        const button = card.querySelector(".rule-card-button");
+        if (button) {
+          button.setAttribute("aria-expanded", String(flipped));
+          const label = button.getAttribute("aria-label") || "";
+          button.setAttribute("aria-label", flipped
+            ? label.replace(/^查看/, "收起")
+            : label.replace(/^收起/, "查看"));
+        }
+        return;
+      }
+
+      if (action === "set-form-group") {
+        const scope = target.dataset.scope === "practice" ? "practice" : "rules";
+        state.activeGroups[scope] = target.dataset.groupId === "derived" ? "derived" : "base";
+        if (scope === "practice") {
+          state.result = null;
+          state.onlyWrong = false;
+        }
+        saveSessionState();
+        renderApp();
+        announce(`${scope === "rules" ? "规则讲解" : "练习"}已切换到${state.activeGroups[scope] === "base" ? "基础六形" : "派生／接续形"}。`);
+        return;
+      }
+
+      if (action === "set-mode") {
+        state.practiceMode = target.dataset.mode === "standard" ? "standard" : "simple";
+        state.result = null;
+        state.onlyWrong = false;
+        saveSessionState();
+        renderApp();
+        announce(state.practiceMode === "simple" ? "已切换到简易模式" : "已切换到标准模式");
+        return;
+      }
+
+      if (action === "check-practice") {
+        checkPractice();
+        return;
+      }
+
+      if (action === "reset-practice") {
+        resetPractice();
+        return;
+      }
+
+      if (action === "show-wrong") {
+        state.onlyWrong = true;
+        saveSessionState();
+        renderApp();
+        announce("已切换到当前标签的错题项目。");
+        return;
+      }
+
+      if (action === "show-all") {
+        state.onlyWrong = false;
+        saveSessionState();
+        renderApp();
+        announce("已显示当前标签的全部项目。");
+      }
+    }
+
+    elements.appShell.addEventListener("click", (event) => {
+      const viewTab = event.target.closest("[data-view]");
+      if (viewTab) {
+        setView(viewTab.dataset.view);
+        return;
+      }
+      const actionTarget = event.target.closest("[data-action]");
+      if (actionTarget) {
+        handleAction(actionTarget);
+      }
+    });
+
+    elements.appShell.addEventListener("change", (event) => {
+      const target = event.target;
+      if (target.dataset.action === "choose-answer") {
+        state.choices[target.dataset.formId] = target.value;
+        state.result = null;
+        saveSessionState();
+        return;
+      }
+      if (target.dataset.action === "type-answer") {
+        state.answers[target.dataset.formId] = target.value;
+        state.result = null;
+        saveSessionState();
+      }
+    });
+
+    window.addEventListener("popstate", () => {
+      readUrlState();
+      renderApp();
+      announce(`已返回${state.view === "rules" ? "规则讲解" : "练习"}。`);
+    });
+
+    loadSessionState();
+    readUrlState();
+    try {
+      validateData();
+      writeUrlState(false);
+      renderApp();
+    } catch (error) {
+      elements.appShell.innerHTML = `<div class="data-error"><strong>数据校验失败，页面未初始化。</strong><pre>${error.message}</pre></div>`;
+      console.error(error);
+    }
+  </script>
+</body>
+</html>
