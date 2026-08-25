@@ -719,12 +719,24 @@
       text-transform: uppercase;
     }
 
+    /* 翻面文字/装饰统一为浅色调（朱红背景上的可读性） */
     .rule-card-back .card-kicker,
     .rule-card-back .card-example-result,
     .rule-card-back .card-example-process,
     .rule-card-back .card-example-meaning,
-    .rule-card-back .flip-hint {
+    .rule-card-back .flip-hint,
+    .rule-card-back .breakdown,
+    .rule-card-back .breakdown ruby,
+    .rule-card-back .breakdown rt,
+    .rule-card-back .card-example-result rt,
+    .rule-card-back .flip-hint::before {
       color: var(--surface-strong);
+    }
+
+    .rule-card-back .breakdown .affix {
+      color: var(--surface-strong);
+      background: transparent;
+      border-color: rgba(var(--surface-rgb), .35);
     }
 
     .card-rule {
