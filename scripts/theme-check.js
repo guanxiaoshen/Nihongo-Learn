@@ -56,6 +56,7 @@ async function main() {
     assert('面板初始收起', !doc.querySelector('.theme-switcher').classList.contains('is-open'));
     assert('默认标题含 印谱方格', doc.querySelector('.page-heading h1').textContent.includes('印谱方格'));
     assert('默认描述含 朱红', doc.querySelector('.page-heading p').textContent.includes('朱红'));
+    assert('默认印章 印', doc.querySelector('.page-heading-mark').textContent === '印');
     doc.querySelector('.theme-switcher-button').click();
     assert('点击按钮展开面板', doc.querySelector('.theme-switcher').classList.contains('is-open'));
     const sumi = doc.querySelector('.theme-option[data-theme-id="sumi"]');
@@ -68,6 +69,7 @@ async function main() {
     assert('标题随主题 → 墨流方格', doc.querySelector('.page-heading h1').textContent.includes('墨流方格'));
     assert('描述随主题 → 墨青语境', doc.querySelector('.page-heading p').textContent.includes('墨青'));
     assert('版次注记随主题 → 墨流六号', doc.querySelector('.edition-note').textContent.includes('墨流'));
+    assert('印章随主题 → 墨', doc.querySelector('.page-heading-mark').textContent === '墨');
     // P3：ESC 关闭面板
     doc.querySelector('.theme-switcher-button').click();
     dom.window.document.dispatchEvent(new dom.window.KeyboardEvent('keydown', { key: 'Escape' }));
@@ -96,6 +98,7 @@ async function main() {
     assert('index 标题随主题 → 藤棚方格', doc.querySelector('.page-heading h1').textContent.includes('藤棚方格'));
     assert('index eyebrow 随主题 → 藤棚', doc.querySelector('.page-heading .eyebrow').textContent.includes('藤棚'));
     assert('index 描述随主题 → 藤棚语境', doc.querySelector('.page-heading p').textContent.includes('藤棚花影'));
+    assert('index 印章随主题 → 藤', doc.querySelector('.page-heading-mark').textContent === '藤');
     assert('index 无运行时错误', errors.length === 0);
   });
 

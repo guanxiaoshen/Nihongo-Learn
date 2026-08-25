@@ -558,27 +558,32 @@
       aka: {
         eyebrow: "Japanese Learning / 印谱方格",
         title: "日语学习・印谱方格",
-        desc: "把日语活用整理成可读、可翻、可练的学习页。先选一个词类，再从规则理解走到动手练习。"
+        desc: "把日语活用整理成可读、可翻、可练的学习页。先选一个词类，再从规则理解走到动手练习。",
+        seal: "印"
       },
       sumi: {
         eyebrow: "Japanese Learning / 墨流",
         title: "日语学习・墨流方格",
-        desc: "墨流纸面之上，把日语活用整理成可读、可翻、可练的学习页。先选一个词类，再从规则理解走到动手练习。"
+        desc: "墨流纸面之上，把日语活用整理成可读、可翻、可练的学习页。先选一个词类，再从规则理解走到动手练习。",
+        seal: "墨"
       },
       koke: {
         eyebrow: "Japanese Learning / 苔庭",
         title: "日语学习・苔庭方格",
-        desc: "苔庭绿意之间，把日语活用整理成可读、可翻、可练的学习页。先选一个词类，再从规则理解走到动手练习。"
+        desc: "苔庭绿意之间，把日语活用整理成可读、可翻、可练的学习页。先选一个词类，再从规则理解走到动手练习。",
+        seal: "苔"
       },
       kon: {
         eyebrow: "Japanese Learning / 蓝染",
         title: "日语学习・蓝染方格",
-        desc: "蓝染布纹之上，把日语活用整理成可读、可翻、可练的学习页。先选一个词类，再从规则理解走到动手练习。"
+        desc: "蓝染布纹之上，把日语活用整理成可读、可翻、可练的学习页。先选一个词类，再从规则理解走到动手练习。",
+        seal: "蓝"
       },
       fuji: {
         eyebrow: "Japanese Learning / 藤棚",
         title: "日语学习・藤棚方格",
-        desc: "藤棚花影之下，把日语活用整理成可读、可翻、可练的学习页。先选一个词类，再从规则理解走到动手练习。"
+        desc: "藤棚花影之下，把日语活用整理成可读、可翻、可练的学习页。先选一个词类，再从规则理解走到动手练习。",
+        seal: "藤"
       }
     };
     function applyThemeHeadline() {
@@ -589,6 +594,8 @@
       if (eyebrow) eyebrow.textContent = hl.eyebrow;
       if (title) title.textContent = hl.title;
       if (desc) desc.textContent = hl.desc;
+      var seal = document.querySelector(".page-heading-mark");
+      if (seal) seal.textContent = hl.seal;
     }
     window.NihongoTheme.init();
     window.NihongoTheme.updateSwitcher();

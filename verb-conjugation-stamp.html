@@ -1570,27 +1570,32 @@
       aka: {
         suffix: "印谱方格",
         desc: "以柔和朱红、米白和和纸灰整理动词活用。像翻阅印谱一样，先看规则，再翻开卡片确认实例。",
-        edition: "和風 · 印谱六号"
+        edition: "和風 · 印谱六号",
+        seal: "印"
       },
       sumi: {
         suffix: "墨流方格",
         desc: "以墨青、宣纸白与淡墨灰整理动词活用。像墨流晕染一样，先看规则，再翻开卡片确认实例。",
-        edition: "和風 · 墨流六号"
+        edition: "和風 · 墨流六号",
+        seal: "墨"
       },
       koke: {
         suffix: "苔庭方格",
         desc: "以苔绿、米黄纸与庭园灰整理动词活用。像苔庭沉静一样，先看规则，再翻开卡片确认实例。",
-        edition: "和風 · 苔庭六号"
+        edition: "和風 · 苔庭六号",
+        seal: "苔"
       },
       kon: {
         suffix: "蓝染方格",
         desc: "以绀蓝、淡蓝纸与靛灰整理动词活用。像蓝染布纹一样，先看规则，再翻开卡片确认实例。",
-        edition: "和風 · 蓝染六号"
+        edition: "和風 · 蓝染六号",
+        seal: "蓝"
       },
       fuji: {
         suffix: "藤棚方格",
         desc: "以藤紫、淡紫纸与藤灰整理动词活用。像藤棚花影一样，先看规则，再翻开卡片确认实例。",
-        edition: "和風 · 藤棚六号"
+        edition: "和風 · 藤棚六号",
+        seal: "藤"
       }
     };
 
@@ -1612,6 +1617,10 @@
       document.querySelectorAll(".edition-note").forEach((el) => {
         el.textContent = headline.edition;
       });
+      const seal = document.querySelector(".page-heading-mark");
+      if (seal) {
+        seal.textContent = headline.seal;
+      }
     }
 
     function renderThemeSwitcher() {
