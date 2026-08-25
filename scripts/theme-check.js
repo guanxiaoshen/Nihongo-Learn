@@ -65,7 +65,7 @@ async function main() {
     assert('面板收起', !doc.querySelector('.theme-switcher').classList.contains('is-open'));
     assert('选中态更新', sumi.getAttribute('aria-pressed') === 'true');
     // 顶部说明区文案随主题
-    assert('标题随主题 → 墨流ノート', doc.querySelector('.page-heading h1').textContent.includes('墨流ノート'));
+    assert('标题随主题 → 墨流方格', doc.querySelector('.page-heading h1').textContent.includes('墨流方格'));
     assert('描述随主题 → 墨青语境', doc.querySelector('.page-heading p').textContent.includes('墨青'));
     assert('版次注记随主题 → 墨流六号', doc.querySelector('.edition-note').textContent.includes('墨流'));
     // P3：ESC 关闭面板
@@ -80,7 +80,7 @@ async function main() {
     const doc = dom.window.document;
     assert('adj 页继承 sumi', doc.documentElement.getAttribute('data-theme') === 'sumi');
     assert('adj 主题面板选中 sumi', doc.querySelector('.theme-option[data-theme-id="sumi"]').getAttribute('aria-pressed') === 'true');
-    assert('adj 标题随主题 → 墨流ノート', doc.querySelector('.page-heading h1').textContent.includes('墨流ノート'));
+    assert('adj 标题随主题 → 墨流方格', doc.querySelector('.page-heading h1').textContent.includes('墨流方格'));
     assert('adj 描述含 い形容词语境', doc.querySelector('.page-heading p').textContent.includes('い形容词'));
     assert('adj 无运行时错误', errors.length === 0);
   });
@@ -93,7 +93,7 @@ async function main() {
     doc.querySelector('.theme-option[data-theme-id="fuji"]').click();
     assert('index 切换 fuji', doc.documentElement.getAttribute('data-theme') === 'fuji');
     assert('index localStorage=fuji', dom.window.localStorage.getItem('nihongo-learn-theme') === 'fuji');
-    assert('index 标题随主题 → 藤棚ノート', doc.querySelector('.page-heading h1').textContent.includes('藤棚ノート'));
+    assert('index 标题随主题 → 藤棚方格', doc.querySelector('.page-heading h1').textContent.includes('藤棚方格'));
     assert('index eyebrow 随主题 → 藤棚', doc.querySelector('.page-heading .eyebrow').textContent.includes('藤棚'));
     assert('index 描述随主题 → 藤棚语境', doc.querySelector('.page-heading p').textContent.includes('藤棚花影'));
     assert('index 无运行时错误', errors.length === 0);
