@@ -492,8 +492,54 @@
       background: var(--vermilion-soft);
     }
 
+
     .rule-table tbody tr {
       scroll-margin-top: 96px;
+    }
+
+    /* 派生形分类筛选（5 大类 chip） */
+    .derived-categories {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      margin: 10px 0 14px;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-left: 4px solid var(--vermilion);
+      background: var(--wash);
+    }
+
+    .derived-categories .type-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .derived-categories .chip-count {
+      display: inline-block;
+      min-width: 16px;
+      padding: 0 4px;
+      border-radius: 8px;
+      background: var(--vermilion-soft);
+      color: var(--vermilion-deep);
+      font-size: .68rem;
+      font-weight: 900;
+    }
+
+    .derived-reset {
+      padding: 4px 10px;
+      border: 1px solid var(--line-strong);
+      color: var(--vermilion-deep);
+      background: var(--surface);
+      cursor: pointer;
+      font-size: .74rem;
+      font-weight: 800;
+    }
+
+    .derived-reset:hover {
+      border-color: var(--vermilion);
+      background: var(--vermilion-soft);
     }
 
     /* P3：练习设置折叠 */
@@ -1660,6 +1706,16 @@
     const baseForms = formsData.baseForms;
     const derivedForms = formsData.derivedForms;
     const allForms = [...baseForms, ...derivedForms];
+
+    /* 派生形分类（按功能归纳，5 大类共 19 个形） */
+    const DERIVED_CATEGORIES = [
+      { id: "negation",  label: "否定系",         forms: ["nai", "nakute", "naide", "kinshi"] },
+      { id: "aspect",    label: "时态与连接",     forms: ["masu", "te", "ta"] },
+      { id: "volition",  label: "愿望意志与条件", forms: ["tai", "ishi", "ba", "tara", "nara"] },
+      { id: "voice",     label: "态（可能・被动・使役）", forms: ["kanou", "ukemi", "shieki", "shiekiUkemi"] },
+      { id: "honorific", label: "敬语与推量",     forms: ["suiryou", "sonkei", "kenjou"] }
+    ];
+    const ALL_CATEGORY_IDS = DERIVED_CATEGORIES.map((c) => c.id);
     const typeColumns = formsData.typeColumns;
     const formRules = formsData.formRules;
     const soundRows = formsData.soundRows;
@@ -1690,7 +1746,8 @@
       currentVerb: null,
       currentForms: [],
       stats: null,
-      configOpen: true
+      configOpen: true,
+      derivedCategories: ALL_CATEGORY_IDS.slice()
     };
 
     state.stats = loadStats();
@@ -1881,6 +1938,12 @@
       if (Array.isArray(stored.currentForms)) {
         state.currentForms = stored.currentForms.filter((id) => allForms.some((form) => form.id === id));
       }
+      if (Array.isArray(stored.derivedCategories)) {
+        state.derivedCategories = stored.derivedCategories.filter((id) => ALL_CATEGORY_IDS.includes(id));
+        if (state.derivedCategories.length === 0) {
+          state.derivedCategories = ALL_CATEGORY_IDS.slice();
+        }
+      }
     }
 
     function saveSessionState() {
@@ -1897,7 +1960,8 @@
         practiceCount: state.practiceCount,
         currentVerb: state.currentVerb,
         currentForms: state.currentForms,
-        configOpen: state.configOpen
+        configOpen: state.configOpen,
+        derivedCategories: state.derivedCategories
       }));
     }
 
@@ -1965,7 +2029,15 @@
     }
 
     function getFormsForGroup(groupId) {
-      return groupId === "derived" ? derivedForms : baseForms;
+      if (groupId === "base") {
+        return baseForms;
+      }
+      const allowed = new Set(
+        DERIVED_CATEGORIES
+          .filter((c) => state.derivedCategories.includes(c.id))
+          .flatMap((c) => c.forms)
+      );
+      return derivedForms.filter((f) => allowed.has(f.id));
     }
 
     function getForm(formId) {
@@ -2142,6 +2214,24 @@
               <small>${tab.description}</small>
             </button>
           `).join("")}
+          ${scope === "rules" && activeGroup === "derived" ? renderDerivedCategoryChips() : ""}
+        </div>
+      `;
+    }
+
+    /* 派生形分类筛选 chips */
+    function renderDerivedCategoryChips() {
+      const allOn = state.derivedCategories.length === DERIVED_CATEGORIES.length;
+      return `
+        <div class="derived-categories" role="group" aria-label="派生形分类筛选">
+          ${DERIVED_CATEGORIES.map((c) => `
+            <button class="type-chip ${state.derivedCategories.includes(c.id) ? "is-active" : ""}"
+              type="button" data-action="toggle-derived-category" data-category-id="${c.id}"
+              aria-pressed="${state.derivedCategories.includes(c.id)}">
+              ${c.label}<span class="chip-count">${c.forms.length}</span>
+            </button>
+          `).join("")}
+          ${allOn ? "" : `<button class="derived-reset" type="button" data-action="reset-derived-categories">显示全部</button>`}
         </div>
       `;
     }
@@ -2174,7 +2264,7 @@
     function renderRowAnchors() {
       return `
         <div class="row-anchors" aria-label="快速定位活用形">
-          ${derivedForms.map((form) => `<a class="row-anchor" href="#form-row-${form.id}">${form.label}</a>`).join("")}
+          ${getFormsForGroup("derived").map((form) => `<a class="row-anchor" href="#form-row-${form.id}">${form.label}</a>`).join("")}
         </div>
       `;
     }
@@ -2640,6 +2730,33 @@
         saveSessionState();
         renderApp();
         announce(state.configOpen ? "已展开练习设置" : "已收起练习设置");
+        return;
+      }
+
+      if (action === "toggle-derived-category") {
+        const id = target.dataset.categoryId;
+        const idx = state.derivedCategories.indexOf(id);
+        if (idx >= 0) {
+          if (state.derivedCategories.length > 1) {
+            state.derivedCategories.splice(idx, 1);
+          } else {
+            announce("至少保留一个派生形分类。");
+            return;
+          }
+        } else {
+          state.derivedCategories.push(id);
+        }
+        saveSessionState();
+        renderApp();
+        announce("派生形分类筛选已更新。");
+        return;
+      }
+
+      if (action === "reset-derived-categories") {
+        state.derivedCategories = ALL_CATEGORY_IDS.slice();
+        saveSessionState();
+        renderApp();
+        announce("派生形分类筛选已显示全部。");
         return;
       }
 

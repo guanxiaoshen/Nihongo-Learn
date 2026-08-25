@@ -124,6 +124,23 @@ dom.window.addEventListener('load', function () {
       doc.querySelector('[data-action="toggle-config"]').click();
       assert('再次展开', !doc.querySelector('.practice-config').classList.contains('is-folded'));
 
+      console.log('--- 派生形分类筛选 ---');
+      doc.querySelector('[data-view="rules"]').click();
+      doc.querySelector('[data-action="set-form-group"][data-group-id="derived"]').click();
+      assert('默认 5 个分类 chips', doc.querySelectorAll('.derived-categories .type-chip').length === 5);
+      assert('默认 19 行派生形（锚点）', doc.querySelectorAll('.row-anchor').length === 19);
+      // 关闭一个分类
+      doc.querySelector('.derived-categories .type-chip[data-category-id="negation"]').click();
+      assert('关闭 negation 后锚点 19-4=15', doc.querySelectorAll('.row-anchor').length === 15);
+      // 关闭另一类
+      doc.querySelector('.derived-categories .type-chip[data-category-id="voice"]').click();
+      assert('再关闭 voice 后 15-4=11', doc.querySelectorAll('.row-anchor').length === 11);
+      // 显示全部按钮出现
+      assert('显示全部按钮出现', doc.querySelector('.derived-reset') !== null);
+      doc.querySelector('.derived-reset').click();
+      assert('复位后 19 行', doc.querySelectorAll('.row-anchor').length === 19);
+      assert('复位后无复位按钮', doc.querySelector('.derived-reset') === null);
+
       console.log('页面运行时错误: ' + (errors.length === 0 ? '无' : errors.join(' | ')));
       assert('无运行时错误', errors.length === 0);
     } catch (e) {
