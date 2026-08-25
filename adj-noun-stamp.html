@@ -3,39 +3,80 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="css/themes.css">
+  <script>
+    /* Nihongo-Learn · 主题管理器（共享）
+     * 三页统一引入（<head> 内同步执行，避免首屏闪烁）。
+     * 用法：NihongoTheme.init() 初始化；NihongoTheme.apply(id) 切换；
+     *       NihongoTheme.updateSwitcher() 同步面板选中态（渲染后调用）。
+     * 持久化：localStorage "nihongo-learn-theme"（全站共享，三页一致）。
+     */
+    (function () {
+      "use strict";
+
+      var THEME_KEY = "nihongo-learn-theme";
+      var DEFAULT_THEME = "aka";
+      var THEMES = ["aka", "sumi", "koke", "kon", "fuji"];
+      var THEME_LABELS = {
+        aka: "印谱・朱红",
+        sumi: "墨流・墨青",
+        koke: "苔庭・苔绿",
+        kon: "蓝染・绀蓝",
+        fuji: "藤棚・藤紫"
+      };
+
+      function current() {
+        try {
+          var value = window.localStorage.getItem(THEME_KEY);
+          return THEMES.indexOf(value) >= 0 ? value : DEFAULT_THEME;
+        } catch (error) {
+          return DEFAULT_THEME;
+        }
+      }
+
+      function apply(themeId) {
+        var id = THEMES.indexOf(themeId) >= 0 ? themeId : DEFAULT_THEME;
+        document.documentElement.setAttribute("data-theme", id);
+        try {
+          window.localStorage.setItem(THEME_KEY, id);
+        } catch (error) {
+          /* 隐私模式等场景静默降级 */
+        }
+        return id;
+      }
+
+      function updateSwitcher() {
+        var active = current();
+        var options = document.querySelectorAll(".theme-option[data-theme-id]");
+        for (var i = 0; i < options.length; i += 1) {
+          options[i].setAttribute("aria-pressed", String(options[i].getAttribute("data-theme-id") === active));
+        }
+        var buttons = document.querySelectorAll(".theme-switcher-button");
+        for (var j = 0; j < buttons.length; j += 1) {
+          buttons[j].setAttribute("aria-label", "切换主题配色，当前：" + (THEME_LABELS[active] || active));
+        }
+      }
+
+      function init() {
+        apply(current());
+      }
+
+      window.NihongoTheme = {
+        apply: apply,
+        current: current,
+        updateSwitcher: updateSwitcher,
+        init: init,
+        themes: THEMES,
+        labels: THEME_LABELS
+      };
+    })();
+
+  </script>
   <meta name="color-scheme" content="light">
   <meta name="description" content="日语学习・印谱方格：用清晰的表格、规则卡片和练习整理い形容词、な形容词与名词的活用。">
   <title>日语形容词・名词变形表 · 印谱方格</title>
   <style>
-    :root {
-      --paper: #f6f3ee;
-      --surface: #fffdfa;
-      --surface-strong: #ffffff;
-      --ink: #493934;
-      --muted: #806e68;
-      --line: #ddd5cd;
-      --line-strong: #bcaea3;
-      --vermilion: #b9655b;
-      --vermilion-deep: #94463e;
-      --vermilion-soft: #f1dcd6;
-      --accent-muted: #9b8978;
-      --wash: #f0ece6;
-      --wash-hover: #ebe4dc;
-      --success: #4b8068;
-      --success-soft: #e4f0e7;
-      --danger: #a75550;
-      --danger-soft: #f6e3e0;
-      --shadow: 0 18px 42px rgba(100, 55, 43, .12);
-      --shadow-small: 0 7px 16px rgba(100, 55, 43, .09);
-      --radius: 9px;
-      --radius-small: 4px;
-      --sans: "Segoe UI", "Noto Sans SC", "Microsoft YaHei", sans-serif;
-      --display: "Noto Serif SC", "Yu Mincho", "Hiragino Mincho ProN", serif;
-      --mono: "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
-      font-family: var(--sans);
-      color: var(--ink);
-      background: var(--paper);
-    }
+    /* 主题变量已外置至 css/themes.css（NihongoTheme 驱动） */
 
     * {
       box-sizing: border-box;
@@ -50,10 +91,10 @@
       margin: 0;
       color: var(--ink);
       background:
-        radial-gradient(circle at 91% 2%, rgba(185, 101, 91, .12), transparent 18rem),
-        radial-gradient(circle at 3% 94%, rgba(155, 137, 120, .06), transparent 22rem),
-        repeating-linear-gradient(0deg, rgba(148, 70, 62, .018) 0 1px, transparent 1px 5px),
-        repeating-linear-gradient(90deg, transparent 0 23px, rgba(155, 137, 120, .014) 24px 25px, transparent 26px 49px),
+        radial-gradient(circle at 91% 2%, rgba(var(--vermilion-rgb), .12), transparent 18rem),
+        radial-gradient(circle at 3% 94%, rgba(var(--accent-rgb), .06), transparent 22rem),
+        repeating-linear-gradient(0deg, rgba(var(--vermilion-deep-rgb), .018) 0 1px, transparent 1px 5px),
+        repeating-linear-gradient(90deg, transparent 0 23px, rgba(var(--accent-rgb), .014) 24px 25px, transparent 26px 49px),
         var(--paper);
       font-size: 15px;
       line-height: 1.55;
@@ -65,8 +106,8 @@
       inset: 0;
       pointer-events: none;
       background:
-        repeating-radial-gradient(circle at 0 100%, transparent 0 17px, rgba(185, 101, 91, .045) 18px 19px, transparent 20px 36px),
-        linear-gradient(135deg, transparent 0 47%, rgba(185, 101, 91, .025) 48% 49%, transparent 50% 100%);
+        repeating-radial-gradient(circle at 0 100%, transparent 0 17px, rgba(var(--vermilion-rgb), .045) 18px 19px, transparent 20px 36px),
+        linear-gradient(135deg, transparent 0 47%, rgba(var(--vermilion-rgb), .025) 48% 49%, transparent 50% 100%);
       background-size: 72px 42px, 100% 100%;
       opacity: .45;
     }
@@ -82,7 +123,7 @@
 
     button:focus-visible,
     input:focus-visible {
-      outline: 3px solid rgba(148, 70, 62, .48);
+      outline: 3px solid rgba(var(--vermilion-deep-rgb), .48);
       outline-offset: 3px;
     }
 
@@ -114,8 +155,8 @@
       border: 1px solid var(--line-strong);
       border-radius: var(--radius);
       background:
-        linear-gradient(120deg, rgba(185, 101, 91, .09), transparent 55%),
-        repeating-linear-gradient(135deg, transparent 0 18px, rgba(155, 137, 120, .02) 19px 20px, transparent 21px 38px),
+        linear-gradient(120deg, rgba(var(--vermilion-rgb), .09), transparent 55%),
+        repeating-linear-gradient(135deg, transparent 0 18px, rgba(var(--accent-rgb), .02) 19px 20px, transparent 21px 38px),
         var(--surface);
       box-shadow: var(--shadow-small);
       overflow: hidden;
@@ -127,7 +168,7 @@
       right: 5%;
       width: 11rem;
       height: 8rem;
-      border: 1px solid rgba(185, 101, 91, .22);
+      border: 1px solid rgba(var(--vermilion-rgb), .22);
       border-radius: 50%;
       content: "";
       transform: rotate(-9deg);
@@ -158,7 +199,7 @@
       font-size: clamp(1.55rem, 3vw, 2.55rem);
       letter-spacing: -.04em;
       line-height: 1.12;
-      text-shadow: 1px 1px 0 rgba(155, 137, 120, .08);
+      text-shadow: 1px 1px 0 rgba(var(--accent-rgb), .08);
     }
 
     .page-heading p {
@@ -177,9 +218,9 @@
       border-radius: 2px;
       color: var(--vermilion-deep);
       background:
-        repeating-linear-gradient(45deg, transparent 0 8px, rgba(185, 101, 91, .04) 9px 10px),
+        repeating-linear-gradient(45deg, transparent 0 8px, rgba(var(--vermilion-rgb), .04) 9px 10px),
         var(--wash);
-      box-shadow: 5px 5px 0 rgba(148, 70, 62, .1);
+      box-shadow: 5px 5px 0 rgba(var(--vermilion-deep-rgb), .1);
       font-family: var(--display);
       font-size: 1.9rem;
       font-weight: 900;
@@ -196,8 +237,8 @@
       border: 1px solid var(--line-strong);
       border-radius: var(--radius);
       background:
-        radial-gradient(circle at 100% 0, rgba(185, 101, 91, .08) 0 8rem, transparent 8.2rem),
-        repeating-linear-gradient(135deg, transparent 0 25px, rgba(185, 101, 91, .016) 26px 27px, transparent 28px 54px),
+        radial-gradient(circle at 100% 0, rgba(var(--vermilion-rgb), .08) 0 8rem, transparent 8.2rem),
+        repeating-linear-gradient(135deg, transparent 0 25px, rgba(var(--vermilion-rgb), .016) 26px 27px, transparent 28px 54px),
         var(--surface);
       box-shadow: var(--shadow);
       isolation: isolate;
@@ -247,7 +288,7 @@
       border-radius: 2px;
       color: var(--surface-strong);
       background: var(--vermilion);
-      box-shadow: 4px 4px 0 rgba(148, 70, 62, .14);
+      box-shadow: 4px 4px 0 rgba(var(--vermilion-deep-rgb), .14);
       font-family: var(--display);
       font-size: 1.35rem;
       font-weight: 900;
@@ -283,7 +324,7 @@
       border: 1px solid var(--line-strong);
       border-radius: 2px;
       background:
-        repeating-linear-gradient(135deg, transparent 0 15px, rgba(185, 101, 91, .02) 16px 17px, transparent 18px 32px),
+        repeating-linear-gradient(135deg, transparent 0 15px, rgba(var(--vermilion-rgb), .02) 16px 17px, transparent 18px 32px),
         var(--wash);
     }
 
@@ -310,7 +351,7 @@
       border: 3px double var(--vermilion);
       color: var(--vermilion-deep);
       background: var(--vermilion-soft);
-      box-shadow: 4px 4px 0 rgba(148, 70, 62, .1);
+      box-shadow: 4px 4px 0 rgba(var(--vermilion-deep-rgb), .1);
       transform: rotate(-.25deg);
       animation: tab-press .42s cubic-bezier(.18, .8, .2, 1) both;
     }
@@ -368,7 +409,7 @@
       border: 1px solid var(--line-strong);
       border-radius: 2px;
       background:
-        linear-gradient(90deg, rgba(185, 101, 91, .055), transparent 55%),
+        linear-gradient(90deg, rgba(var(--vermilion-rgb), .055), transparent 55%),
         var(--surface-strong);
     }
 
@@ -398,7 +439,7 @@
       border: 3px double var(--vermilion);
       color: var(--vermilion-deep);
       background: var(--vermilion-soft);
-      box-shadow: 4px 4px 0 rgba(148, 70, 62, .1);
+      box-shadow: 4px 4px 0 rgba(var(--vermilion-deep-rgb), .1);
       transform: rotate(-.25deg);
       animation: tab-press .42s cubic-bezier(.18, .8, .2, 1) both;
     }
@@ -434,7 +475,7 @@
       border: 2px solid var(--vermilion-deep);
       border-radius: 2px;
       background: var(--surface-strong);
-      box-shadow: 6px 7px 0 rgba(148, 70, 62, .08);
+      box-shadow: 6px 7px 0 rgba(var(--vermilion-deep-rgb), .08);
       scrollbar-color: var(--vermilion) var(--vermilion-soft);
     }
 
@@ -448,7 +489,7 @@
     .rule-table th,
     .rule-table td {
       padding: 10px;
-      border: 1px solid rgba(148, 70, 62, .28);
+      border: 1px solid rgba(var(--vermilion-deep-rgb), .28);
       vertical-align: top;
     }
 
@@ -458,7 +499,7 @@
       top: 0;
       color: var(--surface-strong);
       background:
-        repeating-linear-gradient(45deg, transparent 0 11px, rgba(255, 253, 248, .08) 12px 13px, transparent 14px 26px),
+        repeating-linear-gradient(45deg, transparent 0 11px, rgba(var(--surface-rgb), .08) 12px 13px, transparent 14px 26px),
         var(--vermilion-deep);
       font-size: .83rem;
       text-align: left;
@@ -478,7 +519,7 @@
       min-width: 150px;
       color: var(--vermilion-deep);
       background:
-        repeating-linear-gradient(45deg, transparent 0 9px, rgba(185, 101, 91, .025) 10px 11px, transparent 12px 22px),
+        repeating-linear-gradient(45deg, transparent 0 9px, rgba(var(--vermilion-rgb), .025) 10px 11px, transparent 12px 22px),
         var(--wash);
       box-shadow: inset 4px 0 0 var(--vermilion);
       text-align: center;
@@ -547,9 +588,9 @@
       border: 3px double var(--vermilion);
       border-radius: 2px;
       background:
-        repeating-linear-gradient(45deg, transparent 0 10px, rgba(185, 101, 91, .025) 11px 12px, transparent 13px 24px),
+        repeating-linear-gradient(45deg, transparent 0 10px, rgba(var(--vermilion-rgb), .025) 11px 12px, transparent 13px 24px),
         var(--surface);
-      box-shadow: 4px 5px 0 rgba(148, 70, 62, .08);
+      box-shadow: 4px 5px 0 rgba(var(--vermilion-deep-rgb), .08);
       overflow: hidden;
       pointer-events: none;
       transition: opacity .32s ease, transform .38s cubic-bezier(.18, .8, .2, 1), box-shadow .25s ease;
@@ -575,7 +616,7 @@
       border-color: var(--vermilion-deep);
       color: var(--surface-strong);
       background:
-        repeating-linear-gradient(45deg, transparent 0 10px, rgba(255, 253, 248, .04) 11px 12px, transparent 13px 24px),
+        repeating-linear-gradient(45deg, transparent 0 10px, rgba(var(--surface-rgb), .04) 11px 12px, transparent 13px 24px),
         var(--vermilion);
       opacity: 0;
       transform: scale(.88) rotate(2deg);
@@ -597,7 +638,7 @@
 
     .rule-card:hover .rule-card-front,
     .rule-card:hover .rule-card-back {
-      box-shadow: 7px 8px 0 rgba(148, 70, 62, .12);
+      box-shadow: 7px 8px 0 rgba(var(--vermilion-deep-rgb), .12);
     }
 
     .card-kicker {
@@ -713,7 +754,7 @@
     }
 
     .rule-card-back .flip-hint::before {
-      border-color: rgba(255, 253, 248, .7);
+      border-color: rgba(var(--surface-rgb), .7);
       color: var(--surface-strong);
       background: transparent;
     }
@@ -725,7 +766,7 @@
       border: 1px solid var(--line-strong);
       border-radius: 2px;
       background:
-        repeating-linear-gradient(135deg, transparent 0 16px, rgba(185, 101, 91, .02) 17px 18px, transparent 19px 34px),
+        repeating-linear-gradient(135deg, transparent 0 16px, rgba(var(--vermilion-rgb), .02) 17px 18px, transparent 19px 34px),
         var(--wash);
       box-shadow: var(--shadow-small);
     }
@@ -814,7 +855,7 @@
     .sound-table th,
     .sound-table td {
       padding: 8px 9px;
-      border: 1px solid rgba(148, 70, 62, .24);
+      border: 1px solid rgba(var(--vermilion-deep-rgb), .24);
       text-align: left;
     }
 
@@ -971,7 +1012,7 @@
       border: 1px solid var(--line-strong);
       border-radius: 2px;
       background:
-        linear-gradient(110deg, rgba(185, 101, 91, .08), transparent 62%),
+        linear-gradient(110deg, rgba(var(--vermilion-rgb), .08), transparent 62%),
         var(--surface-strong);
     }
 
@@ -1167,7 +1208,7 @@
       border: 3px double var(--vermilion-deep);
       color: var(--surface-strong);
       background: var(--vermilion);
-      box-shadow: 4px 4px 0 rgba(148, 70, 62, .1);
+      box-shadow: 4px 4px 0 rgba(var(--vermilion-deep-rgb), .1);
     }
 
     .secondary-button {
@@ -1178,7 +1219,7 @@
 
     .primary-button:hover,
     .secondary-button:hover {
-      box-shadow: 6px 6px 0 rgba(148, 70, 62, .1);
+      box-shadow: 6px 6px 0 rgba(var(--vermilion-deep-rgb), .1);
       transform: translateY(-1px);
     }
 
@@ -1490,6 +1531,34 @@
       id: "stamp",
       name: "印谱方格"
     };
+
+    /* 主题面板色块固定本色（不随主题变量变化） */
+    const THEME_SWATCH_COLORS = {
+      aka: "#b9655b",
+      sumi: "#55617a",
+      koke: "#5d7a52",
+      kon: "#41689c",
+      fuji: "#8a72ab"
+    };
+
+    function renderThemeSwitcher() {
+      return `
+        <div class="theme-switcher">
+          <button class="theme-switcher-button" type="button" data-action="toggle-theme-panel"
+            aria-expanded="false" aria-haspopup="true">
+            <span class="theme-swatch" style="background: var(--vermilion)"></span>主题
+          </button>
+          <div class="theme-panel" role="menu" aria-label="选择主题配色">
+            ${Object.entries(window.NihongoTheme.labels).map(([id, label]) => `
+              <button class="theme-option" type="button" role="menuitemradio" data-action="select-theme" data-theme-id="${id}"
+                aria-pressed="${window.NihongoTheme.current() === id}">
+                <span class="theme-swatch" style="background: ${THEME_SWATCH_COLORS[id] || "#b9655b"}"></span>${label}
+              </button>
+            `).join("")}
+          </div>
+        </div>
+      `;
+    }
 
     /* ===== 数据层：从 data/adj-noun.js 读取 ===== */
     const adjData = window.NIHONGO_DATA.adjNoun;
@@ -2266,8 +2335,6 @@
     }
 
     function renderApp() {
-      document.body.dataset.theme = theme.id;
-      elements.appShell.dataset.theme = theme.id;
       elements.appShell.innerHTML = `
         <header class="app-header">
           <a class="brand brand-link" href="index.html" aria-label="返回日语学习印谱方格首页">
@@ -2278,6 +2345,7 @@
             </div>
           </a>
           <span class="edition-note">和風 · 印谱六号</span>
+          ${renderThemeSwitcher()}
         </header>
         <nav class="main-tabs" role="tablist" aria-label="主要区域">
           <button class="main-tab" id="view-rules-tab" type="button" role="tab"
@@ -2289,6 +2357,7 @@
         </nav>
         ${state.view === "rules" ? renderRulesPanel() : renderPracticePanel()}
       `;
+      window.NihongoTheme.updateSwitcher();
     }
 
     function setView(view, addHistory = true) {
@@ -2350,6 +2419,26 @@
     function handleAction(target) {
       const action = target.dataset.action;
       if (!action) {
+        return;
+      }
+
+      if (action === "toggle-theme-panel") {
+        const switcher = target.closest(".theme-switcher");
+        if (switcher) {
+          const open = !switcher.classList.contains("is-open");
+          switcher.classList.toggle("is-open", open);
+          target.setAttribute("aria-expanded", String(open));
+        }
+        return;
+      }
+
+      if (action === "select-theme") {
+        const applied = window.NihongoTheme.apply(target.dataset.themeId);
+        document.querySelectorAll(".theme-switcher").forEach((el) => {
+          el.classList.remove("is-open");
+        });
+        window.NihongoTheme.updateSwitcher();
+        announce(`主题已切换为「${window.NihongoTheme.labels[applied] || applied}」。`);
         return;
       }
 
@@ -2500,6 +2589,7 @@
 
     loadSessionState();
     readUrlState();
+    window.NihongoTheme.init();
     try {
       validateData();
       writeUrlState(false);

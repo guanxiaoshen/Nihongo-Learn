@@ -1,0 +1,250 @@
+/* Nihongo-Learn · 印谱方格主题系统（共享）
+ * 三页（index / verb-conjugation-stamp / adj-noun-stamp）统一引入。
+ * 默认「印谱・朱红」（:root），另含 墨流・苔庭・蓝染・藤棚 四套，
+ * 通过 <html data-theme="..."> 切换，页面 <style> 全部引用 var(--*) 同步变色。
+ */
+
+:root {
+  /* 纸面与墨色 */
+  --paper: #f6f3ee;
+  --surface: #fffdfa;
+  --surface-strong: #ffffff;
+  --ink: #493934;
+  --muted: #806e68;
+  --line: #ddd5cd;
+  --line-strong: #bcaea3;
+
+  /* 主色（印谱朱）与派生 */
+  --vermilion: #b9655b;
+  --vermilion-rgb: 185, 101, 91;
+  --vermilion-deep: #94463e;
+  --vermilion-deep-rgb: 148, 70, 62;
+  --vermilion-soft: #f1dcd6;
+  --accent-muted: #9b8978;
+  --accent-rgb: 155, 137, 120;
+  --wash: #f0ece6;
+  --wash-hover: #ebe4dc;
+
+  /* 状态色 */
+  --success: #4b8068;
+  --success-rgb: 75, 128, 104;
+  --success-soft: #e4f0e7;
+  --danger: #a75550;
+  --danger-soft: #f6e3e0;
+
+  /* 阴影与氛围色（rgb 供 rgba(var(--*-rgb), a) 使用） */
+  --shadow: 0 18px 42px rgba(100, 55, 43, .12);
+  --shadow-small: 0 7px 16px rgba(100, 55, 43, .09);
+  --shadow-rgb: 100, 55, 43;
+  --surface-rgb: 255, 253, 248;
+
+  /* 排版 */
+  --radius: 9px;
+  --radius-small: 4px;
+  --display: "Noto Serif SC", "Yu Mincho", "Hiragino Mincho ProN", serif;
+  --sans: "Segoe UI", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+  --mono: "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+}
+
+/* ── 墨流（墨蓝灰） ─────────────────────────── */
+[data-theme="sumi"] {
+  --paper: #f3f1ea;
+  --surface: #fcfbf7;
+  --surface-strong: #ffffff;
+  --ink: #33343a;
+  --muted: #71727c;
+  --line: #d8d6cf;
+  --line-strong: #b3b2ab;
+
+  --vermilion: #55617a;
+  --vermilion-rgb: 85, 97, 122;
+  --vermilion-deep: #3c4659;
+  --vermilion-deep-rgb: 60, 70, 89;
+  --vermilion-soft: #e2e6ee;
+  --accent-muted: #8b8d96;
+  --accent-rgb: 139, 141, 150;
+  --wash: #ece9e1;
+  --wash-hover: #e5e1d7;
+
+  --success: #5c7a5f;
+  --success-soft: #e5ede2;
+  --danger: #9a5a55;
+  --danger-soft: #f3e3e0;
+
+  --shadow: 0 18px 42px rgba(51, 54, 66, .14);
+  --shadow-small: 0 7px 16px rgba(51, 54, 66, .1);
+  --shadow-rgb: 51, 54, 66;
+  --surface-rgb: 252, 251, 247;
+}
+
+/* ── 苔庭（苔绿） ─────────────────────────── */
+[data-theme="koke"] {
+  --paper: #f4f3e8;
+  --surface: #fcfcf5;
+  --surface-strong: #ffffff;
+  --ink: #3a3f34;
+  --muted: #76796a;
+  --line: #d9d8c8;
+  --line-strong: #b6b59f;
+
+  --vermilion: #5d7a52;
+  --vermilion-rgb: 93, 122, 82;
+  --vermilion-deep: #435c39;
+  --vermilion-deep-rgb: 67, 92, 57;
+  --vermilion-soft: #e4ecdc;
+  --accent-muted: #8c8f78;
+  --accent-rgb: 140, 143, 120;
+  --wash: #efeedd;
+  --wash-hover: #e7e6d0;
+
+  --success: #55795c;
+  --success-soft: #e3ede2;
+  --danger: #96574f;
+  --danger-soft: #f2e2de;
+
+  --shadow: 0 18px 42px rgba(58, 63, 52, .14);
+  --shadow-small: 0 7px 16px rgba(58, 63, 52, .1);
+  --shadow-rgb: 58, 63, 52;
+  --surface-rgb: 252, 252, 245;
+}
+
+/* ── 蓝染（绀蓝） ─────────────────────────── */
+[data-theme="kon"] {
+  --paper: #f1f4f7;
+  --surface: #fafcfd;
+  --surface-strong: #ffffff;
+  --ink: #34404d;
+  --muted: #707c89;
+  --line: #d5dde4;
+  --line-strong: #b0bcc7;
+
+  --vermilion: #41689c;
+  --vermilion-rgb: 65, 104, 156;
+  --vermilion-deep: #2f4d75;
+  --vermilion-deep-rgb: 47, 77, 117;
+  --vermilion-soft: #dce8f4;
+  --accent-muted: #7f91a4;
+  --accent-rgb: 127, 145, 164;
+  --wash: #e8eef3;
+  --wash-hover: #dfe7ee;
+
+  --success: #4f7d72;
+  --success-soft: #e0ece7;
+  --danger: #97585c;
+  --danger-soft: #f2e3e3;
+
+  --shadow: 0 18px 42px rgba(52, 64, 77, .15);
+  --shadow-small: 0 7px 16px rgba(52, 64, 77, .11);
+  --shadow-rgb: 52, 64, 77;
+  --surface-rgb: 250, 252, 253;
+}
+
+/* ── 藤棚（藤紫） ─────────────────────────── */
+[data-theme="fuji"] {
+  --paper: #f5f2f7;
+  --surface: #fcfbfd;
+  --surface-strong: #ffffff;
+  --ink: #423b4d;
+  --muted: #7c7489;
+  --line: #ded8e6;
+  --line-strong: #c0b6d1;
+
+  --vermilion: #8a72ab;
+  --vermilion-rgb: 138, 114, 171;
+  --vermilion-deep: #695186;
+  --vermilion-deep-rgb: 105, 81, 134;
+  --vermilion-soft: #ebe4f3;
+  --accent-muted: #978ca8;
+  --accent-rgb: 151, 140, 168;
+  --wash: #f0ebf4;
+  --wash-hover: #e9e2ef;
+
+  --success: #6b7a5e;
+  --success-soft: #e8ece0;
+  --danger: #965869;
+  --danger-soft: #f2e3e7;
+
+  --shadow: 0 18px 42px rgba(66, 59, 77, .15);
+  --shadow-small: 0 7px 16px rgba(66, 59, 77, .11);
+  --shadow-rgb: 66, 59, 77;
+  --surface-rgb: 252, 251, 253;
+}
+
+/* ── 主题切换控件 ─────────────────────────── */
+.theme-switcher {
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.theme-switcher-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 11px;
+  border: 1px solid var(--line-strong);
+  border-radius: 2px;
+  color: var(--ink);
+  background: var(--surface);
+  cursor: pointer;
+  font-size: .74rem;
+  font-weight: 900;
+  transition: border-color .2s ease, color .2s ease;
+}
+
+.theme-switcher-button:hover {
+  border-color: var(--vermilion);
+  color: var(--vermilion-deep);
+}
+
+.theme-panel {
+  position: absolute;
+  top: calc(100% + 9px);
+  right: 0;
+  z-index: 60;
+  display: none;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+  min-width: 236px;
+  padding: 9px;
+  border: 1px solid var(--line-strong);
+  border-radius: 4px;
+  background: var(--surface-strong);
+  box-shadow: var(--shadow);
+}
+
+.theme-switcher.is-open .theme-panel {
+  display: grid;
+}
+
+.theme-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 9px;
+  border: 0;
+  border-radius: 2px;
+  color: var(--ink);
+  background: transparent;
+  cursor: pointer;
+  font-size: .74rem;
+  font-weight: 800;
+  text-align: left;
+}
+
+.theme-option:hover {
+  background: var(--wash);
+}
+
+.theme-option[aria-pressed="true"] {
+  color: var(--vermilion-deep);
+  background: var(--vermilion-soft);
+}
+
+.theme-option .theme-swatch {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  flex: 0 0 auto;
+  border: 2px solid rgba(0, 0, 0, .1);
+  border-radius: 50%;
+}
