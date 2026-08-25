@@ -54,6 +54,8 @@ async function main() {
     assert('主题按钮存在', doc.querySelector('.theme-switcher-button') !== null);
     assert('面板含 5 个主题选项', doc.querySelectorAll('.theme-option').length === 5);
     assert('面板初始收起', !doc.querySelector('.theme-switcher').classList.contains('is-open'));
+    assert('默认标题含 印谱方格', doc.querySelector('.page-heading h1').textContent.includes('印谱方格'));
+    assert('默认描述含 朱红', doc.querySelector('.page-heading p').textContent.includes('朱红'));
     doc.querySelector('.theme-switcher-button').click();
     assert('点击按钮展开面板', doc.querySelector('.theme-switcher').classList.contains('is-open'));
     const sumi = doc.querySelector('.theme-option[data-theme-id="sumi"]');
@@ -62,6 +64,10 @@ async function main() {
     assert('localStorage 写入 sumi', dom.window.localStorage.getItem('nihongo-learn-theme') === 'sumi');
     assert('面板收起', !doc.querySelector('.theme-switcher').classList.contains('is-open'));
     assert('选中态更新', sumi.getAttribute('aria-pressed') === 'true');
+    // 顶部说明区文案随主题
+    assert('标题随主题 → 墨流ノート', doc.querySelector('.page-heading h1').textContent.includes('墨流ノート'));
+    assert('描述随主题 → 墨青语境', doc.querySelector('.page-heading p').textContent.includes('墨青'));
+    assert('版次注记随主题 → 墨流六号', doc.querySelector('.edition-note').textContent.includes('墨流'));
     // P3：ESC 关闭面板
     doc.querySelector('.theme-switcher-button').click();
     dom.window.document.dispatchEvent(new dom.window.KeyboardEvent('keydown', { key: 'Escape' }));
@@ -74,6 +80,8 @@ async function main() {
     const doc = dom.window.document;
     assert('adj 页继承 sumi', doc.documentElement.getAttribute('data-theme') === 'sumi');
     assert('adj 主题面板选中 sumi', doc.querySelector('.theme-option[data-theme-id="sumi"]').getAttribute('aria-pressed') === 'true');
+    assert('adj 标题随主题 → 墨流ノート', doc.querySelector('.page-heading h1').textContent.includes('墨流ノート'));
+    assert('adj 描述含 い形容词语境', doc.querySelector('.page-heading p').textContent.includes('い形容词'));
     assert('adj 无运行时错误', errors.length === 0);
   });
 
@@ -81,9 +89,13 @@ async function main() {
   await openAndRun('index.html', null, function (dom, errors) {
     const doc = dom.window.document;
     assert('index 默认 aka', doc.documentElement.getAttribute('data-theme') === 'aka');
+    assert('index 默认标题 印谱方格', doc.querySelector('.page-heading h1').textContent.includes('印谱方格'));
     doc.querySelector('.theme-option[data-theme-id="fuji"]').click();
     assert('index 切换 fuji', doc.documentElement.getAttribute('data-theme') === 'fuji');
     assert('index localStorage=fuji', dom.window.localStorage.getItem('nihongo-learn-theme') === 'fuji');
+    assert('index 标题随主题 → 藤棚ノート', doc.querySelector('.page-heading h1').textContent.includes('藤棚ノート'));
+    assert('index eyebrow 随主题 → 藤棚', doc.querySelector('.page-heading .eyebrow').textContent.includes('藤棚'));
+    assert('index 描述随主题 → 藤棚语境', doc.querySelector('.page-heading p').textContent.includes('藤棚花影'));
     assert('index 无运行时错误', errors.length === 0);
   });
 

@@ -1583,6 +1583,56 @@
       fuji: "#8a72ab"
     };
 
+    /* 顶部说明区文案：随主题切换（语境/语气与主题含义一致） */
+    const MODULE_TITLE = "日语形容词・名词变形表";
+    const THEME_HEADLINE = {
+      aka: {
+        suffix: "印谱方格",
+        desc: "以柔和朱红、米白和和纸灰整理い形容词、な形容词与名词的活用。像翻阅印谱一样，先看规则，再翻开卡片确认实例。",
+        edition: "和風 · 印谱六号"
+      },
+      sumi: {
+        suffix: "墨流ノート",
+        desc: "以墨青、宣纸白与淡墨灰整理い形容词、な形容词与名词的活用。像墨流晕染一样，先看规则，再翻开卡片确认实例。",
+        edition: "和風 · 墨流六号"
+      },
+      koke: {
+        suffix: "苔庭ノート",
+        desc: "以苔绿、米黄纸与庭园灰整理い形容词、な形容词与名词的活用。像苔庭沉静一样，先看规则，再翻开卡片确认实例。",
+        edition: "和風 · 苔庭六号"
+      },
+      kon: {
+        suffix: "蓝染ノート",
+        desc: "以绀蓝、淡蓝纸与靛灰整理い形容词、な形容词与名词的活用。像蓝染布纹一样，先看规则，再翻开卡片确认实例。",
+        edition: "和風 · 蓝染六号"
+      },
+      fuji: {
+        suffix: "藤棚ノート",
+        desc: "以藤紫、淡紫纸与藤灰整理い形容词、な形容词与名词的活用。像藤棚花影一样，先看规则，再翻开卡片确认实例。",
+        edition: "和風 · 藤棚六号"
+      }
+    };
+
+    function getThemeHeadline() {
+      return THEME_HEADLINE[window.NihongoTheme.current()] || THEME_HEADLINE.aka;
+    }
+
+    /* 同步顶部静态说明区（page-heading 的标题与描述） */
+    function applyThemeHeadline() {
+      const headline = getThemeHeadline();
+      const heading = document.querySelector(".page-heading h1");
+      const desc = document.querySelector(".page-heading > div > p");
+      if (heading) {
+        heading.textContent = `${MODULE_TITLE} · ${headline.suffix}`;
+      }
+      if (desc) {
+        desc.textContent = headline.desc;
+      }
+      document.querySelectorAll(".edition-note").forEach((el) => {
+        el.textContent = headline.edition;
+      });
+    }
+
     function renderThemeSwitcher() {
       return `
         <div class="theme-switcher">
@@ -2399,7 +2449,7 @@
               <p>印谱方格 · 形容词与名词规则与练习</p>
             </div>
           </a>
-          <span class="edition-note">和風 · 印谱六号</span>
+          <span class="edition-note">${getThemeHeadline().edition}</span>
           ${renderThemeSwitcher()}
         </header>
         <nav class="main-tabs" role="tablist" aria-label="主要区域">
@@ -2493,6 +2543,7 @@
           el.classList.remove("is-open");
         });
         window.NihongoTheme.updateSwitcher();
+        applyThemeHeadline();
         announce(`主题已切换为「${window.NihongoTheme.labels[applied] || applied}」。`);
         return;
       }
@@ -2665,6 +2716,7 @@
     loadSessionState();
     readUrlState();
     window.NihongoTheme.init();
+    applyThemeHeadline();
     try {
       validateData();
       writeUrlState(false);

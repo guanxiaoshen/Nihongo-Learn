@@ -540,6 +540,7 @@
           el.classList.remove("is-open");
         });
         window.NihongoTheme.updateSwitcher();
+        applyThemeHeadline();
       }
     });
     // ESC 关闭主题面板
@@ -553,8 +554,46 @@
         });
       }
     });
+    // 顶部说明区文案：随主题切换（语境/语气与主题含义一致）
+    var THEME_HEADLINE = {
+      aka: {
+        eyebrow: "Japanese Learning / 印谱方格",
+        title: "日语学习・印谱方格",
+        desc: "把日语活用整理成可读、可翻、可练的学习页。先选一个词类，再从规则理解走到动手练习。"
+      },
+      sumi: {
+        eyebrow: "Japanese Learning / 墨流",
+        title: "日语学习・墨流ノート",
+        desc: "墨流纸面之上，把日语活用整理成可读、可翻、可练的学习页。先选一个词类，再从规则理解走到动手练习。"
+      },
+      koke: {
+        eyebrow: "Japanese Learning / 苔庭",
+        title: "日语学习・苔庭ノート",
+        desc: "苔庭绿意之间，把日语活用整理成可读、可翻、可练的学习页。先选一个词类，再从规则理解走到动手练习。"
+      },
+      kon: {
+        eyebrow: "Japanese Learning / 蓝染",
+        title: "日语学习・蓝染ノート",
+        desc: "蓝染布纹之上，把日语活用整理成可读、可翻、可练的学习页。先选一个词类，再从规则理解走到动手练习。"
+      },
+      fuji: {
+        eyebrow: "Japanese Learning / 藤棚",
+        title: "日语学习・藤棚ノート",
+        desc: "藤棚花影之下，把日语活用整理成可读、可翻、可练的学习页。先选一个词类，再从规则理解走到动手练习。"
+      }
+    };
+    function applyThemeHeadline() {
+      var hl = THEME_HEADLINE[window.NihongoTheme.current()] || THEME_HEADLINE.aka;
+      var eyebrow = document.querySelector(".page-heading .eyebrow");
+      var title = document.querySelector(".page-heading h1");
+      var desc = document.querySelector(".page-heading > div > p");
+      if (eyebrow) eyebrow.textContent = hl.eyebrow;
+      if (title) title.textContent = hl.title;
+      if (desc) desc.textContent = hl.desc;
+    }
     window.NihongoTheme.init();
     window.NihongoTheme.updateSwitcher();
+    applyThemeHeadline();
   </script>
 </body>
 </html>
