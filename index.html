@@ -1,0 +1,455 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="description" content="日语学习・印谱方格：用清晰的表格、规则卡片和练习整理日语活用。">
+  <title>日语学习・印谱方格</title>
+  <style>
+    :root {
+      --paper: #f6f3ee;
+      --surface: #fffdfa;
+      --surface-strong: #ffffff;
+      --ink: #493934;
+      --muted: #806e68;
+      --line: #ddd5cd;
+      --line-strong: #bcaea3;
+      --vermilion: #b9655b;
+      --vermilion-deep: #94463e;
+      --vermilion-soft: #f1dcd6;
+      --accent-muted: #9b8978;
+      --wash: #f0ece6;
+      --wash-hover: #ebe4dc;
+      --success: #4b8068;
+      --success-soft: #e4f0e7;
+      --shadow: 0 18px 42px rgba(100, 55, 43, .12);
+      --shadow-small: 0 7px 16px rgba(100, 55, 43, .09);
+      --radius: 9px;
+      --display: "Noto Serif SC", "Yu Mincho", "Hiragino Mincho ProN", serif;
+      --sans: "Segoe UI", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+      font-family: var(--sans);
+      color: var(--ink);
+      background: var(--paper);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-width: 320px;
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 91% 2%, rgba(185, 101, 91, .1), transparent 18rem),
+        radial-gradient(circle at 3% 94%, rgba(155, 137, 120, .06), transparent 22rem),
+        repeating-linear-gradient(0deg, rgba(148, 70, 62, .018) 0 1px, transparent 1px 5px),
+        var(--paper);
+      font-size: 15px;
+      line-height: 1.55;
+    }
+
+    body::before {
+      position: fixed;
+      z-index: -1;
+      inset: 0;
+      pointer-events: none;
+      background:
+        repeating-radial-gradient(circle at 0 100%, transparent 0 17px, rgba(185, 101, 91, .04) 18px 19px, transparent 20px 36px),
+        linear-gradient(135deg, transparent 0 47%, rgba(185, 101, 91, .022) 48% 49%, transparent 50% 100%);
+      background-size: 72px 42px, 100% 100%;
+      opacity: .42;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    a:focus-visible {
+      outline: 3px solid rgba(148, 70, 62, .48);
+      outline-offset: 4px;
+    }
+
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .page {
+      width: min(1180px, 100%);
+      margin: 0 auto;
+      padding: 26px clamp(12px, 3vw, 42px) 58px;
+    }
+
+    .eyebrow {
+      margin: 0 0 6px;
+      color: var(--vermilion-deep);
+      font-size: .74rem;
+      font-weight: 900;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .page-heading {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: clamp(20px, 4vw, 34px);
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius);
+      background:
+        linear-gradient(120deg, rgba(185, 101, 91, .08), transparent 55%),
+        repeating-linear-gradient(135deg, transparent 0 18px, rgba(155, 137, 120, .018) 19px 20px, transparent 21px 38px),
+        var(--surface);
+      box-shadow: var(--shadow-small);
+      overflow: hidden;
+    }
+
+    .page-heading::after {
+      position: absolute;
+      right: 28px;
+      bottom: 12px;
+      left: 28px;
+      height: 3px;
+      border-radius: 50%;
+      background: linear-gradient(90deg, var(--vermilion), var(--accent-muted), transparent 84%);
+      content: "";
+    }
+
+    .page-heading > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .page-heading h1 {
+      margin: 0;
+      color: var(--vermilion-deep);
+      font-family: var(--display);
+      font-size: clamp(2rem, 5vw, 3.7rem);
+      letter-spacing: -.05em;
+      line-height: 1.1;
+    }
+
+    .page-heading p:last-child {
+      max-width: 700px;
+      margin: 11px 0 0;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    .page-heading-mark {
+      display: grid;
+      width: 82px;
+      height: 82px;
+      flex: 0 0 auto;
+      place-items: center;
+      border: 3px double var(--vermilion);
+      border-radius: 2px;
+      color: var(--vermilion-deep);
+      background:
+        repeating-linear-gradient(45deg, transparent 0 8px, rgba(185, 101, 91, .035) 9px 10px),
+        var(--wash);
+      box-shadow: 6px 6px 0 rgba(148, 70, 62, .1);
+      font-family: var(--display);
+      font-size: 2.4rem;
+      font-weight: 900;
+      transform: rotate(2deg);
+    }
+
+    .home-shell {
+      position: relative;
+      display: grid;
+      gap: 32px;
+      margin-top: 22px;
+      padding: clamp(18px, 4vw, 38px);
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius);
+      background:
+        radial-gradient(circle at 100% 0, rgba(185, 101, 91, .06) 0 8rem, transparent 8.2rem),
+        var(--surface);
+      box-shadow: var(--shadow);
+      isolation: isolate;
+      overflow: hidden;
+    }
+
+    .home-shell::before {
+      position: absolute;
+      z-index: 2;
+      inset: 0 0 auto;
+      height: 6px;
+      background: linear-gradient(90deg, var(--vermilion-deep), var(--vermilion), var(--accent-muted), var(--vermilion));
+      content: "";
+    }
+
+    .section-heading {
+      display: grid;
+      gap: 4px;
+    }
+
+    .section-heading h2 {
+      margin: 0;
+      color: var(--ink);
+      font-family: var(--display);
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      line-height: 1.2;
+    }
+
+    .section-heading p:last-child {
+      max-width: 700px;
+      margin: 5px 0 0;
+      color: var(--muted);
+    }
+
+    .module-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .module-card {
+      display: grid;
+      min-height: 280px;
+      gap: 20px;
+      padding: 22px;
+      border: 2px solid var(--line);
+      border-radius: 4px;
+      background:
+        repeating-linear-gradient(135deg, transparent 0 22px, rgba(185, 101, 91, .018) 23px 24px, transparent 25px 48px),
+        var(--surface-strong);
+      text-decoration: none;
+      transition: border-color .25s ease, box-shadow .25s ease, transform .25s ease, background-color .25s ease;
+    }
+
+    a.module-card:hover {
+      border-color: var(--vermilion);
+      background-color: var(--vermilion-soft);
+      box-shadow: 7px 8px 0 rgba(148, 70, 62, .1);
+      transform: translateY(-3px);
+    }
+
+    .module-card.is-coming-soon {
+      border-style: dashed;
+      background: var(--wash);
+      opacity: .86;
+    }
+
+    .module-card-top,
+    .module-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .module-seal {
+      display: grid;
+      width: 52px;
+      height: 52px;
+      place-items: center;
+      border: 3px double var(--vermilion);
+      border-radius: 2px;
+      color: var(--surface-strong);
+      background: var(--vermilion);
+      box-shadow: 4px 4px 0 rgba(148, 70, 62, .12);
+      font-family: var(--display);
+      font-size: 1.45rem;
+      font-weight: 900;
+      transform: rotate(-2deg);
+    }
+
+    .is-coming-soon .module-seal {
+      border-color: var(--accent-muted);
+      color: var(--vermilion-deep);
+      background: var(--surface-strong);
+      box-shadow: none;
+    }
+
+    .module-status {
+      padding: 4px 8px;
+      border: 1px solid var(--line-strong);
+      border-radius: 2px;
+      color: var(--muted);
+      background: var(--wash);
+      font-size: .7rem;
+      font-weight: 900;
+    }
+
+    .module-status.is-ready {
+      border-color: rgba(75, 128, 104, .45);
+      color: var(--success);
+      background: var(--success-soft);
+    }
+
+    .module-card h3 {
+      margin: 0;
+      color: var(--vermilion-deep);
+      font-family: var(--display);
+      font-size: clamp(1.25rem, 2.5vw, 1.7rem);
+      line-height: 1.25;
+    }
+
+    .module-card p {
+      margin: 9px 0 0;
+      color: var(--muted);
+      font-size: .88rem;
+    }
+
+    .module-card-footer {
+      align-self: end;
+      padding-top: 13px;
+      border-top: 1px solid var(--line);
+      color: var(--accent-muted);
+      font-size: .76rem;
+      font-weight: 900;
+    }
+
+    .module-card-footer span:last-child {
+      color: var(--vermilion-deep);
+      font-size: 1.35rem;
+      line-height: 1;
+    }
+
+    .home-note {
+      display: flex;
+      align-items: start;
+      gap: 10px;
+      padding: 12px 14px;
+      border-left: 4px solid var(--accent-muted);
+      color: var(--muted);
+      background: var(--wash);
+      font-size: .8rem;
+    }
+
+    .home-note strong {
+      color: var(--vermilion-deep);
+    }
+
+    .home-footer {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: .74rem;
+      text-align: center;
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        padding: 12px 9px 38px;
+      }
+
+      .page-heading {
+        align-items: start;
+        padding: 19px 16px 23px;
+      }
+
+      .page-heading-mark {
+        width: 54px;
+        height: 54px;
+        font-size: 1.55rem;
+      }
+
+      .page-heading p:last-child {
+        font-size: .88rem;
+      }
+
+      .home-shell {
+        gap: 24px;
+        margin-top: 14px;
+        padding: 17px 13px;
+      }
+
+      .module-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .module-card {
+        min-height: 240px;
+        padding: 18px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="page-heading">
+      <div>
+        <p class="eyebrow">Japanese Learning / 印谱方格</p>
+        <h1>日语学习・印谱方格</h1>
+        <p>把日语活用整理成可读、可翻、可练的学习页。先选一个词类，再从规则理解走到动手练习。</p>
+      </div>
+      <div class="page-heading-mark" aria-hidden="true">学</div>
+    </header>
+
+    <main class="home-shell">
+      <section aria-labelledby="module-title">
+        <div class="section-heading">
+          <p class="eyebrow">Start / 开始学习</p>
+          <h2 id="module-title">选择一张学习印谱</h2>
+          <p>从熟悉的词类开始，先看变化规律，再翻开卡片确认实例。</p>
+        </div>
+      </section>
+
+      <section class="module-grid" aria-label="学习内容">
+        <a class="module-card" href="verb-conjugation-stamp.html?view=rules">
+          <div class="module-card-top">
+            <span class="module-seal" aria-hidden="true">動</span>
+            <span class="module-status is-ready">现在可学</span>
+          </div>
+          <div>
+            <h3>日语动词变形表<br>· 印谱方格</h3>
+            <p>掌握五段、一段、か变和さ变的基础六形与派生表达，并通过规则卡片和练习巩固。</p>
+          </div>
+          <div class="module-card-footer">
+            <span>规则讲解 · 练习</span>
+            <span aria-hidden="true">→</span>
+          </div>
+        </a>
+
+        <article class="module-card is-coming-soon" aria-disabled="true">
+          <div class="module-card-top">
+            <span class="module-seal" aria-hidden="true">形</span>
+            <span class="module-status">即将上线</span>
+          </div>
+          <div>
+            <h3>日语形容词与名词<br>变形表 · 印谱方格</h3>
+            <p>整理い形容词、な形容词和名词的肯定、否定、过去、连接与条件表达。</p>
+          </div>
+          <div class="module-card-footer">
+            <span>い形容词 · な形容词 · 名词</span>
+            <span aria-hidden="true">印</span>
+          </div>
+        </article>
+      </section>
+
+      <aside class="home-note">
+        <span aria-hidden="true">!</span>
+        <span><strong>学习提示：</strong>建议先完成动词规则页，再进入练习页检验记忆；新的词类会继续沿用这套印谱式学习体验。</span>
+      </aside>
+    </main>
+
+    <footer class="home-footer">日语学习・印谱方格 · 先理解规则，再动手练习</footer>
+  </div>
+</body>
+</html>
