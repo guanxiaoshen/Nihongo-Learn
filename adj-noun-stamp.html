@@ -503,6 +503,29 @@
       font-size: .74rem;
     }
 
+    .hint-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 12px;
+    }
+
+    .hint-option {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      color: var(--muted);
+      font-size: .78rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .hint-option input {
+      width: 16px;
+      height: 16px;
+      margin: 0;
+      accent-color: var(--vermilion);
+    }
+
     .practice-config.is-folded .config-rows {
       display: none;
     }
@@ -1135,6 +1158,95 @@
       background: var(--surface-strong);
     }
 
+    .progressive-row {
+      grid-template-columns: minmax(180px, .85fr) 150px minmax(0, 1fr);
+      align-items: center;
+    }
+
+    .progressive-question {
+      display: grid;
+      gap: 7px;
+    }
+
+    .question-word {
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 6px 10px;
+    }
+
+    .question-word strong {
+      color: var(--vermilion-deep);
+      font-family: var(--display);
+      font-size: 1.45rem;
+      line-height: 1.1;
+    }
+
+    .question-word span {
+      color: var(--accent-muted);
+      font-size: .82rem;
+      font-weight: 900;
+    }
+
+    .question-word small {
+      flex-basis: 100%;
+      color: var(--muted);
+      font-size: .74rem;
+    }
+
+    .sentence-prompt {
+      padding: 7px 9px;
+      border-left: 3px solid var(--vermilion);
+      color: var(--ink);
+      background: var(--wash);
+      font-family: var(--display);
+      font-size: .95rem;
+      font-weight: 800;
+    }
+
+    .sentence-prompt small {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-family: var(--sans);
+      font-size: .72rem;
+      font-weight: 600;
+    }
+
+    .conversion-prompt {
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 5px 8px;
+      padding: 7px 9px;
+      border-left: 3px solid var(--accent-muted);
+      color: var(--muted);
+      background: var(--wash);
+      font-size: .78rem;
+    }
+
+    .conversion-prompt strong {
+      color: var(--ink);
+      font-family: var(--display);
+      font-size: .96rem;
+    }
+
+    .conversion-prompt em {
+      color: var(--vermilion-deep);
+      font-size: 1.1rem;
+      font-style: normal;
+      font-weight: 900;
+    }
+
+    .conversion-prompt small {
+      flex-basis: 100%;
+      font-size: .72rem;
+    }
+
+    .progressive-answer {
+      min-width: 0;
+    }
+
     .practice-row.is-correct {
       border-color: var(--success);
       background: var(--success-soft);
@@ -1366,6 +1478,75 @@
       margin-bottom: 5px;
     }
 
+    .usage-reference {
+      display: grid;
+      gap: 12px;
+      margin-top: 14px;
+      padding: 16px;
+      border: 1px solid var(--line-strong);
+      border-top: 4px solid var(--accent-muted);
+      background: var(--wash);
+    }
+
+    .usage-reference-head {
+      display: grid;
+      gap: 3px;
+    }
+
+    .usage-reference-head h3 {
+      margin: 0;
+      color: var(--ink);
+      font-family: var(--display);
+      font-size: 1.15rem;
+    }
+
+    .usage-reference-head p {
+      margin: 0;
+      color: var(--muted);
+      font-size: .8rem;
+    }
+
+    .usage-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .usage-card {
+      display: grid;
+      align-content: start;
+      gap: 5px;
+      padding: 11px;
+      border: 1px solid var(--line);
+      background: var(--surface);
+    }
+
+    .usage-card h4 {
+      margin: 0;
+      color: var(--vermilion-deep);
+      font-family: var(--display);
+      font-size: .9rem;
+    }
+
+    .usage-card-sentence {
+      color: var(--ink);
+      font-family: var(--display);
+      font-size: .95rem;
+      font-weight: 800;
+    }
+
+    .usage-card-translation,
+    .usage-card-note {
+      color: var(--muted);
+      font-size: .75rem;
+      line-height: 1.4;
+    }
+
+    .usage-card-note {
+      padding-top: 4px;
+      border-top: 1px dashed var(--line);
+    }
+
     @keyframes ink-sweep {
       from {
         opacity: .2;
@@ -1528,6 +1709,10 @@
         grid-template-columns: 1fr;
       }
 
+      .usage-grid {
+        grid-template-columns: 1fr;
+      }
+
       .score-bubble {
         width: 62px;
         height: 62px;
@@ -1567,6 +1752,7 @@
 
     const STORAGE_KEY = "adj-noun-stamp-state-v1";
     const STATS_KEY = "adj-noun-practice-stats-v1";
+    const REVIEW_INTERVALS = [5 * 60 * 1000, 60 * 60 * 1000, 24 * 60 * 60 * 1000, 3 * 24 * 60 * 60 * 1000, 7 * 24 * 60 * 60 * 1000];
 
     const theme = {
       id: "stamp",
@@ -1670,6 +1856,8 @@
     const soundRows = adjData.summaryRows;
     const typeExamples = adjData.examples;
     const lexicon = adjData.lexicon;
+    const usageExamples = adjData.usageExamples || [];
+    const sentenceTemplates = adjData.sentenceTemplates || {};
 
     const answerSets = {};
     allForms.forEach((form) => {
@@ -1687,13 +1875,19 @@
       answers: {},
       choices: {},
       result: null,
+      answerRevision: 0,
+      lastCheckedSignature: null,
       onlyWrong: false,
+      practiceKind: "same",
+      showKana: true,
+      showMeaning: true,
       /* 练习改造（词库随机抽词） */
       practiceTypes: ["i-adj", "na-adj", "noun"],
       practiceScope: "all",
       practiceCount: 6,
       currentVerb: null,
       currentForms: [],
+      currentQuestions: [],
       stats: null,
       configOpen: true
     };
@@ -1703,6 +1897,31 @@
     /* 累计练习统计（localStorage 长期保存）：错题集 + 各词/各形正确率 */
     function emptyStats() {
       return { byVerb: {}, byForm: {}, wrongItems: [] };
+    }
+
+    function normalizeWrongItems(items) {
+      const unique = [];
+      items.forEach((item) => {
+        if (!item || typeof item !== "object" || !item.dict || !item.formId) {
+          return;
+        }
+        const existing = unique.find((entry) => entry.dict === item.dict && entry.formId === item.formId);
+        if (existing) {
+          existing.wrongCount += Number(item.wrongCount) || 1;
+          existing.lastWrongAt = Math.max(existing.lastWrongAt, Number(item.lastWrongAt) || 0);
+        } else {
+          unique.push({
+            dict: String(item.dict),
+            formId: String(item.formId),
+            wrongCount: Math.max(1, Number(item.wrongCount) || 1),
+            lastWrongAt: Number(item.lastWrongAt) || 0,
+            correctStreak: Math.max(0, Number(item.correctStreak) || 0),
+            lastCorrectAt: Number(item.lastCorrectAt) || 0,
+            dueAt: Number(item.dueAt) || 0
+          });
+        }
+      });
+      return unique.slice(-200);
     }
 
     function loadStats() {
@@ -1718,7 +1937,7 @@
         return {
           byVerb: parsed.byVerb && typeof parsed.byVerb === "object" ? parsed.byVerb : {},
           byForm: parsed.byForm && typeof parsed.byForm === "object" ? parsed.byForm : {},
-          wrongItems: Array.isArray(parsed.wrongItems) ? parsed.wrongItems : []
+          wrongItems: Array.isArray(parsed.wrongItems) ? normalizeWrongItems(parsed.wrongItems) : []
         };
       } catch (error) {
         console.error("练习统计读取失败，已重置。", error);
@@ -1739,6 +1958,47 @@
       saveStats();
     }
 
+    function recordWrongItem(dict, formId) {
+      const now = Date.now();
+      const existing = state.stats.wrongItems.find((item) => item.dict === dict && item.formId === formId);
+      if (existing) {
+        existing.wrongCount = (Number(existing.wrongCount) || 0) + 1;
+        existing.lastWrongAt = now;
+        existing.correctStreak = 0;
+        existing.dueAt = existing.lastWrongAt;
+      } else {
+        state.stats.wrongItems.push({
+          dict,
+          formId,
+          wrongCount: 1,
+          lastWrongAt: now,
+          correctStreak: 0,
+          lastCorrectAt: 0,
+          dueAt: now
+        });
+      }
+      if (state.stats.wrongItems.length > 200) {
+        state.stats.wrongItems.splice(0, state.stats.wrongItems.length - 200);
+      }
+    }
+
+    function resolveWrongItem(dict, formId) {
+      const index = state.stats.wrongItems.findIndex(
+        (item) => item.dict === dict && item.formId === formId
+      );
+      if (index < 0) {
+        return;
+      }
+      const item = state.stats.wrongItems[index];
+      item.correctStreak = (Number(item.correctStreak) || 0) + 1;
+      item.lastCorrectAt = Date.now();
+      if (item.correctStreak >= 3) {
+        state.stats.wrongItems.splice(index, 1);
+        return;
+      }
+      item.dueAt = item.lastCorrectAt + REVIEW_INTERVALS[Math.min(item.correctStreak, REVIEW_INTERVALS.length - 1)];
+    }
+
     function shuffle(items) {
       const copy = items.slice();
       for (let i = copy.length - 1; i > 0; i -= 1) {
@@ -1750,7 +2010,7 @@
       return copy;
     }
 
-    /* 在选定的类型范围内随机抽取一个练习动词 */
+    /* 在选定的词类范围内随机抽取一个练习词 */
     function pickPracticeVerb() {
       const pool = lexicon.filter((verb) => state.practiceTypes.includes(verb.type));
       if (pool.length === 0) {
@@ -1767,7 +2027,7 @@
     }
 
     /* 构建当前词某个形的可接受答案集（A4：多可接受写法，含 ではない 等价） */
-    function buildAcceptedAnswers(formId, forms, kanaForms, stem) {
+    function buildAcceptedAnswers(formId, forms, kanaForms, stem, verb) {
       const dictForm = forms[formId];
       const kanaForm = kanaForms[formId];
       const set = [dictForm, kanaForm];
@@ -1785,6 +2045,13 @@
           set.push(alt);
         }
       }
+      const variants = verb && verb.acceptedAnswers && Array.isArray(verb.acceptedAnswers[formId])
+        ? verb.acceptedAnswers[formId] : [];
+      variants.forEach((variant) => {
+        if (variant && !set.includes(variant)) {
+          set.push(variant);
+        }
+      });
       return set.filter(Boolean);
     }
 
@@ -1795,7 +2062,7 @@
       return window.NIHONGO_DATA["adj-conjugator"].conjugate(state.currentVerb);
     }
 
-    /* A3：简易模式干扰项 = 同一动词的其他活用形（不足时用全局答案池补位） */
+    /* A3：简易模式干扰项 = 同一词条的其他变形（不足时用全局答案池补位） */
     function getOptions(verb, formId) {
       const data = window.NIHONGO_DATA["adj-conjugator"].conjugate(verb);
       const expected = data.forms[formId];
@@ -1819,6 +2086,132 @@
       }
       const picked = shuffle(distractors).slice(0, 3);
       return shuffle([expected, ...picked]);
+    }
+
+    const PRACTICE_KIND_LABELS = {
+      same: "同词多形",
+      mixed: "混合词条",
+      sentence: "句子填空",
+      classify: "词类判断",
+      polite: "普通／礼貌体"
+    };
+    const PRACTICE_KIND_DESCRIPTIONS = {
+      same: "一个词连续练多个变形",
+      mixed: "每题随机换词和变形",
+      sentence: "根据句子语境填写变形",
+      classify: "先判断词属于哪一类",
+      polite: "在普通谓语和です体之间切换"
+    };
+
+    function getPracticeKindLabel(kind) {
+      return PRACTICE_KIND_LABELS[kind] || PRACTICE_KIND_LABELS.same;
+    }
+
+    function getPracticeFormPool() {
+      return allForms;
+    }
+
+    function getTypeAnswers(typeId) {
+      const type = typeColumns.find((column) => column.id === typeId);
+      if (!type) {
+        return [typeId];
+      }
+      return [typeId, type.label];
+    }
+
+    function createProgressiveQuestions(kind, count) {
+      const verbPool = lexicon.filter((verb) => state.practiceTypes.includes(verb.type));
+      if (!verbPool.length) {
+        return [];
+      }
+      const formPool = getPracticeFormPool();
+      if (kind !== "classify" && kind !== "polite" && !formPool.length) {
+        return [];
+      }
+      const questions = [];
+      const used = new Set();
+      const maxQuestions = Math.min(count, kind === "classify" || kind === "polite"
+        ? verbPool.length : formPool.length * verbPool.length);
+      let attempts = 0;
+      while (questions.length < maxQuestions && attempts < maxQuestions * 12) {
+        attempts += 1;
+        const verb = verbPool[Math.floor(Math.random() * verbPool.length)];
+        const form = kind === "classify" || kind === "polite"
+          ? null : formPool[Math.floor(Math.random() * formPool.length)];
+        const sourceMode = kind === "polite"
+          ? (Math.random() < .5 ? "plain" : "polite") : null;
+        const targetMode = kind === "polite"
+          ? (sourceMode === "plain" ? "polite" : "plain") : null;
+        const key = `${verb.dictionary}:${kind}:${form ? form.id : (targetMode || "type")}`;
+        if (used.has(key) && used.size < verbPool.length * (kind === "classify" || kind === "polite" ? 1 : formPool.length)) {
+          continue;
+        }
+        used.add(key);
+        questions.push({
+          id: `q-${Date.now()}-${questions.length}`,
+          dictionary: verb.dictionary,
+          formId: form ? form.id : null,
+          sourceMode,
+          targetMode,
+          kind
+        });
+      }
+      return questions;
+    }
+
+    function getProgressiveItems() {
+      return state.currentQuestions.map((question, index) => {
+        const verb = lexicon.find((entry) => entry.dictionary === question.dictionary);
+        if (!verb) {
+          return null;
+        }
+        const data = window.NIHONGO_DATA["adj-conjugator"].conjugate(verb);
+        const kind = question.kind === "classify" ? "classify" : (question.kind || state.practiceKind);
+        const form = question.formId ? getForm(question.formId) : null;
+        if (kind !== "classify" && kind !== "polite" && !form) {
+          return null;
+        }
+        const plainValue = data.forms.kotei;
+        const plainKana = data.kanaForms.kotei;
+        const politeValue = verb.type === "i-adj"
+          ? `${plainValue}です` : `${verb.dictionary}です`;
+        const politeKana = verb.type === "i-adj"
+          ? `${plainKana}です` : `${verb.kana}です`;
+        const isPolite = kind === "polite" && question.targetMode === "polite";
+        const accepted = kind === "classify"
+          ? getTypeAnswers(verb.type)
+          : kind === "polite"
+            ? [isPolite ? politeValue : plainValue, isPolite ? politeKana : plainKana]
+          : buildAcceptedAnswers(form.id, data.forms, data.kanaForms, data.stem, verb);
+        const template = kind === "sentence" && form
+          ? (sentenceTemplates[verb.type] || {})[form.id] : null;
+        return {
+          id: question.id || `q-${index}-${verb.dictionary}-${question.formId || "type"}`,
+          kind,
+          verb,
+          data,
+          form,
+          sourceValue: kind === "polite"
+            ? (question.sourceMode === "polite" ? politeValue : plainValue) : "",
+          sourceLabel: kind === "polite"
+            ? (question.sourceMode === "polite" ? "礼貌体" : "普通体") : "",
+          targetLabel: kind === "polite"
+            ? (isPolite ? "礼貌体" : "普通体") : "",
+          formKey: kind === "polite" ? "__polite__" : (form ? form.id : "__type__"),
+          accepted,
+          template
+        };
+      }).filter(Boolean);
+    }
+
+    function getPoliteOptions(item) {
+      return shuffle([...new Set([
+        item.accepted[0],
+        item.sourceValue,
+        item.data.forms.hitei,
+        item.data.forms.kako,
+        item.data.forms.te
+      ].filter(Boolean))]).slice(0, 4);
     }
 
     const elements = {
@@ -1870,7 +2263,18 @@
       if (stored.result && typeof stored.result === "object") {
         state.result = stored.result;
       }
+      if (Number.isInteger(stored.answerRevision) && stored.answerRevision >= 0) {
+        state.answerRevision = stored.answerRevision;
+      }
+      if (typeof stored.lastCheckedSignature === "string") {
+        state.lastCheckedSignature = stored.lastCheckedSignature;
+      }
       state.onlyWrong = stored.onlyWrong === true;
+      if (["same", "mixed", "sentence", "classify", "polite"].includes(stored.practiceKind)) {
+        state.practiceKind = stored.practiceKind;
+      }
+      state.showKana = stored.showKana !== false;
+      state.showMeaning = stored.showMeaning !== false;
       if (Array.isArray(stored.practiceTypes) && stored.practiceTypes.length > 0) {
         const validTypes = stored.practiceTypes.filter((type) => typeColumns.some((column) => column.id === type));
         if (validTypes.length > 0) {
@@ -1880,7 +2284,7 @@
       if (stored.practiceScope === "base" || stored.practiceScope === "derived" || stored.practiceScope === "all") {
         state.practiceScope = stored.practiceScope;
       }
-      if (Number(stored.practiceCount) >= 5 && Number(stored.practiceCount) <= 25) {
+      if (Number(stored.practiceCount) === 3 || Number(stored.practiceCount) === 6) {
         state.practiceCount = Number(stored.practiceCount);
       }
       if (stored.currentVerb && stored.currentVerb.dictionary && stored.currentVerb.kana && stored.currentVerb.type) {
@@ -1893,6 +2297,23 @@
       if (Array.isArray(stored.currentForms)) {
         state.currentForms = stored.currentForms.filter((id) => allForms.some((form) => form.id === id));
       }
+      if (Array.isArray(stored.currentQuestions)) {
+        state.currentQuestions = stored.currentQuestions.filter((question) => {
+          if (!question || !question.dictionary || !lexicon.some((verb) => verb.dictionary === question.dictionary)) {
+            return false;
+          }
+          return question.kind === "classify" || question.kind === "polite"
+            || allForms.some((form) => form.id === question.formId);
+        }).map((question, index) => ({
+          id: typeof question.id === "string" && question.id ? question.id : `q-${index}`,
+          dictionary: question.dictionary,
+          formId: question.kind === "classify" ? null : question.formId,
+          sourceMode: question.sourceMode === "plain" || question.sourceMode === "polite" ? question.sourceMode : null,
+          targetMode: question.targetMode === "plain" || question.targetMode === "polite" ? question.targetMode : null,
+          kind: ["classify", "polite", "mixed", "sentence"].includes(question.kind)
+            ? question.kind : state.practiceKind
+        }));
+      }
     }
 
     function saveSessionState() {
@@ -1903,12 +2324,18 @@
         answers: state.answers,
         choices: state.choices,
         result: state.result,
+        answerRevision: state.answerRevision,
+        lastCheckedSignature: state.lastCheckedSignature,
         onlyWrong: state.onlyWrong,
+        practiceKind: state.practiceKind,
+        showKana: state.showKana,
+        showMeaning: state.showMeaning,
         practiceTypes: state.practiceTypes,
         practiceScope: state.practiceScope,
         practiceCount: state.practiceCount,
         currentVerb: state.currentVerb,
         currentForms: state.currentForms,
+        currentQuestions: state.currentQuestions,
         configOpen: state.configOpen
       }));
     }
@@ -1965,6 +2392,15 @@
         if (!formIds.has(formId) || !answer.canonical || !answer.acceptedAnswers.includes(answer.canonical)) {
           errors.push(`${formId}: 答案集合无效`);
         }
+      });
+
+      typeColumns.forEach((type) => {
+        allForms.forEach((form) => {
+          const template = sentenceTemplates[type.id] && sentenceTemplates[type.id][form.id];
+          if (!template || typeof template.prefix !== "string" || typeof template.suffix !== "string") {
+            errors.push(`${type.id}/${form.id}: 句子填空模板无效`);
+          }
+        });
       });
 
       if (errors.length > 0) {
@@ -2076,7 +2512,7 @@
       return `
         <div class="table-scroll">
           <table class="rule-table">
-            <caption class="visually-hidden">活用形与动词类型变化规则。点击卡片查看代表示例。</caption>
+            <caption class="visually-hidden">活用形与词类变化规则。点击卡片查看代表示例。</caption>
             <thead>
               <tr>
                 <th scope="col">活用形</th>
@@ -2154,6 +2590,27 @@
       `;
     }
 
+    function renderUsageReference() {
+      return `
+        <section class="usage-reference" aria-labelledby="usage-reference-title">
+          <div class="usage-reference-head">
+            <h3 id="usage-reference-title">词类放进句子里</h3>
+            <p>注意词类在句中的连接方式：い形容词直接修饰名词，な形容词接 な，名词通常接 の。</p>
+          </div>
+          <div class="usage-grid">
+            ${usageExamples.map((example) => `
+              <article class="usage-card">
+                <h4>${escapeHtml(example.title)}</h4>
+                <div class="usage-card-sentence">${escapeHtml(example.sentence)}</div>
+                <div class="usage-card-translation">${escapeHtml(example.translation)}</div>
+                <div class="usage-card-note">${escapeHtml(example.note)}</div>
+              </article>
+            `).join("")}
+          </div>
+        </section>
+      `;
+    }
+
     function renderConjugationTabs(scope) {
       const activeGroup = getActiveGroup(scope);
       const tabs = [
@@ -2191,6 +2648,7 @@
             ${renderRuleTable(allForms)}
           </section>
           ${renderSoundReference()}
+          ${renderUsageReference()}
         </section>
       `;
     }
@@ -2199,8 +2657,11 @@
       return String(value || "").trim().normalize("NFKC");
     }
 
-    /* 当前练习的题目列表：[{ form, accepted }] */
+    /* 当前练习的题目列表；旧的同词多形会话继续使用 currentVerb/currentForms */
     function getPracticeItems() {
+      if (state.currentQuestions.length) {
+        return getProgressiveItems();
+      }
       if (!state.currentVerb || !state.currentForms.length) {
         return [];
       }
@@ -2211,37 +2672,66 @@
       });
       return state.currentForms.map((id) => ({
         form: byId[id],
-        accepted: buildAcceptedAnswers(id, data.forms, data.kanaForms, data.stem)
+        accepted: buildAcceptedAnswers(id, data.forms, data.kanaForms, data.stem, state.currentVerb)
       }));
     }
 
-    /* A6：开始新练习 = 随机动词 + 随机 N 形 */
+    /* A6：开始新练习 = 随机词条 + 随机 N 形 */
     function startNewPractice() {
+      if (state.practiceKind !== "same") {
+        const questions = createProgressiveQuestions(state.practiceKind, state.practiceCount);
+        if (!questions.length) {
+          announce("当前筛选下无法生成题目，请调整词类范围。");
+          return;
+        }
+        state.currentVerb = null;
+        state.currentForms = [];
+        state.currentQuestions = questions;
+        state.answers = {};
+        state.choices = {};
+        state.result = null;
+        state.answerRevision = 0;
+        state.lastCheckedSignature = null;
+        state.onlyWrong = false;
+        saveSessionState();
+        renderApp();
+        announce(`已开始${getPracticeKindLabel(state.practiceKind)}：共 ${questions.length} 题。`);
+        return;
+      }
       const verb = pickPracticeVerb();
       if (!verb) {
-        announce("当前筛选下没有可选动词，请调整类型范围。");
+        announce("当前筛选下没有可选词条，请调整词类范围。");
         return;
       }
       state.currentVerb = verb;
       state.currentForms = pickPracticeForms(state.practiceCount);
+      state.currentQuestions = [];
       state.answers = {};
       state.choices = {};
       state.result = null;
+      state.answerRevision = 0;
+      state.lastCheckedSignature = null;
       state.onlyWrong = false;
       saveSessionState();
       renderApp();
       announce(`已抽取新练习：${verb.dictionary}（${verb.kana}），共 ${state.currentForms.length} 个活用形。`);
     }
 
-    /* 错题再练：从累计错题集随机选一个动词，取它的错形 */
+    /* 错题再练：从累计错题集随机选一个词条，取它的错形 */
     function retryWrongPractice() {
-      const wrongs = state.stats.wrongItems.filter(
-        (w) => w && w.dict && w.formId && lexicon.some((v) => v.dictionary === w.dict)
+      const allWrongs = state.stats.wrongItems.filter(
+        (w) => w && w.dict && w.formId
+          && lexicon.some((v) => v.dictionary === w.dict)
+          && (w.formId === "__type__" || w.formId === "__polite__" || allForms.some((form) => form.id === w.formId))
       );
-      if (!wrongs.length) {
+      if (!allWrongs.length) {
         announce("暂无错题记录，先做一组练习吧。");
         return;
       }
+      const dueWrongs = allWrongs.filter((w) => !w.dueAt || w.dueAt <= Date.now());
+      const wrongs = (dueWrongs.length ? dueWrongs : allWrongs.slice().sort(
+        (a, b) => (Number(a.dueAt) || 0) - (Number(b.dueAt) || 0)
+      ));
       const byVerb = {};
       wrongs.forEach((w) => {
         if (!byVerb[w.dict]) {
@@ -2254,15 +2744,123 @@
       const dicts = Object.keys(byVerb);
       const dict = dicts[Math.floor(Math.random() * dicts.length)];
       const verb = lexicon.find((v) => v.dictionary === dict);
-      state.currentVerb = verb;
-      state.currentForms = shuffle(byVerb[dict]).slice(0, state.practiceCount);
+      const selectedWrongForms = shuffle(byVerb[dict]).slice(0, state.practiceCount);
+      const hasSpecialQuestions = selectedWrongForms.some((formId) => formId === "__type__" || formId === "__polite__");
+      if (hasSpecialQuestions) {
+        const allClassify = selectedWrongForms.every((formId) => formId === "__type__");
+        const allPolite = selectedWrongForms.every((formId) => formId === "__polite__");
+        state.practiceKind = allClassify ? "classify" : allPolite ? "polite" : "mixed";
+        state.currentVerb = null;
+        state.currentForms = [];
+        state.currentQuestions = selectedWrongForms.map((formId, index) => {
+          const sourceMode = formId === "__polite__"
+            ? (Math.random() < .5 ? "plain" : "polite") : null;
+          return {
+            id: `q-${Date.now()}-${index}`,
+            dictionary: dict,
+            formId: formId === "__type__" || formId === "__polite__" ? null : formId,
+            sourceMode,
+            targetMode: formId === "__polite__"
+              ? (sourceMode === "plain" ? "polite" : "plain") : null,
+            kind: formId === "__type__" ? "classify" : formId === "__polite__" ? "polite" : "mixed"
+          };
+        });
+      } else {
+        state.practiceKind = "same";
+        state.currentVerb = verb;
+        state.currentForms = selectedWrongForms;
+        state.currentQuestions = [];
+      }
       state.answers = {};
       state.choices = {};
       state.result = null;
+      state.answerRevision = 0;
+      state.lastCheckedSignature = null;
       state.onlyWrong = true;
       saveSessionState();
       renderApp();
-      announce(`错题再练：${verb.dictionary}，共 ${state.currentForms.length} 个待复习形。`);
+      announce(`错题再练：${verb.dictionary}，共 ${state.currentQuestions.length || state.currentForms.length} 个待复习题。`);
+    }
+
+    function renderQuestionWord(verb) {
+      return `
+        <div class="question-word">
+          <strong>${escapeHtml(verb.dictionary)}</strong>
+          ${state.showKana ? `<span>${escapeHtml(verb.kana)}</span>` : ""}
+          ${state.showMeaning ? `<small>中文：${escapeHtml(verb.meaning)}</small>` : ""}
+        </div>
+      `;
+    }
+
+    function renderProgressiveRow(item) {
+      const resultItem = state.result && state.result.items[item.id]
+        ? state.result.items[item.id] : null;
+      const rowClass = resultItem ? (resultItem.correct ? "is-correct" : "is-wrong") : "";
+      const title = item.kind === "classify"
+        ? "判断词类" : item.kind === "polite" ? item.targetLabel : item.form.label;
+      const description = item.kind === "classify"
+        ? "先判断这个词属于哪一类。"
+        : item.kind === "polite" ? `把${item.sourceLabel}转换为${item.targetLabel}。` : item.form.note;
+      const answerOptions = item.kind === "classify"
+        ? typeColumns.map((type) => ({ value: type.id, label: type.label }))
+        : item.kind === "polite"
+          ? getPoliteOptions(item).map((value) => ({ value, label: value }))
+        : getOptions(item.verb, item.form.id).map((value) => ({ value, label: value }));
+      const selected = state.choices[item.id] || "";
+      const sentence = item.template
+        ? `${item.template.prefix}＿＿${item.template.suffix}` : "";
+      const label = `
+        <div class="practice-row-label">
+          <strong>${title}</strong>
+          ${item.form ? `<span>${item.form.jp}</span>` : ""}
+          <small>${description}</small>
+        </div>
+      `;
+
+      const answer = state.practiceMode === "simple"
+        ? `
+          <fieldset class="choice-grid ${item.kind === "classify" ? "type-choice-grid" : ""}">
+            <legend class="visually-hidden">${title}选择题</legend>
+            ${answerOptions.map((option, index) => `
+              <label class="choice-option">
+                <input type="radio" name="choice-${escapeHtml(item.id)}" value="${escapeHtml(option.value)}"
+                  ${selected === option.value ? "checked" : ""} data-action="choose-answer"
+                  data-question-id="${escapeHtml(item.id)}">
+                <span>${escapeHtml(option.label)}</span><em>${String.fromCharCode(65 + index)}</em>
+              </label>
+            `).join("")}
+          </fieldset>
+        `
+        : `
+          <label class="visually-hidden" for="answer-${escapeHtml(item.id)}">${title}答案</label>
+          <input id="answer-${escapeHtml(item.id)}" class="answer-field" type="text" inputmode="text"
+            autocomplete="off" placeholder="${item.kind === "classify" ? "输入词类，如い形容词" : `输入${title}结果`}"
+            value="${escapeHtml(state.answers[item.id] || "")}"
+            data-action="type-answer" data-question-id="${escapeHtml(item.id)}">
+        `;
+      return `
+        <article class="practice-row progressive-row ${rowClass}" data-question-id="${escapeHtml(item.id)}">
+          <div class="progressive-question">
+            ${renderQuestionWord(item.verb)}
+            ${item.kind === "polite" ? `
+              <div class="conversion-prompt">
+                <span>${escapeHtml(item.sourceLabel)}</span>
+                <strong>${escapeHtml(item.sourceValue)}</strong>
+                <span>→</span><em>?</em>
+                <small>目标：${escapeHtml(item.targetLabel)}</small>
+              </div>
+            ` : ""}
+            ${item.kind === "sentence" && item.template ? `
+              <div class="sentence-prompt">
+                <div>${escapeHtml(sentence)}</div>
+                <small>${escapeHtml(item.template.translation)}</small>
+              </div>
+            ` : ""}
+          </div>
+          ${label}
+          <div class="progressive-answer">${answer}</div>
+        </article>
+      `;
     }
 
     function renderPracticeRow(form) {
@@ -2309,8 +2907,49 @@
       `;
     }
 
+    function getProgressiveResultSummary(items) {
+      const resultItems = items.map((item) => state.result.items[item.id]).filter(Boolean);
+      const correct = resultItems.filter((item) => item.correct).length;
+      const total = resultItems.length;
+      const percentage = total === 0 ? 0 : Math.round((correct / total) * 100);
+      const wrongItems = items.filter((item) => state.result.items[item.id] && !state.result.items[item.id].correct);
+      return `
+        <section class="result-summary" aria-labelledby="result-title">
+          <div class="score-bubble">${percentage}%<span>${correct}/${total}</span></div>
+          <div>
+            <h3 id="result-title">检查完成</h3>
+            <p>本次${getPracticeKindLabel(state.practiceKind)}共 ${total} 题，答对 ${correct} 题。${wrongItems.length ? "错题已加入复习队列。" : "本次全部答对，可以继续提高难度。"}</p>
+            ${wrongItems.length > 0 ? `
+              <div class="result-items">
+                ${wrongItems.map((item) => {
+                  const expected = item.kind === "classify"
+                    ? typeColumns.find((type) => type.id === item.verb.type).label
+                    : item.kind === "polite" ? item.accepted[0] : item.data.forms[item.form.id];
+                  return `
+                    <div class="result-item is-wrong">
+                      <strong>${escapeHtml(item.verb.dictionary)}</strong>
+                      <span>${escapeHtml(item.kind === "classify" ? "词类" : item.kind === "polite" ? item.targetLabel : item.form.label)}</span>
+                      <small>${escapeHtml(expected)}</small>
+                    </div>
+                  `;
+                }).join("")}
+              </div>
+            ` : `
+              <div class="exception-callout"><span aria-hidden="true">✓</span><span><strong>全部答对！</strong>可以切换到更少提示或句子练习。</span></div>
+            `}
+          </div>
+        </section>
+      `;
+    }
+
     function getResultSummary() {
-      if (!state.result || !state.currentVerb) {
+      if (!state.result) {
+        return "";
+      }
+      if (state.currentQuestions.length) {
+        return getProgressiveResultSummary(getProgressiveItems());
+      }
+      if (!state.currentVerb) {
         return "";
       }
       const items = Object.values(state.result.items);
@@ -2355,10 +2994,12 @@
     }
 
     function renderPracticePanel() {
-      const hasSession = !!state.currentVerb && state.currentForms.length > 0;
+      const progressiveSession = state.currentQuestions.length > 0;
+      const hasSession = progressiveSession || (!!state.currentVerb && state.currentForms.length > 0);
       const wrongCount = state.stats.wrongItems.length;
       const items = getPracticeItems();
       const scopeLabel = "全部 6 形";
+      const kindLabel = getPracticeKindLabel(state.practiceKind);
       return `
         <section id="practice-panel" class="panel" role="tabpanel" aria-labelledby="view-practice-tab">
           <div class="panel-intro">
@@ -2367,7 +3008,7 @@
               <h3>翻开一页，亲手盖出答案</h3>
               <p>从词库随机抽词、按规则实时变形；选好类型与题数后开始，错题会进入累计错题集。</p>
             </div>
-            <div class="intro-note">词库 <strong>${lexicon.length} 词</strong><br>累计错题 ${wrongCount} 条</div>
+            <div class="intro-note">词库 <strong>${lexicon.length} 词</strong><br>待复习 ${wrongCount} 条<br><small>连续答对 3 次后移出</small></div>
           </div>
           <div class="practice-toolbar">
             <div class="mode-switch" aria-label="练习模式">
@@ -2385,10 +3026,20 @@
               ${hasSession ? `
                 <button class="config-toggle" type="button" data-action="toggle-config"
                   aria-expanded="${state.configOpen ? "true" : "false"}">${state.configOpen ? "收起设置" : "展开设置"}</button>
-                <span class="config-summary">当前：${scopeLabel} · ${state.practiceCount} 题</span>
+                <span class="config-summary">当前：${kindLabel} · ${scopeLabel} · ${state.practiceCount} 题</span>
               ` : ""}
             </div>
             <div class="config-rows">
+            <div class="config-row">
+              <span class="config-label">题型</span>
+              <div class="type-chips practice-kinds">
+                ${Object.entries(PRACTICE_KIND_LABELS).map(([id, label]) => `
+                  <button class="type-chip ${state.practiceKind === id ? "is-active" : ""}"
+                    type="button" data-action="set-practice-kind" data-kind="${id}"
+                    aria-pressed="${state.practiceKind === id}" title="${PRACTICE_KIND_DESCRIPTIONS[id]}">${label}</button>
+                `).join("")}
+              </div>
+            </div>
             <div class="config-row">
               <span class="config-label">词类</span>
               <div class="type-chips">
@@ -2408,6 +3059,19 @@
               </select>
               <span class="assistive-copy">从「${scopeLabel}」中随机抽取</span>
             </div>
+            <div class="config-row">
+              <span class="config-label">提示</span>
+              <div class="hint-options">
+                <label class="hint-option">
+                  <input type="checkbox" data-action="toggle-hint" data-hint="kana" ${state.showKana ? "checked" : ""}>
+                  显示假名
+                </label>
+                <label class="hint-option">
+                  <input type="checkbox" data-action="toggle-hint" data-hint="meaning" ${state.showMeaning ? "checked" : ""}>
+                  显示中文
+                </label>
+              </div>
+            </div>
             </div>
           </section>
 
@@ -2419,21 +3083,34 @@
           </div>
 
           ${hasSession ? `
-            <div class="practice-prompt">
-              <div class="practice-word">
-                <strong>${state.currentVerb.dictionary}</strong>
-                <span>${state.currentVerb.kana}</span>
-                <small>中文：${state.currentVerb.meaning}</small>
+            ${progressiveSession ? `
+              <div class="practice-prompt">
+                <div class="practice-word">
+                  <strong>${kindLabel}</strong>
+                  <small>每题会${state.practiceKind === "classify" ? "先要求判断词类" : "随机更换词条"}，用来练习迁移。</small>
+                </div>
+                <div class="practice-prompt-side">
+                  <strong>${state.onlyWrong ? "错题复习" : "本次练习"}</strong>
+                  <span>范围：${scopeLabel} · 共 ${items.length} 题 · ${state.showKana ? "显示假名" : "隐藏假名"} · ${state.showMeaning ? "显示中文" : "隐藏中文"}。</span>
+                </div>
               </div>
-              <div class="practice-prompt-side">
-                <strong>${state.onlyWrong ? "错题复习" : "本次练习"}</strong>
-                <span>范围：${scopeLabel} · 共 ${items.length} 题 · 动词类型不直接显示，先自行判断。</span>
+            ` : `
+              <div class="practice-prompt">
+                <div class="practice-word">
+                  <strong>${state.currentVerb.dictionary}</strong>
+                  ${state.showKana ? `<span>${state.currentVerb.kana}</span>` : ""}
+                  ${state.showMeaning ? `<small>中文：${state.currentVerb.meaning}</small>` : ""}
+                </div>
+                <div class="practice-prompt-side">
+                  <strong>${state.onlyWrong ? "错题复习" : "本次练习"}</strong>
+                  <span>范围：${scopeLabel} · 共 ${items.length} 题 · 词类不直接显示，先自行判断。</span>
+                </div>
               </div>
-            </div>
+            `}
             ${getResultSummary()}
             <section class="practice-group">
-              <h3>${state.currentVerb.dictionary} 的 ${items.length} 个活用形</h3>
-              <div class="practice-list">${items.map((item) => renderPracticeRow(item.form)).join("")}</div>
+              <h3>${progressiveSession ? `${kindLabel} · ${items.length} 题` : `${state.currentVerb.dictionary} 的 ${items.length} 个活用形`}</h3>
+              <div class="practice-list">${items.map((item) => progressiveSession ? renderProgressiveRow(item) : renderPracticeRow(item.form)).join("")}</div>
             </section>
             <div class="practice-actions">
               <button class="primary-button" type="button" data-action="check-practice">检查答案</button>
@@ -2480,19 +3157,85 @@
       announce(state.view === "rules" ? "已切换到规则讲解" : "已切换到练习");
     }
 
+    function getSubmittedAnswer(item) {
+      return state.practiceMode === "simple"
+        ? state.choices[item.id] || "" : state.answers[item.id] || "";
+    }
+
+    function checkProgressivePractice() {
+      const items = getProgressiveItems();
+      if (!items.length) {
+        announce("还没有练习题目，请先「开始新练习」。");
+        return;
+      }
+      const submissions = items.map((item) => [item.id, getSubmittedAnswer(item)]);
+      const signature = JSON.stringify({
+        kind: state.practiceKind,
+        questions: state.currentQuestions,
+        mode: state.practiceMode,
+        revision: state.answerRevision,
+        submissions
+      });
+      if (state.result && state.lastCheckedSignature === signature) {
+        announce("答案没有变化，本次检查不重复计入统计。");
+        return;
+      }
+      const resultItems = {};
+      items.forEach((item, index) => {
+        const submitted = submissions[index][1];
+        const correct = item.accepted.map(normalizeAnswer).includes(normalizeAnswer(submitted));
+        const formKey = item.formKey || (item.form ? item.form.id : "__type__");
+        resultItems[item.id] = { correct, submitted };
+        state.stats.byVerb[item.verb.dictionary] = state.stats.byVerb[item.verb.dictionary] || { t: 0, c: 0 };
+        state.stats.byVerb[item.verb.dictionary].t += 1;
+        state.stats.byForm[formKey] = state.stats.byForm[formKey] || { t: 0, c: 0 };
+        state.stats.byForm[formKey].t += 1;
+        if (correct) {
+          state.stats.byVerb[item.verb.dictionary].c += 1;
+          state.stats.byForm[formKey].c += 1;
+          resolveWrongItem(item.verb.dictionary, formKey);
+        } else {
+          recordWrongItem(item.verb.dictionary, formKey);
+        }
+      });
+      state.result = { kind: state.practiceKind, items: resultItems, checkedAt: Date.now() };
+      state.lastCheckedSignature = signature;
+      state.onlyWrong = false;
+      saveStats();
+      saveSessionState();
+      renderApp();
+      announce(`答案已检查：${getPracticeKindLabel(state.practiceKind)} ${items.length} 题，累计统计已更新。`);
+    }
+
     function checkPractice() {
+      if (state.currentQuestions.length) {
+        checkProgressivePractice();
+        return;
+      }
       const items = getPracticeItems();
       if (!items.length) {
         announce("还没有练习题目，请先「开始新练习」。");
         return;
       }
-      const data = getCurrentVerbData();
       const verbKey = state.currentVerb.dictionary;
+      const submissions = items.map(({ form }) => [
+        form.id,
+        state.practiceMode === "simple" ? state.choices[form.id] || "" : state.answers[form.id] || ""
+      ]);
+      const signature = JSON.stringify({
+        verb: verbKey,
+        forms: state.currentForms,
+        mode: state.practiceMode,
+        revision: state.answerRevision,
+        submissions
+      });
+      if (state.result && state.lastCheckedSignature === signature) {
+        announce("答案没有变化，本次检查不重复计入统计。");
+        return;
+      }
       const resultItems = {};
-      items.forEach(({ form, accepted }) => {
-        const submitted = state.practiceMode === "simple"
-          ? state.choices[form.id] || ""
-          : state.answers[form.id] || "";
+      items.forEach(({ form, accepted }, index) => {
+        const submitted = submissions[index][1];
         const correct = accepted.map(normalizeAnswer).includes(normalizeAnswer(submitted));
         resultItems[form.id] = { correct, submitted };
         // 累计统计（A5：localStorage 长期保存）
@@ -2503,15 +3246,13 @@
         if (correct) {
           state.stats.byVerb[verbKey].c += 1;
           state.stats.byForm[form.id].c += 1;
+          resolveWrongItem(verbKey, form.id);
         } else {
-          state.stats.wrongItems.push({ dict: verbKey, formId: form.id });
-          // 控制错题集规模：仅保留最近 200 条
-          if (state.stats.wrongItems.length > 200) {
-            state.stats.wrongItems.splice(0, state.stats.wrongItems.length - 200);
-          }
+          recordWrongItem(verbKey, form.id);
         }
       });
       state.result = { verb: verbKey, items: resultItems, checkedAt: Date.now() };
+      state.lastCheckedSignature = signature;
       state.onlyWrong = false;
       saveStats();
       saveSessionState();
@@ -2523,6 +3264,8 @@
       state.answers = {};
       state.choices = {};
       state.result = null;
+      state.answerRevision += 1;
+      state.lastCheckedSignature = null;
       state.onlyWrong = false;
       saveSessionState();
       renderApp();
@@ -2589,9 +3332,32 @@
       if (action === "set-mode") {
         state.practiceMode = target.dataset.mode === "standard" ? "standard" : "simple";
         state.result = null;
+        state.answerRevision += 1;
+        state.lastCheckedSignature = null;
         saveSessionState();
         renderApp();
         announce(state.practiceMode === "simple" ? "已切换到简易模式" : "已切换到标准模式");
+        return;
+      }
+
+      if (action === "set-practice-kind") {
+        const kind = ["same", "mixed", "sentence", "classify", "polite"].includes(target.dataset.kind)
+          ? target.dataset.kind : "same";
+        if (state.practiceKind === kind) {
+          return;
+        }
+        state.practiceKind = kind;
+        state.currentVerb = null;
+        state.currentForms = [];
+        state.currentQuestions = [];
+        state.answers = {};
+        state.choices = {};
+        state.result = null;
+        state.answerRevision += 1;
+        state.lastCheckedSignature = null;
+        saveSessionState();
+        renderApp();
+        announce(`题型已切换为${getPracticeKindLabel(kind)}，请开始新练习。`);
         return;
       }
 
@@ -2602,7 +3368,7 @@
           if (state.practiceTypes.length > 1) {
             state.practiceTypes.splice(index, 1);
           } else {
-            announce("至少保留一种动词类型。");
+            announce("至少保留一种词类。");
             return;
           }
         } else {
@@ -2610,7 +3376,7 @@
         }
         saveSessionState();
         renderApp();
-        announce("练习动词类型范围已更新。");
+        announce("练习词类范围已更新。");
         return;
       }
 
@@ -2620,14 +3386,14 @@
           state.practiceScope = scope;
           saveSessionState();
           renderApp();
-          announce(scope === "base" ? "抽题范围：基础六形" : scope === "derived" ? "抽题范围：派生形" : "抽题范围：全部 25 形");
+          announce(scope === "base" ? "抽题范围：基础六形" : scope === "derived" ? "抽题范围：派生形" : "抽题范围：全部 6 形");
         }
         return;
       }
 
       if (action === "set-practice-count") {
         const count = Number(target.value);
-        if (count >= 5 && count <= 25) {
+        if (count === 3 || count === 6) {
           state.practiceCount = count;
           saveSessionState();
           renderApp();
@@ -2687,15 +3453,37 @@
     elements.appShell.addEventListener("change", (event) => {
       const target = event.target;
       if (target.dataset.action === "choose-answer") {
-        state.choices[target.dataset.formId] = target.value;
+        const answerKey = target.dataset.questionId || target.dataset.formId;
+        state.choices[answerKey] = target.value;
         state.result = null;
+        state.answerRevision += 1;
+        state.lastCheckedSignature = null;
         saveSessionState();
         return;
       }
       if (target.dataset.action === "type-answer") {
-        state.answers[target.dataset.formId] = target.value;
+        const answerKey = target.dataset.questionId || target.dataset.formId;
+        state.answers[answerKey] = target.value;
         state.result = null;
+        state.answerRevision += 1;
+        state.lastCheckedSignature = null;
         saveSessionState();
+        return;
+      }
+      if (target.dataset.action === "toggle-hint") {
+        if (target.dataset.hint === "kana") {
+          state.showKana = target.checked;
+        } else if (target.dataset.hint === "meaning") {
+          state.showMeaning = target.checked;
+        } else {
+          return;
+        }
+        state.result = null;
+        state.answerRevision += 1;
+        state.lastCheckedSignature = null;
+        saveSessionState();
+        renderApp();
+        announce(`${target.dataset.hint === "kana" ? "假名" : "中文"}提示已${target.checked ? "显示" : "隐藏"}。`);
         return;
       }
       if (target.dataset.action === "set-practice-count") {

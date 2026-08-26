@@ -60,7 +60,7 @@
     }
   };
 
-  /* 练习词库：每类 6 个，共 18 个 */
+  /* 练习词库：基础高频词 + 例外词 */
   var lexicon = [
     { dictionary: "高い", kana: "たかい", meaning: "高的；贵的", type: "i-adj" },
     { dictionary: "大きい", kana: "おおきい", meaning: "大的", type: "i-adj" },
@@ -68,6 +68,12 @@
     { dictionary: "新しい", kana: "あたらしい", meaning: "新的", type: "i-adj" },
     { dictionary: "暑い", kana: "あつい", meaning: "（天气）热", type: "i-adj" },
     { dictionary: "楽しい", kana: "たのしい", meaning: "开心的", type: "i-adj" },
+    { dictionary: "いい", kana: "いい", meaning: "好的", type: "i-adj",
+      exceptions: { hitei: "よくない", kako: "よかった", kakoHitei: "よくなかった", te: "よくて", jouken: "よければ" },
+      acceptedAnswers: { kotei: ["よい"] } },
+    { dictionary: "悪い", kana: "わるい", meaning: "坏的；不好的", type: "i-adj" },
+    { dictionary: "かわいい", kana: "かわいい", meaning: "可爱的", type: "i-adj" },
+    { dictionary: "かっこいい", kana: "かっこいい", meaning: "帅气的；漂亮的", type: "i-adj" },
 
     { dictionary: "静か", kana: "しずか", meaning: "安静", type: "na-adj" },
     { dictionary: "きれい", kana: "きれい", meaning: "漂亮；干净", type: "na-adj" },
@@ -91,6 +97,42 @@
     ["名词", "词干＋だ", "じゃない", "だった", "じゃなかった", "で", "なら"]
   ];
 
+  var usageExamples = [
+    { typeId: "i-adj", title: "い形容词作定语", sentence: "高い本を買いました。", translation: "买了贵的书。", note: "直接接名词，不加 だ。" },
+    { typeId: "i-adj", title: "い形容词作副词", sentence: "早く話してください。", translation: "请快点说。", note: "词尾 い → く，修饰动作。" },
+    { typeId: "na-adj", title: "な形容词作定语", sentence: "静かな部屋で勉強します。", translation: "在安静的房间学习。", note: "名词前接 な，不是 だ。" },
+    { typeId: "na-adj", title: "な形容词作副词", sentence: "静かに話してください。", translation: "请安静地说。", note: "词干＋に，修饰动作。" },
+    { typeId: "noun", title: "名词作定语", sentence: "学生の本です。", translation: "是学生的书。", note: "名词通常用 の 连接名词。" },
+    { typeId: "noun", title: "名词否定修饰", sentence: "学生ではない人です。", translation: "是不属于学生的人。", note: "名词否定可用 ではない。" }
+  ];
+
+  var sentenceTemplates = {
+    "i-adj": {
+      kotei: { prefix: "この本は", suffix: "。", translation: "这本书是这个性质。" },
+      hitei: { prefix: "この本は", suffix: "。", translation: "这本书不是这个性质。" },
+      kako: { prefix: "昨日は", suffix: "。", translation: "昨天是这个性质。" },
+      kakoHitei: { prefix: "昨日は", suffix: "。", translation: "昨天不是这个性质。" },
+      te: { prefix: "この本は", suffix: "、便利だ。", translation: "这本书既有这个性质又很方便。" },
+      jouken: { prefix: "", suffix: "、買いません。", translation: "如果是这个性质，就不买。" }
+    },
+    "na-adj": {
+      kotei: { prefix: "この部屋は", suffix: "。", translation: "这个房间是这个性质。" },
+      hitei: { prefix: "この部屋は", suffix: "。", translation: "这个房间不是这个性质。" },
+      kako: { prefix: "昨日の部屋は", suffix: "。", translation: "昨天的房间是这个性质。" },
+      kakoHitei: { prefix: "昨日の部屋は", suffix: "。", translation: "昨天的房间不是这个性质。" },
+      te: { prefix: "この部屋は", suffix: "、明るい。", translation: "这个房间既有这个性质又明亮。" },
+      jouken: { prefix: "", suffix: "、ここに住みたい。", translation: "如果是这个性质，就想住在这里。" }
+    },
+    noun: {
+      kotei: { prefix: "私は", suffix: "。", translation: "我是这个身份。" },
+      hitei: { prefix: "私は", suffix: "。", translation: "我不是这个身份。" },
+      kako: { prefix: "去年は", suffix: "。", translation: "去年是这个身份。" },
+      kakoHitei: { prefix: "去年は", suffix: "。", translation: "去年不是这个身份。" },
+      te: { prefix: "彼は", suffix: "、先生です。", translation: "他是这个身份，也是老师。" },
+      jouken: { prefix: "", suffix: "、安心してください。", translation: "如果是这个身份，请放心。" }
+    }
+  };
+
   window.NIHONGO_DATA = window.NIHONGO_DATA || {};
   window.NIHONGO_DATA.adjNoun = {
     forms: forms,
@@ -98,6 +140,8 @@
     formRules: formRules,
     examples: examples,
     lexicon: lexicon,
-    summaryRows: summaryRows
+    summaryRows: summaryRows,
+    usageExamples: usageExamples,
+    sentenceTemplates: sentenceTemplates
   };
 })();

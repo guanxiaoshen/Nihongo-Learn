@@ -51,7 +51,7 @@
     te: "来て", ta: "来た", tai: "来たい", ishi: "来よう", ba: "来れば",
     tara: "来たら", kanou: "来られる", ukemi: "来られる", shieki: "来させる",
     shiekiUkemi: "来させられる", kinshi: "来るな", nara: "来るなら",
-    suiryou: "来よう", sonkei: "おいでになる", kenjou: "お越しする"
+    suiryou: "来よう", sonkei: "おいでになる",     kenjou: "参る"
   };
 
   /* か変「来る」假名形式（供练习判定、注音展示） */
@@ -62,7 +62,7 @@
     ishi: "こよう", ba: "くれば", tara: "きたら", kanou: "こられる",
     ukemi: "こられる", shieki: "こさせる", shiekiUkemi: "こさせられる",
     kinshi: "くるな", nara: "くるなら", suiryou: "こよう",
-    sonkei: "おいでになる", kenjou: "おこしする"
+    sonkei: "おいでになる", kenjou: "まいる"
   };
 
   /* さ変后缀模板：复合さ変（勉強する）＝ 词干前缀 + 后缀 */
@@ -81,6 +81,26 @@
     }
   }
 
+  function applyFormExceptions(forms, verb) {
+    var exceptions = verb.exceptions || {};
+    FORM_IDS.forEach(function (id) {
+      if (Object.prototype.hasOwnProperty.call(exceptions, id)) {
+        forms[id] = exceptions[id];
+      }
+    });
+    return forms;
+  }
+
+  function buildKanaForms(forms, verb, stemDict, stemKana) {
+    var exceptions = verb.exceptions || {};
+    var kanaForms = {};
+    FORM_IDS.forEach(function (id) {
+      kanaForms[id] = exceptions.kanaForms && Object.prototype.hasOwnProperty.call(exceptions.kanaForms, id)
+        ? exceptions.kanaForms[id] : forms[id].replace(stemDict, stemKana);
+    });
+    return kanaForms;
+  }
+
   /* 五段：按词尾假名分段 + 音便 */
   function buildGodan(verb) {
     var kana = verb.kana;
@@ -93,7 +113,7 @@
     var bin = SOUND_BIN[tail] || ["て", "た"];
     var teForm = (verb.exceptions && verb.exceptions.te) || stemDict + bin[0];
     var taForm = (verb.exceptions && verb.exceptions.ta) || stemDict + bin[1];
-    var forms = {
+    var forms = applyFormExceptions({
       mizenkei: stemDict + shift.a,
       renyoukei: stemDict + shift.i,
       shuushikei: dict,
@@ -119,11 +139,8 @@
       suiryou: stemDict + shift.o + "う",
       sonkei: "お" + stemDict + shift.i + "になる",
       kenjou: "お" + stemDict + shift.i + "する"
-    };
-    var kanaForms = {};
-    FORM_IDS.forEach(function (id) {
-      kanaForms[id] = forms[id].replace(stemDict, stemKana);
-    });
+    }, verb);
+    var kanaForms = buildKanaForms(forms, verb, stemDict, stemKana);
     return {
       forms: forms,
       kanaForms: kanaForms,
@@ -138,7 +155,7 @@
     assert(kana.slice(-1) === "る", "一段动词词尾须为「る」：" + dict);
     var stemKana = kana.slice(0, -1);
     var stemDict = dict.slice(0, -1);
-    var forms = {
+    var forms = applyFormExceptions({
       mizenkei: stemDict,
       renyoukei: stemDict,
       shuushikei: dict,
@@ -164,11 +181,8 @@
       suiryou: stemDict + "よう",
       sonkei: "お" + stemDict + "になる",
       kenjou: "お" + stemDict + "する"
-    };
-    var kanaForms = {};
-    FORM_IDS.forEach(function (id) {
-      kanaForms[id] = forms[id].replace(stemDict, stemKana);
-    });
+    }, verb);
+    var kanaForms = buildKanaForms(forms, verb, stemDict, stemKana);
     return {
       forms: forms,
       kanaForms: kanaForms,
@@ -179,7 +193,17 @@
   /* か変：来る 模板 */
   function buildKuru(verb) {
     assert(verb.dictionary === "来る", "か変仅支持「来る」：" + verb.dictionary);
-    return { forms: KURU_FORMS, kanaForms: KURU_KANA_FORMS, stem: null };
+    var forms = applyFormExceptions(Object.assign({}, KURU_FORMS), verb);
+    var kanaForms = Object.assign({}, KURU_KANA_FORMS);
+    var exceptions = verb.exceptions || {};
+    if (exceptions.kanaForms) {
+      FORM_IDS.forEach(function (id) {
+        if (Object.prototype.hasOwnProperty.call(exceptions.kanaForms, id)) {
+          kanaForms[id] = exceptions.kanaForms[id];
+        }
+      });
+    }
+    return { forms: forms, kanaForms: kanaForms, stem: null };
   }
 
   /* さ変：する / 复合さ変（勉强する）＝ 前缀 + 后缀 */
@@ -190,9 +214,11 @@
     var prefixKana = verb.kana.slice(0, -2);
     var forms = {};
     var kanaForms = {};
+    var exceptions = verb.exceptions || {};
     FORM_IDS.forEach(function (id) {
       forms[id] = prefix + SURU_SUFFIXES[id];
-      kanaForms[id] = prefixKana + SURU_SUFFIXES[id];
+      kanaForms[id] = exceptions.kanaForms && Object.prototype.hasOwnProperty.call(exceptions.kanaForms, id)
+        ? exceptions.kanaForms[id] : prefixKana + SURU_SUFFIXES[id];
     });
     return {
       forms: forms,

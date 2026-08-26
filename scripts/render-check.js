@@ -1,12 +1,14 @@
 // Nihongo-Learn 页面渲染回归（jsdom）—— 覆盖规则页与练习全流程
 // 运行：NODE_PATH=<managed workspace node_modules> node scripts/render-check.js
 const fs = require('fs');
+const path = require('path');
+const { pathToFileURL } = require('url');
 const { JSDOM } = require('jsdom');
-const ROOT = 'E:/01_Projects/Nihongo-Learn/';
-const html = fs.readFileSync(ROOT + 'verb-conjugation-stamp.html', 'utf8');
+const ROOT = path.resolve(__dirname, '..');
+const html = fs.readFileSync(path.join(ROOT, 'verb-conjugation-stamp.html'), 'utf8');
 
 const dom = new JSDOM(html, {
-  url: 'file:///E:/01_Projects/Nihongo-Learn/verb-conjugation-stamp.html?view=rules',
+  url: pathToFileURL(path.join(ROOT, 'verb-conjugation-stamp.html')).href + '?view=rules',
   runScripts: 'dangerously',
   resources: 'usable',
   pretendToBeVisual: true,
@@ -55,6 +57,9 @@ dom.window.addEventListener('load', function () {
       assert('卡片背面含 ruby 注音', doc.querySelectorAll('.card-example-result ruby').length > 0);
       assert('卡片背面含词干/接续分解', doc.querySelectorAll('.breakdown').length > 0);
       assert('分解标注使用 <ruby> 汉字注音', shell.innerHTML.includes('<ruby>'));
+      assert('句子用法区存在', shell.innerHTML.includes('usage-reference'));
+      assert('句子用法卡片存在', doc.querySelectorAll('.usage-card').length === 14);
+      assert('语法辨析卡片存在', doc.querySelectorAll('.contrast-card').length === 3);
 
       assert('品牌印章 動', shell.innerHTML.includes('brand-seal') && doc.querySelector('.brand-seal').textContent === '動');
 
@@ -96,6 +101,12 @@ dom.window.addEventListener('load', function () {
       if (stats) {
         const total = Object.values(stats.byForm).reduce(function (s, x) { return s + x.t; }, 0);
         assert('统计题数 = 10', total === 10);
+        doc.querySelector('[data-action="check-practice"]').click();
+        const duplicateRaw = dom.window.localStorage.getItem('verb-conjugation-practice-stats-v1');
+        const duplicateStats = duplicateRaw ? JSON.parse(duplicateRaw) : null;
+        const duplicateTotal = duplicateStats
+          ? Object.values(duplicateStats.byForm).reduce(function (s, x) { return s + x.t; }, 0) : -1;
+        assert('答案未改变时重复检查不重复计数', duplicateTotal === total);
       }
 
       console.log('--- 标准模式 ---');
@@ -140,6 +151,44 @@ dom.window.addEventListener('load', function () {
       doc.querySelector('.derived-reset').click();
       assert('复位后 19 行', doc.querySelectorAll('.row-anchor').length === 19);
       assert('复位后无复位按钮', doc.querySelector('.derived-reset') === null);
+
+      console.log('--- 渐进式练习题型 ---');
+      doc.querySelector('[data-view="practice"]').click();
+      doc.querySelector('[data-action="set-mode"][data-mode="simple"]').click();
+      doc.querySelector('[data-action="set-practice-kind"][data-kind="mixed"]').click();
+      doc.querySelector('[data-action="start-practice"]').click();
+      assert('混合词条生成题目', doc.querySelectorAll('.progressive-row').length === 10);
+      const mixedIds = Array.prototype.map.call(
+        doc.querySelectorAll('.progressive-row'), (row) => row.dataset.questionId
+      );
+      assert('混合题目 ID 唯一', new Set(mixedIds).size === mixedIds.length);
+      assert('混合题目显示词条', doc.querySelectorAll('.progressive-row .question-word strong').length === 10);
+      const kanaToggle = doc.querySelector('[data-action="toggle-hint"][data-hint="kana"]');
+      kanaToggle.click();
+      assert('可隐藏假名提示', dom.window.eval('state.showKana') === false
+        && doc.querySelectorAll('.progressive-row .question-word span').length === 0);
+      doc.querySelector('[data-action="toggle-hint"][data-hint="meaning"]').click();
+      assert('可隐藏中文提示', dom.window.eval('state.showMeaning') === false
+        && doc.querySelectorAll('.progressive-row .question-word small').length === 0);
+      doc.querySelector('[data-action="set-practice-kind"][data-kind="sentence"]').click();
+      doc.querySelector('[data-action="start-practice"]').click();
+      assert('句子填空生成语境', doc.querySelectorAll('.sentence-prompt').length === 10);
+      doc.querySelector('[data-action="set-practice-kind"][data-kind="classify"]').click();
+      doc.querySelector('[data-action="start-practice"]').click();
+      assert('词类判断生成类型选项', doc.querySelectorAll('.type-choice-grid').length === 10);
+      doc.querySelector('[data-action="set-practice-kind"][data-kind="polite"]').click();
+      doc.querySelector('[data-action="start-practice"]').click();
+      assert('普通／礼貌体题型生成转换提示', doc.querySelectorAll('.conversion-prompt').length === 10);
+      doc.querySelector('[data-action="set-mode"][data-mode="standard"]').click();
+      const politeItems = dom.window.eval('getPracticeItems()');
+      doc.querySelectorAll('.progressive-row').forEach((row, index) => {
+        const input = row.querySelector('.answer-field');
+        input.value = politeItems[index].accepted[0];
+        input.dispatchEvent(new dom.window.Event('change', { bubbles: true }));
+      });
+      doc.querySelector('[data-action="check-practice"]').click();
+      assert('普通／礼貌体标准答案可判定',
+        dom.window.eval('Object.values(state.result.items).every(item => item.correct)'));
 
       console.log('页面运行时错误: ' + (errors.length === 0 ? '无' : errors.join(' | ')));
       assert('无运行时错误', errors.length === 0);

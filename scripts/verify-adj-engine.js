@@ -1,8 +1,9 @@
 // 形容词/名词引擎回归验证（临时验证，先跑通再集成）
-const ROOT = 'E:/01_Projects/Nihongo-Learn/';
+const path = require('path');
+const ROOT = path.resolve(__dirname, '..');
 global.window = global;
-require(ROOT + 'data/adj-noun.js');
-require(ROOT + 'js/adj-conjugator.js');
+require(path.join(ROOT, 'data/adj-noun.js'));
+require(path.join(ROOT, 'js/adj-conjugator.js'));
 
 const D = window.NIHONGO_DATA;
 const adj = D['adj-conjugator'];
@@ -21,7 +22,7 @@ for (const typeId of ['i-adj', 'na-adj', 'noun']) {
 }
 console.log('示例词对比: ' + pass + ' 一致, ' + fail + ' 不一致');
 
-// 2) 词库 18 词全部可变形 + kanaForms 纯假名
+// 2) 词库全部可变形 + kanaForms 纯假名
 for (const v of D.adjNoun.lexicon) {
   try {
     const r = adj.conjugate(v);
@@ -33,12 +34,23 @@ for (const v of D.adjNoun.lexicon) {
     }
   } catch (e) { fail++; console.log('词库失败 ' + v.dictionary + ': ' + e.message); }
 }
-console.log('词库 18 词变形: ' + (fail === 0 ? '全部通过' : '有失败'));
+console.log('词库 ' + D.adjNoun.lexicon.length + ' 词变形: ' + (fail === 0 ? '全部通过' : '有失败'));
 
-// 3) 抽样展示
+// 3) 高频例外
+const ii = D.adjNoun.lexicon.find(v => v.dictionary === 'いい');
+if (ii && adj.conjugate(ii).forms.kako === 'よかった') {
+  console.log('いい 过去形例外: 通过');
+} else {
+  fail++;
+  console.log('いい 过去形例外: 失败');
+}
+
+// 4) 抽样展示
 for (const dict of ['高い', 'きれい', '猫']) {
   const v = D.adjNoun.lexicon.find(x => x.dictionary === dict);
   const r = adj.conjugate(v);
   console.log('\n[' + v.dictionary + ' (' + v.kana + ')] ' + v.type);
   adj.formIds.forEach(id => console.log('  ' + id + ': ' + r.forms[id] + '  (kana: ' + r.kanaForms[id] + ')'));
 }
+
+process.exitCode = fail > 0 ? 1 : 0;
