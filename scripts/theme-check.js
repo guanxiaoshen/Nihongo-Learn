@@ -1,8 +1,10 @@
 // 主题系统回归：切换 + 持久化 + 三页一致性（jsdom）
 // 运行：NODE_PATH=<managed workspace node_modules> node scripts/theme-check.js
 const fs = require('fs');
+const path = require('path');
+const { pathToFileURL } = require('url');
 const { JSDOM } = require('jsdom');
-const ROOT = 'E:/01_Projects/Nihongo-Learn/';
+const ROOT = path.resolve(__dirname, '..');
 
 let failed = 0;
 function assert(name, cond) {
@@ -11,9 +13,9 @@ function assert(name, cond) {
 }
 
 function makeDom(page, preStoredTheme) {
-  const html = fs.readFileSync(ROOT + page, 'utf8');
+  const html = fs.readFileSync(path.join(ROOT, page), 'utf8');
   return new JSDOM(html, {
-    url: 'file:///E:/01_Projects/Nihongo-Learn/' + page,
+    url: pathToFileURL(path.join(ROOT, page)).href,
     runScripts: 'dangerously',
     resources: 'usable',
     pretendToBeVisual: true,

@@ -34,8 +34,8 @@
     };
     var kanaForms = {};
     FORM_IDS.forEach(function (id) {
-      // 例外词（如 いい）本身为假名，kana 形式即自身
-      kanaForms[id] = ex.hitei ? forms[id] : forms[id].replace(stemDict, stemKana);
+      var explicitKana = ex.kanaForms && ex.kanaForms[id];
+      kanaForms[id] = explicitKana || forms[id].replace(stemDict, stemKana);
     });
     return {
       forms: forms,
@@ -56,9 +56,18 @@
       te: dict + "で",
       jouken: dict + "なら"
     };
+    var exceptions = entry.exceptions || {};
+    FORM_IDS.forEach(function (id) {
+      if (Object.prototype.hasOwnProperty.call(exceptions, id)) {
+        forms[id] = exceptions[id];
+      }
+    });
     var kanaForms = {};
     FORM_IDS.forEach(function (id) {
-      kanaForms[id] = kana + forms[id].slice(dict.length);
+      var explicitKana = exceptions.kanaForms && exceptions.kanaForms[id];
+      kanaForms[id] = explicitKana || (forms[id].indexOf(dict) === 0
+        ? kana + forms[id].slice(dict.length)
+        : forms[id]);
     });
     return {
       forms: forms,

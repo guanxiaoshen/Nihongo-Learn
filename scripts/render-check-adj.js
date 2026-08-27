@@ -1,12 +1,14 @@
 // 形容词/名词模块渲染回归（jsdom）—— 规则 + 练习全流程
 // 运行：NODE_PATH=<managed workspace node_modules> node scripts/render-check-adj.js
 const fs = require('fs');
+const path = require('path');
+const { pathToFileURL } = require('url');
 const { JSDOM } = require('jsdom');
-const ROOT = 'E:/01_Projects/Nihongo-Learn/';
-const html = fs.readFileSync(ROOT + 'adj-noun-stamp.html', 'utf8');
+const ROOT = path.resolve(__dirname, '..');
+const html = fs.readFileSync(path.join(ROOT, 'adj-noun-stamp.html'), 'utf8');
 
 const dom = new JSDOM(html, {
-  url: 'file:///E:/01_Projects/Nihongo-Learn/adj-noun-stamp.html?view=rules',
+  url: pathToFileURL(path.join(ROOT, 'adj-noun-stamp.html')).href + '?view=rules',
   runScripts: 'dangerously',
   resources: 'usable',
   pretendToBeVisual: true,
@@ -44,11 +46,46 @@ dom.window.addEventListener('load', function () {
 
       console.log('--- 规则视图 ---');
       assert('规则表格存在', shell.innerHTML.includes('rule-table'));
+      assert('P3 记忆优先总览存在', doc.querySelector('.adj-memory-overview') !== null);
+      assert('P3 两条核心公式', doc.querySelectorAll('.adj-formula-card').length === 2
+        && ['い形容词', 'な形容词／名词'].every(function (text) { return shell.innerHTML.includes(text); }));
+      assert('P3 三类词六种谓语路径', doc.querySelectorAll('.adj-predicate-card').length === 3
+        && doc.querySelectorAll('.adj-predicate-row').length === 18);
+      assert('P3 谓语路径覆盖代表词', ['高い', '静か', '学生'].every(function (text) {
+        return shell.innerHTML.includes(text);
+      }));
+      assert('P3 定语/副词/谓语功能分层', doc.querySelector('.adj-usage-reference') !== null
+        && doc.querySelectorAll('.adj-usage-guide').length === 3
+        && ['定语', '副词', '谓语'].every(function (text) { return shell.innerHTML.includes(text); }));
+      assert('P3 易错词就地提示', doc.querySelector('.adj-exception-reference') !== null
+        && doc.querySelectorAll('.adj-exception-card').length === 4
+        && ['いい', 'よくない', 'きれいな部屋', '学生の本'].every(function (text) {
+          return shell.innerHTML.includes(text);
+        }));
+      assert('完整六形表格位于可展开查询层', doc.querySelector('.reference-details') !== null
+        && doc.querySelector('.reference-details .rule-table') !== null);
+      const referenceDetails = doc.querySelector('.reference-details');
+      assert('完整查询层默认收起', referenceDetails.open === false);
+      referenceDetails.querySelector('summary').click();
+      referenceDetails.dispatchEvent(new dom.window.Event('toggle'));
+      assert('完整查询层可展开并保存状态', referenceDetails.open === true
+        && dom.window.eval('state.referenceOpen') === true
+        && JSON.parse(dom.window.sessionStorage.getItem('adj-noun-stamp-state-v1')).referenceOpen === true);
+      referenceDetails.querySelector('summary').click();
+      referenceDetails.dispatchEvent(new dom.window.Event('toggle'));
+      assert('完整查询层可收起并保存状态', referenceDetails.open === false
+        && dom.window.eval('state.referenceOpen') === false);
       assert('3 类词列', ['い形容词', 'な形容词', '名词'].every(function (s) { return shell.innerHTML.includes(s); }));
       assert('规则卡片 6形×3类=18 张', doc.querySelectorAll('.rule-card').length === 18);
       assert('卡片背面含 ruby 注音', doc.querySelectorAll('.card-example-result ruby').length > 0);
       assert('卡片背面含分解', doc.querySelectorAll('.breakdown').length > 0);
+      assert('活用形首列使用层级化标记', doc.querySelectorAll('.form-cell-content').length === 6);
+      assert('活用形首列显示序号', doc.querySelector('.form-index').textContent.trim() === '01');
       assert('变形速查表存在', shell.innerHTML.includes('三类变形速查'));
+      assert('变形速查表头与数据列对齐', doc.querySelectorAll('.sound-table thead th').length === 7
+        && doc.querySelectorAll('.sound-table tbody tr:first-child > *').length === 7);
+      assert('句中用法区存在', shell.innerHTML.includes('usage-reference'));
+      assert('句中用法卡片存在', doc.querySelectorAll('.usage-card').length === 6);
       assert('无 base/derived 分组 tab', doc.querySelectorAll('.conjugation-tab').length === 0);
 
       assert('品牌标题 形・名詞ノート', shell.innerHTML.includes('形・名詞ノート'));
@@ -58,6 +95,13 @@ dom.window.addEventListener('load', function () {
       assert('词类筛选 chips ×3', doc.querySelectorAll('.type-chip[data-action="toggle-practice-type"]').length === 3);
       assert('无形范围 chips', doc.querySelectorAll('[data-action="set-practice-scope"]').length === 0);
       assert('题数选择器存在', doc.querySelector('[data-action="set-practice-count"]') !== null);
+      const countSelect = doc.querySelector('[data-action="set-practice-count"]');
+      countSelect.value = "3";
+      countSelect.dispatchEvent(new dom.window.Event('change', { bubbles: true }));
+      assert('3 题选项可正确更新状态', dom.window.eval('state.practiceCount') === 3);
+      doc.querySelector('[data-action="set-practice-count"]').value = "6";
+      doc.querySelector('[data-action="set-practice-count"]').dispatchEvent(new dom.window.Event('change', { bubbles: true }));
+      assert('恢复 6 题设置', dom.window.eval('state.practiceCount') === 6);
 
       console.log('--- 开始新练习 ---');
       doc.querySelector('[data-action="start-practice"]').click();
@@ -101,6 +145,51 @@ dom.window.addEventListener('load', function () {
       doc.querySelector('[data-action="check-practice"]').click();
       let allOk = ev('Object.values(state.result.items).every(i => i.correct)');
       assert('标准模式全对（含 ではない 等价写法）', allOk);
+
+      // 校验例外词：いい 的常用肯定形式 よい
+      ev('state.currentVerb = lexicon.find(v => v.dictionary === "いい")');
+      ev('state.currentForms = ["kotei"]');
+      ev('state.practiceMode = "standard"');
+      ev('state.answers = {}');
+      ev('state.result = null');
+      ev('state.lastCheckedSignature = null');
+      ev('renderApp()');
+      const iiInput = doc.querySelector('.answer-field');
+      iiInput.value = 'よい';
+      iiInput.dispatchEvent(new dom.window.Event('change', { bubbles: true }));
+      doc.querySelector('[data-action="check-practice"]').click();
+      assert('いい 的常用肯定形式 よい 可接受',
+        ev('state.result.items.kotei.correct') === true);
+
+      console.log('--- 渐进式练习题型 ---');
+      doc.querySelector('[data-view="practice"]').click();
+      doc.querySelector('[data-action="set-mode"][data-mode="simple"]').click();
+      doc.querySelector('[data-action="set-practice-kind"][data-kind="mixed"]').click();
+      doc.querySelector('[data-action="start-practice"]').click();
+      assert('混合词条生成题目', doc.querySelectorAll('.progressive-row').length === 6);
+      const mixedIds = Array.prototype.map.call(
+        doc.querySelectorAll('.progressive-row'), (row) => row.dataset.questionId
+      );
+      assert('混合题目 ID 唯一', new Set(mixedIds).size === mixedIds.length);
+      doc.querySelector('[data-action="set-practice-kind"][data-kind="sentence"]').click();
+      doc.querySelector('[data-action="start-practice"]').click();
+      assert('句子填空生成语境', doc.querySelectorAll('.sentence-prompt').length === 6);
+      doc.querySelector('[data-action="set-practice-kind"][data-kind="classify"]').click();
+      doc.querySelector('[data-action="start-practice"]').click();
+      assert('词类判断生成类型选项', doc.querySelectorAll('.type-choice-grid').length === 6);
+      doc.querySelector('[data-action="set-practice-kind"][data-kind="polite"]').click();
+      doc.querySelector('[data-action="start-practice"]').click();
+      assert('普通／礼貌体题型生成转换提示', doc.querySelectorAll('.conversion-prompt').length === 6);
+      doc.querySelector('[data-action="set-mode"][data-mode="standard"]').click();
+      const politeItems = ev('getPracticeItems()');
+      doc.querySelectorAll('.progressive-row').forEach(function (row, index) {
+        const input = row.querySelector('.answer-field');
+        input.value = politeItems[index].accepted[0];
+        input.dispatchEvent(new dom.window.Event('change', { bubbles: true }));
+      });
+      doc.querySelector('[data-action="check-practice"]').click();
+      assert('普通／礼貌体标准答案可判定',
+        ev('Object.values(state.result.items).every(item => item.correct)'));
 
       console.log('--- 规则页回归 ---');
       doc.querySelector('[data-view="rules"]').click();

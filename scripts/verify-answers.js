@@ -1,12 +1,14 @@
 // Nihongo-Learn 练习判定专项验证（A3 同词干扰项 / A4 多可接受答案 / 错题统计）
 // 运行：NODE_PATH=<managed workspace node_modules> node scripts/verify-answers.js
 const fs = require('fs');
+const path = require('path');
+const { pathToFileURL } = require('url');
 const { JSDOM } = require('jsdom');
-const ROOT = 'E:/01_Projects/Nihongo-Learn/';
-const html = fs.readFileSync(ROOT + 'verb-conjugation-stamp.html', 'utf8');
+const ROOT = path.resolve(__dirname, '..');
+const html = fs.readFileSync(path.join(ROOT, 'verb-conjugation-stamp.html'), 'utf8');
 
 const dom = new JSDOM(html, {
-  url: 'file:///E:/01_Projects/Nihongo-Learn/verb-conjugation-stamp.html?view=practice',
+  url: pathToFileURL(path.join(ROOT, 'verb-conjugation-stamp.html')).href + '?view=practice',
   runScripts: 'dangerously',
   resources: 'usable',
   pretendToBeVisual: true,
@@ -133,6 +135,51 @@ dom.window.addEventListener('load', function () {
       doc.querySelector('[data-action="check-practice"]').click();
       const wrongAfter = ev('state.stats.wrongItems.length');
       assert('错题入错题集（+1）', wrongAfter === wrongBefore + 1);
+      const wrongItem = ev('state.stats.wrongItems.find(w => w.dict === "来る" && w.formId === "mizenkei")');
+      assert('错题记录包含复习次数与到期时间',
+        !!wrongItem && wrongItem.wrongCount === 1 && wrongItem.correctStreak === 0
+          && wrongItem.dueAt <= Date.now());
+      doc.querySelector('[data-action="check-practice"]').click();
+      assert('答案未改变时重复检查不重复增加错题', ev('state.stats.wrongItems.length') === wrongAfter);
+
+      // 首次答对错题后保留复习项，并推迟下一次复习
+      ev('state.answers = {mizenkei: "来", te: "来て"}');
+      ev('state.result = null');
+      ev('state.answerRevision += 1');
+      ev('state.lastCheckedSignature = null');
+      ev('renderApp()');
+      doc.querySelector('[data-action="check-practice"]').click();
+      const scheduledWrong = ev('state.stats.wrongItems.find(w => w.dict === "来る" && w.formId === "mizenkei")');
+      assert('错题首次答对后进入延迟复习',
+        !!scheduledWrong && scheduledWrong.correctStreak === 1 && scheduledWrong.dueAt > Date.now());
+      for (let i = 0; i < 2; i += 1) {
+        ev('state.result = null');
+        ev('state.answerRevision += 1');
+        ev('state.lastCheckedSignature = null');
+        ev('renderApp()');
+        doc.querySelector('[data-action="check-practice"]').click();
+      }
+      assert('错题连续答对 3 次后移出复习队列',
+        !ev('state.stats.wrongItems.some(w => w.dict === "来る" && w.formId === "mizenkei")'));
+
+      // 校验显式常用变体：書かせられる ↔ 書かされる
+      ev('state.currentVerb = lexicon.find(v => v.dictionary === "書く")');
+      ev('state.currentForms = ["shiekiUkemi"]');
+      ev('state.practiceMode = "standard"');
+      ev('state.answers = {}');
+      ev('state.result = null');
+      ev('state.lastCheckedSignature = null');
+      ev('renderApp()');
+      const variantInput = doc.querySelector('.answer-field');
+      variantInput.value = '書かされる';
+      variantInput.dispatchEvent(new dom.window.Event('change', { bubbles: true }));
+      doc.querySelector('[data-action="check-practice"]').click();
+      assert('A4f 書かされる作为使役被动常用变体可接受',
+        ev('state.result.items.shiekiUkemi.correct') === true);
+      const variantStatsBefore = ev('state.stats.byForm.shiekiUkemi.t');
+      doc.querySelector('[data-action="check-practice"]').click();
+      assert('A4g 常用变体重复检查不重复计数',
+        ev('state.stats.byForm.shiekiUkemi.t') === variantStatsBefore);
 
       console.log('页面运行时错误: ' + (errors.length === 0 ? '无' : errors.join(' | ')));
       assert('无运行时错误', errors.length === 0);

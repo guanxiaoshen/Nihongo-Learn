@@ -121,8 +121,9 @@
     }
 
     button:focus-visible,
-    input:focus-visible {
-      outline: 3px solid rgba(var(--vermilion-deep-rgb), .48);
+    input:focus-visible,
+    a:focus-visible {
+      outline: 3px solid var(--vermilion);
       outline-offset: 3px;
     }
 
@@ -412,6 +413,35 @@
         var(--surface-strong);
     }
 
+    .derived-filter {
+      display: grid;
+      grid-template-columns: minmax(122px, auto) minmax(0, 1fr);
+      align-items: center;
+      gap: 10px 14px;
+      margin: 12px 0 14px;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-left: 4px solid var(--vermilion);
+      background: var(--wash);
+    }
+
+    .derived-filter-label {
+      display: grid;
+      gap: 2px;
+    }
+
+    .derived-filter-label strong {
+      color: var(--vermilion-deep);
+      font-family: var(--display);
+      font-size: .86rem;
+    }
+
+    .derived-filter-label span {
+      color: var(--muted);
+      font-size: .7rem;
+      line-height: 1.3;
+    }
+
     .conjugation-tab {
       display: grid;
       flex: 1 1 0;
@@ -466,6 +496,783 @@
       animation: panel-enter .45s ease both;
     }
 
+    /* P1：先展示可记忆的变化轴与代表词路径，完整表格退到查询层 */
+    .memory-overview {
+      display: grid;
+      gap: 14px;
+      padding: 16px;
+      border: 2px solid var(--vermilion);
+      border-radius: 2px;
+      background:
+        linear-gradient(120deg, rgba(var(--vermilion-rgb), .08), transparent 58%),
+        var(--surface-strong);
+      box-shadow: 6px 7px 0 rgba(var(--vermilion-deep-rgb), .08);
+    }
+
+    .memory-overview-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .memory-overview-head h3 {
+      margin: 0;
+      color: var(--ink);
+      font-family: var(--display);
+      font-size: clamp(1.22rem, 2vw, 1.55rem);
+      line-height: 1.2;
+    }
+
+    .memory-overview-head p {
+      max-width: 740px;
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: .82rem;
+      line-height: 1.5;
+    }
+
+    .memory-legend {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 6px;
+      flex: 0 0 auto;
+    }
+
+    .memory-legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 7px;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      background: var(--wash);
+      font-size: .7rem;
+      font-weight: 800;
+    }
+
+    .memory-legend-item::before {
+      width: 9px;
+      height: 9px;
+      border: 1px solid currentColor;
+      background: currentColor;
+      content: "";
+    }
+
+    .memory-legend-item.is-root {
+      color: var(--ink);
+    }
+
+    .memory-legend-item.is-change {
+      color: var(--vermilion-deep);
+    }
+
+    .memory-legend-item.is-suffix {
+      color: var(--success);
+    }
+
+    .memory-legend-item.is-exception {
+      color: var(--danger);
+    }
+
+    .memory-overview-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .memory-card {
+      display: grid;
+      align-content: start;
+      gap: 11px;
+      min-width: 0;
+      padding: 13px;
+      border: 1px solid var(--line-strong);
+      background: var(--surface);
+    }
+
+    .memory-card-head {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .memory-card-kicker {
+      display: block;
+      margin-bottom: 3px;
+      color: var(--vermilion-deep);
+      font-size: .7rem;
+      font-weight: 900;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    .memory-card h4 {
+      margin: 0;
+      color: var(--ink);
+      font-family: var(--display);
+      font-size: 1.08rem;
+    }
+
+    .memory-card-badge {
+      flex: 0 0 auto;
+      padding: 4px 7px;
+      border: 1px solid var(--vermilion);
+      color: var(--vermilion-deep);
+      background: var(--vermilion-soft);
+      font-size: .68rem;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .memory-axis-scroll {
+      max-width: 100%;
+      overflow-x: auto;
+      scrollbar-color: var(--vermilion) var(--vermilion-soft);
+    }
+
+    .memory-axis {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(92px, 1fr));
+      min-width: 500px;
+      border: 1px solid var(--line-strong);
+      background: var(--surface-strong);
+    }
+
+    .memory-axis-column {
+      display: grid;
+      align-content: start;
+      gap: 5px;
+      min-height: 146px;
+      padding: 9px 7px;
+      text-align: center;
+    }
+
+    .memory-axis-column + .memory-axis-column {
+      border-left: 1px solid var(--line);
+    }
+
+    .memory-axis-label {
+      color: var(--vermilion-deep);
+      font-family: var(--display);
+      font-size: 1.02rem;
+      font-weight: 900;
+    }
+
+    .memory-axis-term {
+      color: var(--muted);
+      font-size: .68rem;
+      font-weight: 800;
+    }
+
+    .memory-axis-sample {
+      display: inline-flex;
+      justify-content: center;
+      color: var(--ink);
+      font-family: var(--display);
+      font-size: 1.22rem;
+      font-weight: 900;
+      letter-spacing: .04em;
+    }
+
+    .memory-axis-formula {
+      margin-top: auto;
+      color: var(--muted);
+      font-size: .7rem;
+      font-weight: 800;
+      line-height: 1.35;
+    }
+
+    .memory-card-note {
+      display: grid;
+      gap: 3px;
+      padding: 8px 9px;
+      border-left: 3px solid var(--vermilion);
+      background: var(--wash);
+    }
+
+    .memory-card-note-label {
+      color: var(--vermilion-deep);
+      font-size: .68rem;
+      font-weight: 900;
+      letter-spacing: .08em;
+    }
+
+    .memory-card-note strong {
+      color: var(--ink);
+      font-family: var(--display);
+      font-size: .88rem;
+    }
+
+    .memory-card-note small {
+      color: var(--muted);
+      font-size: .7rem;
+      line-height: 1.4;
+    }
+
+    .memory-path-source {
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 6px 10px;
+      padding: 8px 9px;
+      border: 1px dashed var(--line-strong);
+      background: var(--wash);
+    }
+
+    .memory-path-source span {
+      color: var(--muted);
+      font-size: .7rem;
+      font-weight: 800;
+    }
+
+    .memory-path-source strong {
+      color: var(--vermilion-deep);
+      font-family: var(--display);
+      font-size: 1.3rem;
+      letter-spacing: .05em;
+    }
+
+    .memory-path-list {
+      display: grid;
+      border: 1px solid var(--line);
+      background: var(--surface-strong);
+    }
+
+    .memory-path-row {
+      display: grid;
+      grid-template-columns: 74px minmax(0, 1fr) minmax(116px, .8fr);
+      align-items: center;
+      gap: 9px;
+      min-width: 0;
+      padding: 7px 9px;
+    }
+
+    .memory-path-row + .memory-path-row {
+      border-top: 1px solid var(--line);
+    }
+
+    .memory-path-label {
+      color: var(--vermilion-deep);
+      font-size: .76rem;
+      font-weight: 900;
+    }
+
+    .memory-equation {
+      display: inline-flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 0;
+      color: var(--ink);
+      font-family: var(--display);
+      font-size: 1rem;
+      font-weight: 900;
+      letter-spacing: .03em;
+    }
+
+    .memory-token {
+      display: inline-block;
+    }
+
+    .memory-token.is-root {
+      color: var(--ink);
+    }
+
+    .memory-token.is-change {
+      padding: 1px 3px;
+      color: var(--vermilion-deep);
+      background: var(--vermilion-soft);
+      box-shadow: inset 0 -2px 0 var(--vermilion);
+    }
+
+    .memory-token.is-suffix {
+      margin-left: 2px;
+      padding: 1px 4px;
+      color: var(--success);
+      background: var(--success-soft);
+      font-family: var(--sans);
+      font-size: .8rem;
+      letter-spacing: 0;
+    }
+
+    .memory-path-formula {
+      color: var(--muted);
+      font-size: .7rem;
+      font-weight: 800;
+      line-height: 1.35;
+    }
+
+    .memory-type-memory {
+      display: grid;
+      gap: 8px;
+      padding: 11px;
+      border: 1px solid var(--line-strong);
+      background: var(--wash);
+    }
+
+    .memory-type-memory-head {
+      display: flex;
+      align-items: baseline;
+      gap: 9px;
+    }
+
+    .memory-type-memory-head strong {
+      color: var(--vermilion-deep);
+      font-family: var(--display);
+      font-size: .98rem;
+    }
+
+    .memory-type-memory-head span {
+      color: var(--muted);
+      font-size: .72rem;
+    }
+
+    .memory-type-item.memory-type-tab {
+      display: grid;
+      width: 100%;
+      margin: 0;
+      color: inherit;
+      font-family: var(--sans);
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .memory-type-item.memory-type-tab:hover {
+      border-color: var(--vermilion);
+      background: var(--wash-hover);
+      transform: translateY(-1px);
+    }
+
+    .memory-type-item.memory-type-tab[aria-selected="true"] {
+      border-color: var(--vermilion);
+      background: var(--vermilion-soft);
+      box-shadow: inset 0 -3px 0 var(--vermilion), 3px 3px 0 rgba(var(--vermilion-deep-rgb), .08);
+      transform: translateY(-1px);
+    }
+
+    .memory-type-detail-panel {
+      display: grid;
+      gap: 11px;
+      padding: 13px;
+      border: 2px solid var(--vermilion);
+      background: var(--surface);
+    }
+
+    .memory-type-detail-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .memory-type-detail-head h4 {
+      margin: 0;
+      color: var(--ink);
+      font-family: var(--display);
+      font-size: 1.16rem;
+    }
+
+    .memory-type-detail-head p {
+      max-width: 760px;
+      margin: 5px 0 0;
+      color: var(--muted);
+      font-size: .76rem;
+      line-height: 1.45;
+    }
+
+    .memory-type-detail-badge {
+      flex: 0 0 auto;
+      padding: 5px 8px;
+      border: 1px solid var(--vermilion);
+      color: var(--vermilion-deep);
+      background: var(--vermilion-soft);
+      font-size: .7rem;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .memory-type-detail-note {
+      padding: 8px 9px;
+      border-left: 3px solid var(--accent-muted);
+      color: var(--muted);
+      background: var(--wash);
+      font-size: .74rem;
+      line-height: 1.45;
+    }
+
+    .memory-equation-join {
+      padding: 0 3px;
+      color: var(--accent-muted);
+      font-family: var(--sans);
+      font-size: .76rem;
+    }
+
+    .memory-equation-result {
+      margin-left: 7px;
+      padding: 1px 4px;
+      color: var(--vermilion-deep);
+      background: var(--vermilion-soft);
+      font-family: var(--display);
+      font-size: .82rem;
+    }
+
+    .sound-note {
+      display: grid;
+      gap: 8px;
+      padding: 12px 16px 14px;
+      border: 1px solid var(--line-strong);
+      border-top: 4px solid var(--accent-muted);
+      background: var(--surface);
+    }
+
+    .sound-note h3 {
+      margin: 0;
+      color: var(--vermilion-deep);
+      font-family: var(--display);
+      font-size: 1rem;
+    }
+
+    .sound-note p {
+      margin: 0;
+      color: var(--muted);
+      font-size: .76rem;
+      line-height: 1.45;
+    }
+
+    .sound-note-example {
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 5px 8px;
+      padding: 8px 9px;
+      border-left: 3px solid var(--accent-muted);
+      color: var(--ink);
+      background: var(--wash);
+      font-family: var(--display);
+      font-size: .9rem;
+      font-weight: 900;
+    }
+
+    .sound-note-example span {
+      color: var(--muted);
+      font-family: var(--sans);
+      font-size: .72rem;
+      font-weight: 700;
+    }
+
+    .memory-type-strip {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .memory-type-item {
+      display: grid;
+      gap: 2px;
+      min-width: 0;
+      padding: 8px 9px;
+      border: 1px solid var(--line);
+      background: var(--surface);
+    }
+
+    .memory-type-item strong {
+      color: var(--vermilion-deep);
+      font-family: var(--display);
+      font-size: .8rem;
+      line-height: 1.35;
+    }
+
+    .memory-type-item span {
+      color: var(--muted);
+      font-size: .7rem;
+      line-height: 1.35;
+    }
+
+    .memory-type-item .memory-type-detail {
+      color: var(--vermilion-deep);
+      font-weight: 800;
+    }
+
+    .memory-type-item .memory-type-example {
+      color: var(--ink);
+      font-family: var(--display);
+      font-weight: 800;
+    }
+
+    .memory-type-item .memory-type-focus {
+      padding-top: 4px;
+      border-top: 1px dashed var(--line);
+      font-size: .66rem;
+    }
+
+    .derived-memory {
+      display: grid;
+      gap: 12px;
+      padding: 16px;
+      border: 1px solid var(--line-strong);
+      border-top: 4px solid var(--accent-muted);
+      background: var(--wash);
+    }
+
+    .derived-memory-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .derived-memory-head h3 {
+      margin: 0;
+      color: var(--ink);
+      font-family: var(--display);
+      font-size: 1.2rem;
+    }
+
+    .derived-memory-head p {
+      max-width: 760px;
+      margin: 5px 0 0;
+      color: var(--muted);
+      font-size: .78rem;
+      line-height: 1.45;
+    }
+
+    .derived-memory-head-badge {
+      flex: 0 0 auto;
+      padding: 5px 8px;
+      border: 1px solid var(--accent-muted);
+      color: var(--accent-muted);
+      background: var(--surface);
+      font-size: .7rem;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .derived-memory-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .derived-memory-group {
+      display: grid;
+      align-content: start;
+      gap: 8px;
+      min-width: 0;
+      padding: 10px;
+      border: 1px solid var(--line);
+      background: var(--surface);
+    }
+
+    .derived-memory-group-head {
+      display: grid;
+      gap: 3px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .derived-memory-group-head strong {
+      color: var(--vermilion-deep);
+      font-family: var(--display);
+      font-size: .92rem;
+    }
+
+    .derived-memory-group-head span {
+      color: var(--muted);
+      font-size: .68rem;
+      line-height: 1.35;
+    }
+
+    .derived-memory-form-list {
+      display: grid;
+      gap: 5px;
+    }
+
+    .derived-memory-form {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      align-items: baseline;
+      gap: 6px;
+      padding: 5px 6px;
+      border-left: 3px solid var(--accent-muted);
+      background: var(--wash);
+    }
+
+    .derived-memory-form-label {
+      color: var(--muted);
+      font-size: .68rem;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .derived-memory-form-content {
+      display: grid;
+      gap: 1px;
+      min-width: 0;
+    }
+
+    .derived-memory-form-result {
+      color: var(--ink);
+      font-family: var(--display);
+      font-size: .94rem;
+      font-weight: 900;
+      letter-spacing: .02em;
+    }
+
+    .derived-memory-form-rule {
+      color: var(--muted);
+      font-size: .66rem;
+      line-height: 1.3;
+    }
+
+    .exception-memory {
+      display: grid;
+      gap: 12px;
+      padding: 16px;
+      border: 1px solid var(--line-strong);
+      border-top: 4px solid var(--danger);
+      background:
+        linear-gradient(110deg, rgba(var(--vermilion-rgb), .06), transparent 60%),
+        var(--surface);
+    }
+
+    .exception-memory-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .exception-memory-head h3 {
+      margin: 0;
+      color: var(--ink);
+      font-family: var(--display);
+      font-size: 1.2rem;
+    }
+
+    .exception-memory-head p {
+      max-width: 760px;
+      margin: 5px 0 0;
+      color: var(--muted);
+      font-size: .78rem;
+      line-height: 1.45;
+    }
+
+    .exception-memory-head-badge {
+      flex: 0 0 auto;
+      padding: 5px 8px;
+      border: 1px solid var(--danger);
+      color: var(--danger);
+      background: var(--danger-soft);
+      font-size: .7rem;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .exception-memory-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .exception-memory-card {
+      display: grid;
+      align-content: start;
+      gap: 7px;
+      min-width: 0;
+      padding: 10px;
+      border: 1px solid var(--line);
+      background: var(--surface-strong);
+    }
+
+    .exception-memory-tag {
+      color: var(--danger);
+      font-size: .68rem;
+      font-weight: 900;
+      letter-spacing: .08em;
+    }
+
+    .exception-memory-card h4 {
+      margin: 0;
+      color: var(--ink);
+      font-family: var(--display);
+      font-size: .92rem;
+      line-height: 1.3;
+    }
+
+    .exception-memory-equation {
+      color: var(--vermilion-deep);
+      font-family: var(--display);
+      font-size: .98rem;
+      font-weight: 900;
+      line-height: 1.35;
+    }
+
+    .exception-memory-note {
+      padding-top: 6px;
+      border-top: 1px dashed var(--line);
+      color: var(--muted);
+      font-size: .72rem;
+      line-height: 1.45;
+    }
+
+    .reference-details {
+      border: 2px solid var(--line-strong);
+      background: var(--surface);
+    }
+
+    .reference-details[open] {
+      border-color: var(--vermilion);
+    }
+
+    .reference-details summary {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 11px 13px;
+      color: var(--vermilion-deep);
+      background:
+        linear-gradient(90deg, rgba(var(--vermilion-rgb), .08), transparent 65%),
+        var(--wash);
+      cursor: pointer;
+      font-family: var(--display);
+      font-size: 1rem;
+      font-weight: 900;
+      list-style: none;
+    }
+
+    .reference-details summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .reference-details summary::after {
+      color: var(--muted);
+      content: "展开查询";
+      font-family: var(--sans);
+      font-size: .72rem;
+      font-weight: 800;
+    }
+
+    .reference-details[open] summary::after {
+      content: "收起查询";
+    }
+
+    .reference-details-note {
+      color: var(--muted);
+      font-family: var(--sans);
+      font-size: .72rem;
+      font-weight: 700;
+    }
+
+    .reference-details-body {
+      display: grid;
+      gap: 10px;
+      padding: 12px;
+      border-top: 1px solid var(--line-strong);
+    }
+
     /* P3：派生形行内锚点胶囊 */
     .row-anchors {
       display: flex;
@@ -503,11 +1310,7 @@
       flex-wrap: wrap;
       align-items: center;
       gap: 8px;
-      margin: 10px 0 14px;
-      padding: 10px 12px;
-      border: 1px solid var(--line);
-      border-left: 4px solid var(--vermilion);
-      background: var(--wash);
+      min-width: 0;
     }
 
     .derived-categories .type-chip {
@@ -578,6 +1381,29 @@
       font-size: .74rem;
     }
 
+    .hint-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 12px;
+    }
+
+    .hint-option {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      color: var(--muted);
+      font-size: .78rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .hint-option input {
+      width: 16px;
+      height: 16px;
+      margin: 0;
+      accent-color: var(--vermilion);
+    }
+
     .practice-config.is-folded .config-rows {
       display: none;
     }
@@ -624,21 +1450,74 @@
     .rule-table thead th:first-child {
       left: 0;
       z-index: 8;
-      width: 150px;
+      width: 132px;
+      min-width: 132px;
+      text-align: center;
+    }
+
+    .form-header-main {
+      display: block;
+      font-family: var(--display);
+      font-size: .94rem;
+      letter-spacing: .08em;
+      line-height: 1.2;
+    }
+
+    .form-header-sub {
+      display: block;
+      margin-top: 3px;
+      color: rgba(var(--surface-rgb), .72);
+      font-family: var(--mono);
+      font-size: .62rem;
+      font-weight: 700;
+      letter-spacing: .16em;
+      line-height: 1;
+      text-transform: uppercase;
     }
 
     .rule-table .form-cell {
       position: sticky;
       left: 0;
       z-index: 4;
-      width: 150px;
-      min-width: 150px;
+      width: 132px;
+      min-width: 132px;
+      padding: 12px 8px;
       color: var(--vermilion-deep);
       background:
         repeating-linear-gradient(45deg, transparent 0 9px, rgba(var(--vermilion-rgb), .025) 10px 11px, transparent 12px 22px),
         var(--wash);
       box-shadow: inset 4px 0 0 var(--vermilion);
+      vertical-align: middle;
       text-align: center;
+    }
+
+    .rule-table .form-cell[data-form-group="base"] {
+      box-shadow: inset 6px 0 0 var(--vermilion);
+    }
+
+    .form-cell-content {
+      display: grid;
+      min-height: 132px;
+      align-content: center;
+      justify-items: center;
+      gap: 6px;
+    }
+
+    .form-index {
+      display: inline-grid;
+      min-width: 30px;
+      height: 24px;
+      place-items: center;
+      padding: 0 7px;
+      border: 1px solid var(--vermilion);
+      border-radius: 999px;
+      color: var(--vermilion-deep);
+      background: var(--vermilion-soft);
+      font-family: var(--mono);
+      font-size: .68rem;
+      font-weight: 800;
+      letter-spacing: .08em;
+      line-height: 1;
     }
 
     .rule-table tbody tr:hover .form-cell {
@@ -657,14 +1536,30 @@
 
     .form-name {
       display: block;
+      max-width: 100%;
+      color: var(--vermilion-deep);
       font-family: var(--display);
+      font-size: 1rem;
       font-weight: 900;
+      letter-spacing: .02em;
+      line-height: 1.25;
+      overflow-wrap: anywhere;
     }
 
     .form-jp {
       display: block;
-      margin-top: 2px;
-      font-size: .8rem;
+      margin-top: 0;
+      color: var(--accent-muted);
+      font-size: .72rem;
+      font-weight: 800;
+      letter-spacing: .06em;
+      line-height: 1.3;
+    }
+
+    .form-cell[data-form-group="derived"] .form-index {
+      border-color: var(--line-strong);
+      color: var(--accent-muted);
+      background: var(--surface);
     }
 
     .rule-card {
@@ -918,20 +1813,39 @@
       font-size: .74rem;
     }
 
-    .sound-annex-note {
-      margin: 0;
-      color: var(--muted);
-      font-size: .74rem;
-      line-height: 1.7;
+    .sound-memory-order {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      padding: 8px 9px;
+      border-left: 3px solid var(--vermilion);
+      background: var(--wash);
     }
 
-    .sound-annex-note strong {
+    .sound-memory-step {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 5px;
+      color: var(--muted);
+      font-size: .72rem;
+      font-weight: 800;
+    }
+
+    .sound-memory-step + .sound-memory-step::before {
+      margin-right: 3px;
+      color: var(--accent-muted);
+      content: "→";
+    }
+
+    .sound-memory-step strong {
       color: var(--vermilion-deep);
+      font-family: var(--display);
+      font-size: .82rem;
     }
 
     .sound-table {
       width: 100%;
-      min-width: 860px;
+      min-width: 900px;
       border-collapse: collapse;
       font-size: .8rem;
     }
@@ -940,7 +1854,7 @@
     .sound-table td {
       padding: 8px 9px;
       border: 1px solid rgba(var(--vermilion-deep-rgb), .24);
-      text-align: left;
+      text-align: center;
     }
 
     .sound-table th {
@@ -949,7 +1863,264 @@
       font-weight: 900;
     }
 
-    .sound-table tbody th {
+    .sound-table thead th {
+      padding-top: 9px;
+      padding-bottom: 9px;
+      background:
+        linear-gradient(180deg, rgba(var(--vermilion-rgb), .1), transparent),
+        var(--surface-strong);
+      font-size: .76rem;
+      letter-spacing: .03em;
+    }
+
+    .sound-table .sound-tail-cell {
+      width: 72px;
+      color: var(--vermilion-deep);
+      font-family: var(--display);
+      font-size: 1.08rem;
+    }
+
+    .sound-table .sound-vowel-cell {
+      width: 128px;
+      color: var(--ink);
+      font-family: var(--display);
+      font-size: .9rem;
+      font-weight: 800;
+      vertical-align: middle;
+    }
+
+    .sound-rule-value {
+      display: block;
+      color: var(--accent-muted);
+      font-family: var(--mono);
+      font-size: .76rem;
+      font-weight: 900;
+      letter-spacing: .08em;
+      line-height: 1;
+    }
+
+    .sound-vowel-example {
+      display: block;
+      margin-top: 5px;
+      color: var(--ink);
+      font-family: var(--display);
+      font-size: .88rem;
+      font-weight: 900;
+      line-height: 1.2;
+    }
+
+    .sound-vowel-example rt {
+      color: var(--accent-muted);
+      font-family: var(--sans);
+      font-size: .54rem;
+      font-weight: 700;
+    }
+
+    .sound-table .sound-result-cell {
+      width: 178px;
+      background:
+        linear-gradient(90deg, rgba(var(--vermilion-rgb), .06), transparent),
+        var(--surface);
+      font-family: var(--display);
+      vertical-align: middle;
+    }
+
+    .sound-result {
+      display: block;
+      color: var(--vermilion-deep);
+      font-size: .98rem;
+      font-weight: 900;
+      letter-spacing: .04em;
+    }
+
+    .sound-example {
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 3px 5px;
+      margin-top: 5px;
+      padding-top: 4px;
+      border-top: 1px dashed var(--line-strong);
+      text-align: center;
+    }
+
+    .sound-example-label {
+      color: var(--muted);
+      font-family: var(--sans);
+      font-size: .62rem;
+      font-weight: 900;
+    }
+
+    .sound-example-word {
+      color: var(--ink);
+      font-family: var(--display);
+      font-size: .8rem;
+      font-weight: 900;
+    }
+
+    .sound-example-word rt {
+      color: var(--accent-muted);
+      font-family: var(--sans);
+      font-size: .56rem;
+      font-weight: 700;
+    }
+
+    .sound-example-arrow {
+      color: var(--accent-muted);
+      font-family: var(--sans);
+      font-size: .7rem;
+      font-weight: 900;
+    }
+
+    .sound-example-result {
+      color: var(--muted);
+      font-family: var(--display);
+      font-size: .68rem;
+      font-weight: 800;
+      letter-spacing: .02em;
+    }
+
+    .sound-group-row th {
+      padding: 7px 10px;
+      border-top: 3px solid var(--vermilion);
+      color: var(--ink);
+      background:
+        linear-gradient(90deg, rgba(var(--vermilion-rgb), .14), transparent 68%),
+        var(--vermilion-soft);
+      text-align: left;
+    }
+
+    .sound-group-row:first-child th {
+      border-top-width: 1px;
+    }
+
+    .sound-group-content {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px 10px;
+    }
+
+    .sound-group-label {
+      display: inline-flex;
+      min-width: 68px;
+      min-height: 25px;
+      align-items: center;
+      justify-content: center;
+      padding: 3px 8px;
+      border: 1px solid var(--vermilion-deep);
+      border-radius: 999px;
+      color: var(--surface-strong);
+      background: var(--vermilion-deep);
+      font-size: .72rem;
+      font-weight: 900;
+      letter-spacing: .08em;
+    }
+
+    .sound-group-memory {
+      color: var(--vermilion-deep);
+      font-family: var(--display);
+      font-size: .9rem;
+      font-weight: 900;
+      letter-spacing: .04em;
+    }
+
+    .sound-group-hint {
+      margin-left: auto;
+      color: var(--muted);
+      font-size: .72rem;
+      font-weight: 700;
+    }
+
+    .sound-group-row.sound-group-ion th {
+      border-top-color: var(--accent-muted);
+      background:
+        linear-gradient(90deg, rgba(var(--accent-rgb), .15), transparent 68%),
+        var(--wash);
+    }
+
+    .sound-group-row.sound-group-ion .sound-group-label {
+      border-color: var(--accent-muted);
+      background: var(--accent-muted);
+    }
+
+    .sound-group-row.sound-group-shion th {
+      border-top-color: var(--success);
+      background:
+        linear-gradient(90deg, rgba(var(--success-rgb), .13), transparent 68%),
+        var(--wash);
+    }
+
+    .sound-group-row.sound-group-shion .sound-group-label {
+      border-color: var(--success);
+      background: var(--success);
+    }
+
+    .sound-group-row.sound-group-hatsuon th {
+      border-top-color: var(--vermilion-deep);
+    }
+
+    .sound-table .sound-exception-row th {
+      padding: 10px;
+      border: 1px solid var(--vermilion);
+      color: var(--muted);
+      background: var(--surface);
+      text-align: left;
+    }
+
+    .sound-exception-content {
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 5px 10px;
+    }
+
+    .sound-exception-label {
+      color: var(--vermilion-deep);
+      font-size: .72rem;
+      font-weight: 900;
+      letter-spacing: .08em;
+    }
+
+    .sound-exception-word {
+      color: var(--ink);
+      font-family: var(--display);
+      font-weight: 900;
+    }
+
+    .sound-exception-result {
+      color: var(--vermilion-deep);
+      font-family: var(--display);
+      font-size: .92rem;
+      font-weight: 900;
+    }
+
+    .sound-exception-note {
+      color: var(--muted);
+      font-size: .72rem;
+    }
+
+    .sound-table tbody tr.sound-rule-row:hover th,
+    .sound-table tbody tr.sound-rule-row:hover td {
+      background-color: var(--wash-hover);
+    }
+
+    .sound-table tbody tr.sound-rule-row:hover .sound-result-cell {
+      background:
+        linear-gradient(90deg, rgba(var(--vermilion-rgb), .1), transparent),
+        var(--wash-hover);
+    }
+
+    .sound-table tfoot {
+      border-top: 10px solid var(--surface);
+    }
+
+    .sound-table tfoot th {
+      border-bottom: 0;
+    }
+
+    .sound-table tbody .sound-rule-row > th {
       background: var(--vermilion-soft);
       font-family: var(--display);
     }
@@ -1176,6 +2347,95 @@
       border: 1px solid var(--line);
       border-radius: 2px;
       background: var(--surface-strong);
+    }
+
+    .progressive-row {
+      grid-template-columns: minmax(180px, .85fr) 150px minmax(0, 1fr);
+      align-items: center;
+    }
+
+    .progressive-question {
+      display: grid;
+      gap: 7px;
+    }
+
+    .question-word {
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 6px 10px;
+    }
+
+    .question-word strong {
+      color: var(--vermilion-deep);
+      font-family: var(--display);
+      font-size: 1.45rem;
+      line-height: 1.1;
+    }
+
+    .question-word span {
+      color: var(--accent-muted);
+      font-size: .82rem;
+      font-weight: 900;
+    }
+
+    .question-word small {
+      flex-basis: 100%;
+      color: var(--muted);
+      font-size: .74rem;
+    }
+
+    .sentence-prompt {
+      padding: 7px 9px;
+      border-left: 3px solid var(--vermilion);
+      color: var(--ink);
+      background: var(--wash);
+      font-family: var(--display);
+      font-size: .95rem;
+      font-weight: 800;
+    }
+
+    .sentence-prompt small {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-family: var(--sans);
+      font-size: .72rem;
+      font-weight: 600;
+    }
+
+    .conversion-prompt {
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 5px 8px;
+      padding: 7px 9px;
+      border-left: 3px solid var(--accent-muted);
+      color: var(--muted);
+      background: var(--wash);
+      font-size: .78rem;
+    }
+
+    .conversion-prompt strong {
+      color: var(--ink);
+      font-family: var(--display);
+      font-size: .96rem;
+    }
+
+    .conversion-prompt em {
+      color: var(--vermilion-deep);
+      font-size: 1.1rem;
+      font-style: normal;
+      font-weight: 900;
+    }
+
+    .conversion-prompt small {
+      flex-basis: 100%;
+      font-size: .72rem;
+    }
+
+    .progressive-answer {
+      min-width: 0;
     }
 
     .practice-row.is-correct {
@@ -1409,6 +2669,102 @@
       margin-bottom: 5px;
     }
 
+    .usage-reference {
+      display: grid;
+      gap: 12px;
+      margin-top: 14px;
+      padding: 16px;
+      border: 1px solid var(--line-strong);
+      border-top: 4px solid var(--accent-muted);
+      background: var(--wash);
+    }
+
+    .usage-reference-head {
+      display: grid;
+      gap: 3px;
+    }
+
+    .usage-reference-head h3 {
+      margin: 0;
+      color: var(--ink);
+      font-family: var(--display);
+      font-size: 1.15rem;
+    }
+
+    .usage-reference-head p {
+      margin: 0;
+      color: var(--muted);
+      font-size: .8rem;
+    }
+
+    .usage-grid,
+    .contrast-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .usage-card,
+    .contrast-card {
+      display: grid;
+      align-content: start;
+      gap: 5px;
+      padding: 11px;
+      border: 1px solid var(--line);
+      background: var(--surface);
+    }
+
+    .usage-card h4,
+    .contrast-card h4 {
+      margin: 0;
+      color: var(--vermilion-deep);
+      font-family: var(--display);
+      font-size: .9rem;
+    }
+
+    .usage-card-sentence,
+    .contrast-row-sentence {
+      color: var(--ink);
+      font-family: var(--display);
+      font-size: .95rem;
+      font-weight: 800;
+    }
+
+    .usage-card-translation,
+    .usage-card-note,
+    .contrast-card-note,
+    .contrast-row-translation {
+      color: var(--muted);
+      font-size: .75rem;
+      line-height: 1.4;
+    }
+
+    .usage-card-note {
+      padding-top: 4px;
+      border-top: 1px dashed var(--line);
+    }
+
+    .contrast-card {
+      gap: 8px;
+    }
+
+    .contrast-card-note {
+      margin: 0;
+    }
+
+    .contrast-row {
+      display: grid;
+      gap: 2px;
+      padding-top: 7px;
+      border-top: 1px solid var(--line);
+    }
+
+    .contrast-row-label {
+      color: var(--vermilion-deep);
+      font-size: .72rem;
+      font-weight: 900;
+    }
+
     @keyframes ink-sweep {
       from {
         opacity: .2;
@@ -1482,6 +2838,18 @@
         max-width: none;
       }
 
+      .memory-overview-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .derived-memory-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .exception-memory-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
       .page-heading-mark {
         width: 54px;
         height: 54px;
@@ -1541,6 +2909,123 @@
         line-height: 1.3;
       }
 
+      .memory-overview {
+        padding: 12px;
+      }
+
+      .memory-overview-head {
+        display: grid;
+        align-items: start;
+        gap: 10px;
+      }
+
+      .memory-type-detail-head {
+        display: grid;
+        align-items: start;
+        gap: 8px;
+      }
+
+      .memory-type-detail-panel {
+        padding: 11px;
+      }
+
+      .memory-legend {
+        justify-content: flex-start;
+      }
+
+      .memory-axis {
+        min-width: 500px;
+      }
+
+      .memory-path-row {
+        grid-template-columns: 66px minmax(0, 1fr);
+      }
+
+      .memory-path-formula {
+        grid-column: 2;
+      }
+
+      .memory-type-strip {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .derived-memory,
+      .exception-memory {
+        padding: 12px;
+      }
+
+      .derived-memory-head,
+      .exception-memory-head {
+        display: grid;
+        align-items: start;
+        gap: 8px;
+      }
+
+      .derived-memory-grid,
+      .exception-memory-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .sound-memory-order {
+        display: grid;
+        gap: 5px;
+      }
+
+      .sound-memory-step + .sound-memory-step::before {
+        margin-right: 0;
+      }
+
+      .reference-details-body {
+        padding: 10px;
+      }
+
+      .derived-filter {
+        grid-template-columns: 1fr;
+        gap: 7px;
+      }
+
+      .derived-filter-label {
+        grid-template-columns: auto 1fr;
+        align-items: baseline;
+        gap: 8px;
+      }
+
+      .derived-filter-label span {
+        text-align: left;
+      }
+
+      .rule-table thead th:first-child,
+      .rule-table .form-cell {
+        width: 112px;
+        min-width: 112px;
+      }
+
+      .rule-table .form-cell {
+        padding: 10px 6px;
+      }
+
+      .form-cell-content {
+        min-height: 132px;
+        gap: 5px;
+      }
+
+      .form-index {
+        min-width: 27px;
+        height: 22px;
+        padding: 0 6px;
+        font-size: .62rem;
+      }
+
+      .form-name {
+        font-size: .9rem;
+        letter-spacing: 0;
+      }
+
+      .form-jp {
+        font-size: .66rem;
+        letter-spacing: .03em;
+      }
+
       .practice-prompt {
         display: grid;
       }
@@ -1565,6 +3050,25 @@
 
       .result-summary {
         grid-template-columns: 1fr;
+      }
+
+      .usage-grid,
+      .contrast-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .sound-group-content {
+        align-items: flex-start;
+      }
+
+      .sound-group-memory {
+        flex: 1 1 220px;
+      }
+
+      .sound-group-hint,
+      .sound-exception-note {
+        flex-basis: 100%;
+        margin-left: 0;
       }
 
       .score-bubble {
@@ -1607,6 +3111,7 @@
 
     const STORAGE_KEY = "verb-conjugation-stamp-state-v1";
     const STATS_KEY = "verb-conjugation-practice-stats-v1";
+    const REVIEW_INTERVALS = [5 * 60 * 1000, 60 * 60 * 1000, 24 * 60 * 60 * 1000, 3 * 24 * 60 * 60 * 1000, 7 * 24 * 60 * 60 * 1000];
 
     const theme = {
       id: "stamp",
@@ -1627,31 +3132,31 @@
     const THEME_HEADLINE = {
       aka: {
         suffix: "印谱方格",
-        desc: "以柔和朱红、米白和和纸灰整理动词活用。像翻阅印谱一样，先看规则，再翻开卡片确认实例。",
+        desc: "以柔和朱红、米白和和纸灰整理动词活用。先看变化轴和代表词路径，再展开卡片查询实例。",
         edition: "和風 · 印谱六号",
         seal: "印"
       },
       sumi: {
         suffix: "墨流方格",
-        desc: "以墨青、宣纸白与淡墨灰整理动词活用。像墨流晕染一样，先看规则，再翻开卡片确认实例。",
+        desc: "以墨青、宣纸白与淡墨灰整理动词活用。先看变化轴和代表词路径，再展开卡片查询实例。",
         edition: "和風 · 墨流六号",
         seal: "墨"
       },
       koke: {
         suffix: "苔庭方格",
-        desc: "以苔绿、米黄纸与庭园灰整理动词活用。像苔庭沉静一样，先看规则，再翻开卡片确认实例。",
+        desc: "以苔绿、米黄纸与庭园灰整理动词活用。先看变化轴和代表词路径，再展开卡片查询实例。",
         edition: "和風 · 苔庭六号",
         seal: "苔"
       },
       kon: {
         suffix: "蓝染方格",
-        desc: "以绀蓝、淡蓝纸与靛灰整理动词活用。像蓝染布纹一样，先看规则，再翻开卡片确认实例。",
+        desc: "以绀蓝、淡蓝纸与靛灰整理动词活用。先看变化轴和代表词路径，再展开卡片查询实例。",
         edition: "和風 · 蓝染六号",
         seal: "蓝"
       },
       fuji: {
         suffix: "藤棚方格",
-        desc: "以藤紫、淡紫纸与藤灰整理动词活用。像藤棚花影一样，先看规则，再翻开卡片确认实例。",
+        desc: "以藤紫、淡紫纸与藤灰整理动词活用。先看变化轴和代表词路径，再展开卡片查询实例。",
         edition: "和風 · 藤棚六号",
         seal: "藤"
       }
@@ -1719,6 +3224,11 @@
     const typeColumns = formsData.typeColumns;
     const formRules = formsData.formRules;
     const soundRows = formsData.soundRows;
+    const soundGroups = formsData.soundGroups || [];
+    const soundExceptions = formsData.soundExceptions || [];
+    const usageExamples = formsData.usageExamples || [];
+    const contrastExamples = formsData.contrastExamples || [];
+    const sentenceTemplates = formsData.sentenceTemplates || [];
     const typeExamples = verbsData.typeExamples;
     const lexicon = verbsData.lexicon;
 
@@ -1730,6 +3240,165 @@
       };
     });
 
+    const GODAN_MEMORY_AXIS = [
+      { formId: "mizenkei", label: "あ段", term: "未然", formula: "＋ない／れる／せる" },
+      { formId: "renyoukei", label: "い段", term: "连用", formula: "＋ます／たい" },
+      { formId: "shuushikei", label: "う段", term: "原形", formula: "辞书形" },
+      { formId: "kateikei", label: "え段", term: "假定", formula: "＋ば／命令" },
+      { formId: "ishi", label: "お段", term: "意志", formula: "＋う", trimSuffix: "う" }
+    ];
+
+    const GODAN_MEMORY_PATHS = [
+      { formId: "nai", label: "ない形", suffix: "ない", formula: "あ段＋ない", use: "不做某事" },
+      { formId: "masu", label: "ます形", suffix: "ます", formula: "い段＋ます", use: "礼貌表达" },
+      { formId: "te", label: "て形", suffix: "て", formula: "音便＋て", use: "连接、请求、进行" },
+      { formId: "ta", label: "た形", suffix: "た", formula: "音便＋た", use: "过去或完成" },
+      { formId: "ba", label: "ば形", suffix: "ば", formula: "え段＋ば", use: "假定条件" },
+      { formId: "ishi", label: "意志形", suffix: "う", formula: "お段＋う", use: "意志或提议" }
+    ];
+
+    const VERB_TYPE_MEMORY_GUIDES = {
+      godan: {
+        detail: "词尾换到不同音段",
+        example: "書く → 書か／書き／書け",
+        focus: "重点：あ・い・う・え・お",
+        rule: "词尾按用途换到不同音段；て形和た形再按词尾套音便。",
+        note: "五段动词的词干前半部分保留，最后一个假名按用途改变；「う」结尾的ない形要记住「う→わ」。",
+        paths: GODAN_MEMORY_PATHS
+      },
+      ichidan: {
+        detail: "去「る」后直接接",
+        example: "食べる → 食べ＋ない／ます／て",
+        focus: "重点：词干基本不变",
+        rule: "去掉词尾「る」，词干后直接接后续；不发生五段音便。",
+        note: "ば形是在词干后接「れ＋ば」，意志形接「よう」；可能形是「られる」。",
+        paths: [
+          { formId: "nai", label: "ない形", formula: "去「る」＋ない", use: "不做某事", parts: [{ className: "is-root", value: "stem" }, { className: "is-suffix", value: "ない" }] },
+          { formId: "masu", label: "ます形", formula: "去「る」＋ます", use: "礼貌表达", parts: [{ className: "is-root", value: "stem" }, { className: "is-suffix", value: "ます" }] },
+          { formId: "te", label: "て形", formula: "去「る」＋て", use: "连接、请求、进行", parts: [{ className: "is-root", value: "stem" }, { className: "is-suffix", value: "て" }] },
+          { formId: "ta", label: "た形", formula: "去「る」＋た", use: "过去或完成", parts: [{ className: "is-root", value: "stem" }, { className: "is-suffix", value: "た" }] },
+          { formId: "ba", label: "ば形", formula: "去「る」＋れ＋ば", use: "假定条件", parts: [{ className: "is-root", value: "stem" }, { className: "is-change", value: "れ" }, { className: "is-suffix", value: "ば" }] },
+          { formId: "ishi", label: "意志形", formula: "去「る」＋よう", use: "意志或提议", parts: [{ className: "is-root", value: "stem" }, { className: "is-suffix", value: "よう" }] }
+        ]
+      },
+      kuru: {
+        detail: "こ・き・く 分开记",
+        example: "来る → 来（こ）ない／来（き）ます",
+        focus: "重点：读音交替不规则",
+        rule: "来る不能按五段或一段机械套用，先记住「こ／き／く」的交替。",
+        note: "ない形和意志形读「こ」，ます/て/た读「き」，ば形读「くれ」；括号读音要一起记。",
+        paths: [
+          { formId: "nai", label: "ない形", formula: "来（こ）＋ない", use: "不来", parts: [{ className: "is-change", value: "来（こ）" }, { className: "is-suffix", value: "ない" }] },
+          { formId: "masu", label: "ます形", formula: "来（き）＋ます", use: "礼貌表达", parts: [{ className: "is-change", value: "来（き）" }, { className: "is-suffix", value: "ます" }] },
+          { formId: "te", label: "て形", formula: "来（き）＋て", use: "连接、请求、进行", parts: [{ className: "is-change", value: "来（き）" }, { className: "is-suffix", value: "て" }] },
+          { formId: "ta", label: "た形", formula: "来（き）＋た", use: "过去或完成", parts: [{ className: "is-change", value: "来（き）" }, { className: "is-suffix", value: "た" }] },
+          { formId: "ba", label: "ば形", formula: "来（く）れ＋ば", use: "假定条件", parts: [{ className: "is-change", value: "来（く）れ" }, { className: "is-suffix", value: "ば" }] },
+          { formId: "ishi", label: "意志形", formula: "来（こ）＋よう", use: "意志或提议", parts: [{ className: "is-change", value: "来（こ）" }, { className: "is-suffix", value: "よう" }] }
+        ]
+      },
+      suru: {
+        detail: "し系为主，可能是 できる",
+        example: "する → しない／します／して",
+        focus: "重点：可能形单独记 できる",
+        rule: "する的大多数常用变化以「し」为核心；可能形不是机械接后缀，而是「できる」。",
+        note: "ば形使用「すれ＋ば」；复合する动词保留前面的词干，如「勉強する → 勉強しない」。",
+        paths: [
+          { formId: "nai", label: "ない形", formula: "し＋ない", use: "不做某事", parts: [{ className: "is-change", value: "し" }, { className: "is-suffix", value: "ない" }] },
+          { formId: "masu", label: "ます形", formula: "し＋ます", use: "礼貌表达", parts: [{ className: "is-change", value: "し" }, { className: "is-suffix", value: "ます" }] },
+          { formId: "te", label: "て形", formula: "し＋て", use: "连接、请求、进行", parts: [{ className: "is-change", value: "し" }, { className: "is-suffix", value: "て" }] },
+          { formId: "ta", label: "た形", formula: "し＋た", use: "过去或完成", parts: [{ className: "is-change", value: "し" }, { className: "is-suffix", value: "た" }] },
+          { formId: "ba", label: "ば形", formula: "すれ＋ば", use: "假定条件", parts: [{ className: "is-change", value: "すれ" }, { className: "is-suffix", value: "ば" }] },
+          { formId: "ishi", label: "意志形", formula: "し＋よう", use: "意志或提议", parts: [{ className: "is-change", value: "し" }, { className: "is-suffix", value: "よう" }] }
+        ]
+      }
+    };
+
+    const DERIVED_MEMORY_GROUPS = [
+      {
+        id: "common",
+        label: "日常常用",
+        description: "先掌握最常出现的基本表达",
+        forms: ["nai", "masu", "te", "ta"]
+      },
+      {
+        id: "condition",
+        label: "愿望与条件",
+        description: "表达想做、假设和提议",
+        forms: ["tai", "ishi", "ba", "tara", "nara"]
+      },
+      {
+        id: "negative-link",
+        label: "否定连接与禁止",
+        description: "区分不做、原因连接和禁止",
+        forms: ["nakute", "naide", "kinshi"]
+      },
+      {
+        id: "voice",
+        label: "语态",
+        description: "能力、被动、使役和被迫",
+        forms: ["kanou", "ukemi", "shieki", "shiekiUkemi"]
+      },
+      {
+        id: "honorific",
+        label: "敬语与推量",
+        description: "表达判断、尊敬和谦让",
+        forms: ["suiryou", "sonkei", "kenjou"]
+      }
+    ];
+
+    const MEMORY_FORM_RULES = {
+      nai: "あ段＋ない",
+      nakute: "あ段＋なくて",
+      naide: "あ段＋ないで",
+      masu: "い段＋ます",
+      te: "词尾音便＋て",
+      ta: "词尾音便＋た",
+      tai: "い段＋たい",
+      ishi: "お段＋う",
+      ba: "え段＋ば",
+      tara: "た形＋ら",
+      kanou: "え段＋る",
+      ukemi: "あ段＋れる",
+      shieki: "あ段＋せる",
+      shiekiUkemi: "あ段＋せられる",
+      kinshi: "终止形＋な",
+      nara: "终止形＋なら",
+      suiryou: "お段＋う",
+      sonkei: "お＋连用形＋になる",
+      kenjou: "お＋连用形＋する"
+    };
+
+    const VERB_EXCEPTION_MEMORY = [
+      {
+        id: "iku",
+        tag: "音便例外",
+        title: "行く不走「いて」",
+        equation: "行く → 行って／行った",
+        note: "虽然词尾是「く」，て形和た形使用促音便；把它和「書く → 書いて」对照记。"
+      },
+      {
+        id: "aru",
+        tag: "否定例外",
+        title: "ある的否定直接记",
+        equation: "ある → ない／なくて／ないで",
+        note: "存在（无生命）的否定不是「*あらない」，直接使用「ない」系。"
+      },
+      {
+        id: "suru",
+        tag: "语义分叉",
+        title: "する的可能形另记",
+        equation: "する → できる（可能）／される（被动）",
+        note: "可能形不是「しられる」；同一个「する」要按语义分别记住 できる 和 される。"
+      },
+      {
+        id: "honorific",
+        tag: "固定表达",
+        title: "敬语不能全靠套公式",
+        equation: "食べる → 召し上がる／いただく",
+        note: "尊敬和谦让表达常是固定词或句型，应结合人物关系和场景记忆。"
+      }
+    ];
+
     const state = {
       view: "rules",
       practiceMode: "simple",
@@ -1738,15 +3407,23 @@
       answers: {},
       choices: {},
       result: null,
+      answerRevision: 0,
+      lastCheckedSignature: null,
       onlyWrong: false,
+      practiceKind: "same",
+      showKana: true,
+      showMeaning: true,
       /* 练习改造（词库随机抽词） */
       practiceTypes: ["godan", "ichidan", "kuru", "suru"],
       practiceScope: "all",
       practiceCount: 10,
       currentVerb: null,
       currentForms: [],
+      currentQuestions: [],
       stats: null,
       configOpen: true,
+      referenceOpen: false,
+      memoryType: "godan",
       derivedCategories: ALL_CATEGORY_IDS.slice()
     };
 
@@ -1755,6 +3432,31 @@
     /* 累计练习统计（localStorage 长期保存）：错题集 + 各词/各形正确率 */
     function emptyStats() {
       return { byVerb: {}, byForm: {}, wrongItems: [] };
+    }
+
+    function normalizeWrongItems(items) {
+      const unique = [];
+      items.forEach((item) => {
+        if (!item || typeof item !== "object" || !item.dict || !item.formId) {
+          return;
+        }
+        const existing = unique.find((entry) => entry.dict === item.dict && entry.formId === item.formId);
+        if (existing) {
+          existing.wrongCount += Number(item.wrongCount) || 1;
+          existing.lastWrongAt = Math.max(existing.lastWrongAt, Number(item.lastWrongAt) || 0);
+        } else {
+          unique.push({
+            dict: String(item.dict),
+            formId: String(item.formId),
+            wrongCount: Math.max(1, Number(item.wrongCount) || 1),
+            lastWrongAt: Number(item.lastWrongAt) || 0,
+            correctStreak: Math.max(0, Number(item.correctStreak) || 0),
+            lastCorrectAt: Number(item.lastCorrectAt) || 0,
+            dueAt: Number(item.dueAt) || 0
+          });
+        }
+      });
+      return unique.slice(-200);
     }
 
     function loadStats() {
@@ -1770,7 +3472,7 @@
         return {
           byVerb: parsed.byVerb && typeof parsed.byVerb === "object" ? parsed.byVerb : {},
           byForm: parsed.byForm && typeof parsed.byForm === "object" ? parsed.byForm : {},
-          wrongItems: Array.isArray(parsed.wrongItems) ? parsed.wrongItems : []
+          wrongItems: Array.isArray(parsed.wrongItems) ? normalizeWrongItems(parsed.wrongItems) : []
         };
       } catch (error) {
         console.error("练习统计读取失败，已重置。", error);
@@ -1789,6 +3491,47 @@
     function clearStats() {
       state.stats = emptyStats();
       saveStats();
+    }
+
+    function recordWrongItem(dict, formId) {
+      const now = Date.now();
+      const existing = state.stats.wrongItems.find((item) => item.dict === dict && item.formId === formId);
+      if (existing) {
+        existing.wrongCount = (Number(existing.wrongCount) || 0) + 1;
+        existing.lastWrongAt = now;
+        existing.correctStreak = 0;
+        existing.dueAt = existing.lastWrongAt;
+      } else {
+        state.stats.wrongItems.push({
+          dict,
+          formId,
+          wrongCount: 1,
+          lastWrongAt: now,
+          correctStreak: 0,
+          lastCorrectAt: 0,
+          dueAt: now
+        });
+      }
+      if (state.stats.wrongItems.length > 200) {
+        state.stats.wrongItems.splice(0, state.stats.wrongItems.length - 200);
+      }
+    }
+
+    function resolveWrongItem(dict, formId) {
+      const index = state.stats.wrongItems.findIndex(
+        (item) => item.dict === dict && item.formId === formId
+      );
+      if (index < 0) {
+        return;
+      }
+      const item = state.stats.wrongItems[index];
+      item.correctStreak = (Number(item.correctStreak) || 0) + 1;
+      item.lastCorrectAt = Date.now();
+      if (item.correctStreak >= 3) {
+        state.stats.wrongItems.splice(index, 1);
+        return;
+      }
+      item.dueAt = item.lastCorrectAt + REVIEW_INTERVALS[Math.min(item.correctStreak, REVIEW_INTERVALS.length - 1)];
     }
 
     function shuffle(items) {
@@ -1821,7 +3564,7 @@
     }
 
     /* 构建当前动词某个形的可接受答案集（A4：多可接受写法） */
-    function buildAcceptedAnswers(formId, forms, kanaForms) {
+    function buildAcceptedAnswers(formId, forms, kanaForms, verb) {
       const dictForm = forms[formId];
       const kanaForm = kanaForms[formId];
       const set = [dictForm, kanaForm];
@@ -1830,6 +3573,13 @@
       if (stripped && !set.includes(stripped)) {
         set.push(stripped);
       }
+      const variants = verb && verb.acceptedAnswers && Array.isArray(verb.acceptedAnswers[formId])
+        ? verb.acceptedAnswers[formId] : [];
+      variants.forEach((variant) => {
+        if (variant && !set.includes(variant)) {
+          set.push(variant);
+        }
+      });
       return set.filter(Boolean);
     }
 
@@ -1864,6 +3614,132 @@
       }
       const picked = shuffle(distractors).slice(0, 3);
       return shuffle([expected, ...picked]);
+    }
+
+    const PRACTICE_KIND_LABELS = {
+      same: "同词多形",
+      mixed: "混合词条",
+      sentence: "句子填空",
+      classify: "词类判断",
+      polite: "普通／礼貌体"
+    };
+    const PRACTICE_KIND_DESCRIPTIONS = {
+      same: "一个词连续练多个变形",
+      mixed: "每题随机换词和变形",
+      sentence: "根据句子语境填写变形",
+      classify: "先判断词属于哪一类",
+      polite: "在词典形和ます形之间切换"
+    };
+
+    function getPracticeKindLabel(kind) {
+      return PRACTICE_KIND_LABELS[kind] || PRACTICE_KIND_LABELS.same;
+    }
+
+    function getPracticeFormPool() {
+      return state.practiceScope === "base"
+        ? baseForms
+        : state.practiceScope === "derived" ? derivedForms : allForms;
+    }
+
+    function getTypeAnswers(typeId) {
+      const type = typeColumns.find((column) => column.id === typeId);
+      if (!type) {
+        return [typeId];
+      }
+      const shortLabel = type.label
+        .replace(/^第 [IVX]+ 类／/, "")
+        .replace(/^[一二三]类･/, "")
+        .replace(/动词$/, "");
+      const aliases = typeId === "kuru"
+        ? ["か変", "カ変", "か变"]
+        : typeId === "suru" ? ["さ変", "サ変", "さ变"] : [];
+      return [...new Set([typeId, type.label, shortLabel, `${shortLabel}动词`, ...aliases])];
+    }
+
+    function createProgressiveQuestions(kind, count) {
+      const verbPool = lexicon.filter((verb) => state.practiceTypes.includes(verb.type));
+      if (!verbPool.length) {
+        return [];
+      }
+      const formPool = kind === "sentence"
+        ? sentenceTemplates.filter((template) => getPracticeFormPool().some((form) => form.id === template.formId))
+        : getPracticeFormPool();
+      if (kind !== "classify" && kind !== "polite" && !formPool.length) {
+        return [];
+      }
+      const questions = [];
+      const used = new Set();
+      const maxQuestions = Math.min(count, kind === "classify" || kind === "polite"
+        ? verbPool.length : formPool.length * verbPool.length);
+      let attempts = 0;
+      while (questions.length < maxQuestions && attempts < maxQuestions * 12) {
+        attempts += 1;
+        const verb = verbPool[Math.floor(Math.random() * verbPool.length)];
+        const formCandidate = kind === "classify" || kind === "polite"
+          ? null : formPool[Math.floor(Math.random() * formPool.length)];
+        const formId = formCandidate && (formCandidate.formId || formCandidate.id);
+        const sourceFormId = kind === "polite"
+          ? (Math.random() < .5 ? "shuushikei" : "masu") : null;
+        const targetFormId = kind === "polite"
+          ? (sourceFormId === "masu" ? "shuushikei" : "masu") : formId;
+        const key = `${verb.dictionary}:${kind}:${targetFormId || "type"}`;
+        if (used.has(key) && used.size < verbPool.length * (kind === "classify" || kind === "polite" ? 1 : formPool.length)) {
+          continue;
+        }
+        used.add(key);
+        questions.push({
+          id: `q-${Date.now()}-${questions.length}`,
+          dictionary: verb.dictionary,
+          formId: targetFormId,
+          sourceFormId,
+          kind
+        });
+      }
+      return questions;
+    }
+
+    function getProgressiveItems() {
+      return state.currentQuestions.map((question, index) => {
+        const verb = lexicon.find((entry) => entry.dictionary === question.dictionary);
+        if (!verb) {
+          return null;
+        }
+        const data = window.NIHONGO_DATA.conjugator.conjugate(verb);
+        const kind = question.kind === "classify" ? "classify" : (question.kind || state.practiceKind);
+        const form = question.formId ? getForm(question.formId) : null;
+        if (kind !== "classify" && !form) {
+          return null;
+        }
+        const sourceForm = kind === "polite" && question.sourceFormId ? getForm(question.sourceFormId) : null;
+        const accepted = kind === "classify"
+          ? getTypeAnswers(verb.type)
+          : buildAcceptedAnswers(form.id, data.forms, data.kanaForms, verb);
+        const template = kind === "sentence"
+          ? sentenceTemplates.find((entry) => entry.formId === form.id) : null;
+        return {
+          id: question.id || `q-${index}-${verb.dictionary}-${question.formId || "type"}`,
+          kind,
+          verb,
+          data,
+          form,
+          sourceForm,
+          sourceValue: sourceForm ? data.forms[sourceForm.id] : "",
+          targetLabel: kind === "polite" ? form.label : "",
+          formKey: kind === "classify" ? "__type__" : kind === "polite" ? "__polite__" : form.id,
+          accepted,
+          template
+        };
+      }).filter(Boolean);
+    }
+
+    function getPoliteOptions(item) {
+      return shuffle([...new Set([
+        item.accepted[0],
+        item.sourceValue,
+        item.data.forms.nai,
+        item.data.forms.ta,
+        item.data.forms.kotei
+      ].filter(Boolean))]).slice(0, 4);
     }
 
     const elements = {
@@ -1915,7 +3791,18 @@
       if (stored.result && typeof stored.result === "object") {
         state.result = stored.result;
       }
+      if (Number.isInteger(stored.answerRevision) && stored.answerRevision >= 0) {
+        state.answerRevision = stored.answerRevision;
+      }
+      if (typeof stored.lastCheckedSignature === "string") {
+        state.lastCheckedSignature = stored.lastCheckedSignature;
+      }
       state.onlyWrong = stored.onlyWrong === true;
+      if (["same", "mixed", "sentence", "classify", "polite"].includes(stored.practiceKind)) {
+        state.practiceKind = stored.practiceKind;
+      }
+      state.showKana = stored.showKana !== false;
+      state.showMeaning = stored.showMeaning !== false;
       if (Array.isArray(stored.practiceTypes) && stored.practiceTypes.length > 0) {
         const validTypes = stored.practiceTypes.filter((type) => typeColumns.some((column) => column.id === type));
         if (validTypes.length > 0) {
@@ -1935,8 +3822,30 @@
         }
       }
       state.configOpen = stored.configOpen !== false;
+      state.referenceOpen = stored.referenceOpen === true
+        || (!Object.prototype.hasOwnProperty.call(stored, "referenceOpen")
+          && stored.activeGroups && stored.activeGroups.rules === "derived");
+      if (typeColumns.some((type) => type.id === stored.memoryType)) {
+        state.memoryType = stored.memoryType;
+      }
       if (Array.isArray(stored.currentForms)) {
         state.currentForms = stored.currentForms.filter((id) => allForms.some((form) => form.id === id));
+      }
+      if (Array.isArray(stored.currentQuestions)) {
+        state.currentQuestions = stored.currentQuestions.filter((question) => {
+          if (!question || !question.dictionary || !lexicon.some((verb) => verb.dictionary === question.dictionary)) {
+            return false;
+          }
+          return question.kind === "classify"
+            || allForms.some((form) => form.id === question.formId);
+        }).map((question, index) => ({
+          id: typeof question.id === "string" && question.id ? question.id : `q-${index}`,
+          dictionary: question.dictionary,
+          formId: question.kind === "classify" ? null : question.formId,
+          sourceFormId: typeof question.sourceFormId === "string" ? question.sourceFormId : null,
+          kind: ["classify", "polite", "mixed", "sentence"].includes(question.kind)
+            ? question.kind : state.practiceKind
+        }));
       }
       if (Array.isArray(stored.derivedCategories)) {
         state.derivedCategories = stored.derivedCategories.filter((id) => ALL_CATEGORY_IDS.includes(id));
@@ -1954,13 +3863,21 @@
         answers: state.answers,
         choices: state.choices,
         result: state.result,
+        answerRevision: state.answerRevision,
+        lastCheckedSignature: state.lastCheckedSignature,
         onlyWrong: state.onlyWrong,
+        practiceKind: state.practiceKind,
+        showKana: state.showKana,
+        showMeaning: state.showMeaning,
         practiceTypes: state.practiceTypes,
         practiceScope: state.practiceScope,
         practiceCount: state.practiceCount,
         currentVerb: state.currentVerb,
         currentForms: state.currentForms,
+        currentQuestions: state.currentQuestions,
         configOpen: state.configOpen,
+        referenceOpen: state.referenceOpen,
+        memoryType: state.memoryType,
         derivedCategories: state.derivedCategories
       }));
     }
@@ -2019,6 +3936,35 @@
         }
       });
 
+      sentenceTemplates.forEach((template) => {
+        if (!formIds.has(template.formId) || typeof template.prefix !== "string" || typeof template.suffix !== "string") {
+          errors.push(`${template.formId}: 句子填空模板无效`);
+        }
+      });
+      contrastExamples.forEach((example) => {
+        if (!example.title || !example.note || !Array.isArray(example.rows) || example.rows.length < 2) {
+          errors.push(`${example.title || "辨析项"}: 辨析数据无效`);
+        }
+      });
+      const soundGroupIds = new Set(soundGroups.map((group) => group.id));
+      soundGroups.forEach((group) => {
+        if (!group.id || !group.label || !group.memory || !group.hint) {
+          errors.push(`${group.id || "音便分组"}: 音便口诀数据无效`);
+        }
+      });
+      soundRows.forEach((row) => {
+        if (!row.tail || !row.a || !row.i || !row.u || !row.e || !row.teTa || !soundGroupIds.has(row.groupId)
+          || !row.example || !row.example.word || !row.example.kana || !row.example.result
+          || row.example.word.slice(-1) !== row.tail || row.example.kana.slice(-1) !== row.tail) {
+          errors.push(`${row.tail || "音便行"}: 音便词尾数据无效`);
+        }
+      });
+      soundExceptions.forEach((exception) => {
+        if (!exception.word || !exception.result || !exception.note) {
+          errors.push(`${exception.word || "例外"}: 音便例外数据无效`);
+        }
+      });
+
       if (errors.length > 0) {
         throw new Error(errors.join("\n"));
       }
@@ -2058,7 +4004,8 @@
         dictionary: example.dictionary,
         kana: example.kana,
         meaning: example.meaning,
-        type: typeId
+        type: typeId,
+        exceptions: example.exceptions
       });
       const formValue = data.forms[formId];
       const stem = data.stem;
@@ -2136,19 +4083,25 @@
       return `
         <div class="table-scroll">
           <table class="rule-table">
-            <caption class="visually-hidden">活用形与动词类型变化规则。点击卡片查看代表示例。</caption>
+            <caption class="visually-hidden">完整活用形与动词类型变化规则。点击卡片查看代表示例。</caption>
             <thead>
               <tr>
-                <th scope="col">活用形</th>
+                <th class="form-header" scope="col">
+                  <span class="form-header-main">活用形</span>
+                  <small class="form-header-sub">FORM</small>
+                </th>
                 ${typeColumns.map((type) => `<th scope="col">${type.label}</th>`).join("")}
               </tr>
             </thead>
             <tbody>
               ${forms.map((form) => `
                 <tr id="form-row-${form.id}">
-                  <th class="form-cell" scope="row">
-                    <span class="form-name">${form.label}</span>
-                    <span class="form-jp">${form.jp}</span>
+                  <th class="form-cell" data-form-group="${baseForms.some((item) => item.id === form.id) ? "base" : "derived"}" scope="row">
+                    <div class="form-cell-content">
+                      <span class="form-index" aria-hidden="true">${String(allForms.findIndex((item) => item.id === form.id) + 1).padStart(2, "0")}</span>
+                      <span class="form-name">${form.label}</span>
+                      <span class="form-jp">${form.jp}</span>
+                    </div>
                   </th>
                   ${typeColumns.map((type) => `<td>${getRuleCard(type.id, form.id)}</td>`).join("")}
                 </tr>
@@ -2159,13 +4112,23 @@
       `;
     }
 
-    /* 五段音变对照：精简为规则表下方的紧凑附件（假定/命令合并一列，速记压成一行） */
+    /* 五段音变对照：将速记口诀放进表格分组单元格，行内保留具体变换 */
     function renderGodanSoundTable() {
+      const groupedRows = soundGroups.map((group) => ({
+        group,
+        rows: soundRows.filter((row) => row.groupId === group.id)
+      })).filter((item) => item.rows.length > 0);
       return `
         <section class="sound-annex" aria-labelledby="sound-annex-title">
           <div class="sound-annex-head">
-            <h3 id="sound-annex-title">五段词尾音变对照</h3>
-            <span class="sound-annex-hint">与上方「て／た」行配套查看：先定位词尾，再看各段变形与 て／た 音便。</span>
+            <h3 id="sound-annex-title">て形／た形：先按词尾记音便</h3>
+            <span class="sound-annex-hint">先找词尾，再记音便，最后接上 て／た；同一行用同一个代表词核对结果。</span>
+          </div>
+          <div class="sound-memory-order" aria-label="て形和た形音便记忆顺序">
+            <span class="sound-memory-step"><strong>1</strong>找词尾</span>
+            <span class="sound-memory-step"><strong>2</strong>套音便</span>
+            <span class="sound-memory-step"><strong>3</strong>接 て／た</span>
+            <span class="sound-memory-step"><strong>4</strong>检查例外「行く」</span>
           </div>
           <div class="table-scroll">
             <table class="sound-table">
@@ -2181,17 +4144,122 @@
                 </tr>
               </thead>
               <tbody>
-                ${soundRows.map((row) => `
-                  <tr>
-                    <th scope="row">${row[0]}</th>
-                    <td>${row[1]}</td><td>${row[2]}</td><td>${row[3]}</td>
-                    <td>${row[4]}</td><td>${row[6]}</td>
+                ${groupedRows.map(({ group, rows }) => `
+                  <tr class="sound-group-row sound-group-${escapeHtml(group.id)}">
+                    <th colspan="6" scope="rowgroup">
+                      <div class="sound-group-content">
+                        <span class="sound-group-label">${escapeHtml(group.label)}</span>
+                        <span class="sound-group-memory">${escapeHtml(group.memory)}</span>
+                        <span class="sound-group-hint">${escapeHtml(group.hint)}</span>
+                      </div>
+                    </th>
                   </tr>
+                  ${rows.map((row) => `
+                    <tr class="sound-rule-row sound-rule-${escapeHtml(group.id)}">
+                      <th class="sound-tail-cell" scope="row">${escapeHtml(row.tail)}</th>
+                      ${["a", "i", "u", "e"].map((vowel) => `
+                        <td class="sound-vowel-cell">
+                          <span class="sound-rule-value">${escapeHtml(row[vowel])}</span>
+                          <ruby class="sound-vowel-example">${escapeHtml(row.example.word.slice(0, -1) + row[vowel])}<rt>${escapeHtml(row.example.kana.slice(0, -1) + row[vowel])}</rt></ruby>
+                        </td>
+                      `).join("")}
+                      <td class="sound-result-cell">
+                        <strong class="sound-result">${escapeHtml(row.teTa)}</strong>
+                        ${row.example ? `
+                          <span class="sound-example">
+                            <span class="sound-example-label">例</span>
+                            <ruby class="sound-example-word">${escapeHtml(row.example.word)}<rt>${escapeHtml(row.example.kana)}</rt></ruby>
+                            <span class="sound-example-arrow">→</span>
+                            <span class="sound-example-result">${escapeHtml(row.example.result)}</span>
+                          </span>
+                        ` : ""}
+                      </td>
+                    </tr>
+                  `).join("")}
                 `).join("")}
               </tbody>
+              ${soundExceptions.length ? `
+                <tfoot>
+                  ${soundExceptions.map((exception) => `
+                    <tr class="sound-exception-row">
+                      <th colspan="6" scope="row">
+                        <div class="sound-exception-content">
+                          <span class="sound-exception-label">例外</span>
+                          <span class="sound-exception-word">${escapeHtml(exception.word)}</span>
+                          <span>→</span>
+                          <span class="sound-exception-result">${escapeHtml(exception.result)}</span>
+                          <span class="sound-exception-note">${escapeHtml(exception.note)}</span>
+                        </div>
+                      </th>
+                    </tr>
+                  `).join("")}
+                </tfoot>
+              ` : ""}
             </table>
           </div>
-          <p class="sound-annex-note"><strong>速记：</strong>促音便 う・つ・る → って／った；い音便 く → いて／いた、ぐ → いで／いだ；し音便 す → して／した；拨音便 ぬ・ぶ・む → んで／んだ。<strong>例外：</strong>「行く」→ 行って／行った。</p>
+        </section>
+      `;
+    }
+
+    function renderNonGodanSoundNote() {
+      const type = getMemoryType();
+      const example = typeExamples[type.id];
+      const te = example.forms.te;
+      const ta = example.forms.ta;
+      const note = type.id === "ichidan"
+        ? "二类･一段动词去「る」后直接接「て／た」，不发生五段音便。"
+        : type.id === "kuru"
+          ? "三类･カ变动词的て形和た形使用「来（き）＋て／た」。"
+          : "三类･サ变动词的て形和た形使用「し＋て／た」。";
+      return `
+        <aside class="sound-note" aria-labelledby="sound-note-title">
+          <h3 id="sound-note-title">${escapeHtml(type.label)}的て形／た形</h3>
+          <p>${escapeHtml(note)}</p>
+          <div class="sound-note-example">
+            <strong>${escapeHtml(example.dictionary)}</strong>
+            <span>→</span>
+            <strong>${escapeHtml(te)}</strong>
+            <span>／</span>
+            <strong>${escapeHtml(ta)}</strong>
+            <span>（て形／た形）</span>
+          </div>
+        </aside>
+      `;
+    }
+
+    function renderUsageReference() {
+      const usageCards = usageExamples.map((example) => {
+        const form = getForm(example.formId);
+        return `
+          <article class="usage-card">
+            <h4>${escapeHtml(form ? form.label : example.formId)}</h4>
+            <div class="usage-card-sentence">${escapeHtml(example.sentence)}</div>
+            <div class="usage-card-translation">${escapeHtml(example.translation)}</div>
+            <div class="usage-card-note">${escapeHtml(example.note)}</div>
+          </article>
+        `;
+      }).join("");
+      const contrastCards = contrastExamples.map((example) => `
+        <article class="contrast-card">
+          <h4>${escapeHtml(example.title)}</h4>
+          <p class="contrast-card-note">${escapeHtml(example.note)}</p>
+          ${example.rows.map((row) => `
+            <div class="contrast-row">
+              <span class="contrast-row-label">${escapeHtml(row.label)}</span>
+              <span class="contrast-row-sentence">${escapeHtml(row.sentence)}</span>
+              <span class="contrast-row-translation">${escapeHtml(row.translation)}</span>
+            </div>
+          `).join("")}
+        </article>
+      `).join("");
+      return `
+        <section class="usage-reference" aria-labelledby="usage-reference-title">
+          <div class="usage-reference-head">
+            <h3 id="usage-reference-title">活用放进句子里</h3>
+            <p>先看形式，再看它在句子中的作用；同一个中文“如果”可能对应不同的日语条件表达。</p>
+          </div>
+          <div class="usage-grid">${usageCards}</div>
+          <div class="contrast-grid">${contrastCards}</div>
         </section>
       `;
     }
@@ -2199,8 +4267,8 @@
     function renderConjugationTabs(scope) {
       const activeGroup = getActiveGroup(scope);
       const tabs = [
-        { id: "base", label: "基础六形", description: "未然・连用・终止・连体・假定・命令" },
-        { id: "derived", label: "派生／接续形", description: "ない・ます・て・た・可能・敬语等" }
+        { id: "base", label: "基础六形", description: "先查词尾变化的语法骨架" },
+        { id: "derived", label: "派生／接续形", description: "按否定・条件・语态・敬语查询" }
       ];
       return `
         <div class="conjugation-tabs" role="tablist" aria-label="${scope === "rules" ? "规则类型" : "练习类型"}">
@@ -2214,7 +4282,6 @@
               <small>${tab.description}</small>
             </button>
           `).join("")}
-          ${scope === "rules" && activeGroup === "derived" ? renderDerivedCategoryChips() : ""}
         </div>
       `;
     }
@@ -2223,39 +4290,314 @@
     function renderDerivedCategoryChips() {
       const allOn = state.derivedCategories.length === DERIVED_CATEGORIES.length;
       return `
-        <div class="derived-categories" role="group" aria-label="派生形分类筛选">
-          ${DERIVED_CATEGORIES.map((c) => `
-            <button class="type-chip ${state.derivedCategories.includes(c.id) ? "is-active" : ""}"
-              type="button" data-action="toggle-derived-category" data-category-id="${c.id}"
-              aria-pressed="${state.derivedCategories.includes(c.id)}">
-              ${c.label}<span class="chip-count">${c.forms.length}</span>
-            </button>
-          `).join("")}
-          ${allOn ? "" : `<button class="derived-reset" type="button" data-action="reset-derived-categories">显示全部</button>`}
+        <div class="derived-filter">
+          <div class="derived-filter-label">
+            <strong>派生形筛选</strong>
+            <span>按功能显示规则行</span>
+          </div>
+          <div class="derived-categories" role="group" aria-label="派生形分类筛选">
+            ${DERIVED_CATEGORIES.map((c) => `
+              <button class="type-chip ${state.derivedCategories.includes(c.id) ? "is-active" : ""}"
+                type="button" data-action="toggle-derived-category" data-category-id="${c.id}"
+                aria-pressed="${state.derivedCategories.includes(c.id)}">
+                ${c.label}<span class="chip-count">${c.forms.length}</span>
+              </button>
+            `).join("")}
+            ${allOn ? "" : `<button class="derived-reset" type="button" data-action="reset-derived-categories">显示全部</button>`}
+          </div>
         </div>
+      `;
+    }
+
+    function getMemoryType() {
+      return typeColumns.find((type) => type.id === state.memoryType) || typeColumns[0];
+    }
+
+    function renderMemoryParts(typeId, parts) {
+      const example = typeExamples[typeId];
+      return parts.map((part, index) => {
+        const value = part.value === "stem"
+          ? example.dictionary.slice(0, -1) : part.value;
+        const join = index > 0 ? `<span class="memory-equation-join">＋</span>` : "";
+        return `${join}<span class="memory-token ${part.className}">${escapeHtml(value)}</span>`;
+      }).join("");
+    }
+
+    function renderGodanMemoryPanel() {
+      const example = typeExamples.godan;
+      const type = typeColumns.find((item) => item.id === "godan");
+      const guide = VERB_TYPE_MEMORY_GUIDES.godan;
+      const axis = GODAN_MEMORY_AXIS.map((item) => {
+        const formValue = example.forms[item.formId];
+        const value = item.trimSuffix && formValue.slice(-item.trimSuffix.length) === item.trimSuffix
+          ? formValue.slice(0, -item.trimSuffix.length) : formValue;
+        const root = value.slice(0, -1);
+        const ending = value.slice(-1);
+        return `
+          <div class="memory-axis-column" role="listitem">
+            <span class="memory-axis-label">${escapeHtml(item.label)}</span>
+            <span class="memory-axis-term">${escapeHtml(item.term)}</span>
+            <strong class="memory-axis-sample" aria-label="${escapeHtml(value)}">
+              <span class="memory-token is-root">${escapeHtml(root)}</span><span class="memory-token is-change">${escapeHtml(ending)}</span>
+            </strong>
+            <span class="memory-axis-formula">${escapeHtml(item.formula)}</span>
+          </div>
+        `;
+      }).join("");
+      const path = guide.paths.map((item) => {
+        const value = example.forms[item.formId];
+        const stem = value.slice(0, -item.suffix.length);
+        const root = stem.slice(0, -1);
+        const ending = stem.slice(-1);
+        return `
+          <div class="memory-path-row">
+            <span class="memory-path-label">${escapeHtml(item.label)}</span>
+            <span class="memory-equation" aria-label="${escapeHtml(value)}">
+              <span class="memory-token is-root">${escapeHtml(root)}</span><span class="memory-token is-change">${escapeHtml(ending)}</span><span class="memory-token is-suffix">${escapeHtml(item.suffix)}</span>
+            </span>
+            <span class="memory-path-formula">${escapeHtml(item.formula)}<br>${escapeHtml(item.use)}</span>
+          </div>
+        `;
+      }).join("");
+      return `
+        <div class="memory-overview-grid" id="memory-type-detail" data-memory-type="godan"
+          role="tabpanel" aria-labelledby="memory-type-godan-tab">
+          <article class="memory-card">
+            <div class="memory-card-head">
+              <div>
+                <span class="memory-card-kicker">${escapeHtml(type.label)}</span>
+                <h4>あ・い・う・え・お 变化轴</h4>
+              </div>
+              <span class="memory-card-badge">先记这一张</span>
+            </div>
+            <div class="memory-axis-scroll">
+              <div class="memory-axis" role="list" aria-label="書く的五段音段变化">
+                ${axis}
+              </div>
+            </div>
+            <div class="memory-card-note">
+              <span class="memory-card-note-label">记忆口诀</span>
+              <strong>あ段＋ない · い段＋ます/たい · う段原形 · え段＋ば · お段＋う</strong>
+              <small>${escapeHtml(guide.note)}</small>
+            </div>
+          </article>
+          <article class="memory-card">
+            <div class="memory-card-head">
+              <div>
+                <span class="memory-card-kicker">代表词路径</span>
+                <h4>${escapeHtml(example.dictionary)}（${escapeHtml(example.kana)}）怎么一步步变</h4>
+              </div>
+              <span class="memory-card-badge">词干 · 词尾 · 接续</span>
+            </div>
+            <div class="memory-path-source">
+              <span>起点 · ${escapeHtml(type.label)}「く」</span>
+              <strong>${escapeHtml(example.dictionary)}</strong>
+              <span>${escapeHtml(example.meaning)}</span>
+            </div>
+            <div class="memory-path-list" aria-label="書く的常用变形路径">
+              ${path}
+            </div>
+          </article>
+        </div>
+      `;
+    }
+
+    function renderTypedMemoryPanel(typeId) {
+      const type = typeColumns.find((item) => item.id === typeId);
+      const example = typeExamples[typeId];
+      const guide = VERB_TYPE_MEMORY_GUIDES[typeId];
+      const rows = guide.paths.map((item) => {
+        const result = example.forms[item.formId];
+        return `
+          <div class="memory-path-row">
+            <span class="memory-path-label">${escapeHtml(item.label)}</span>
+            <span class="memory-equation" aria-label="${escapeHtml(result)}">
+              ${renderMemoryParts(typeId, item.parts)}
+              <span class="memory-equation-result">→ ${escapeHtml(result)}</span>
+            </span>
+            <span class="memory-path-formula">${escapeHtml(item.formula)}<br>${escapeHtml(item.use)}</span>
+          </div>
+        `;
+      }).join("");
+      return `
+        <section class="memory-type-detail-panel" id="memory-type-detail" data-memory-type="${escapeHtml(typeId)}"
+          role="tabpanel" aria-labelledby="memory-type-${escapeHtml(typeId)}-tab">
+          <div class="memory-type-detail-head">
+            <div>
+              <span class="memory-card-kicker">当前类型 · 详细变化</span>
+              <h4 id="memory-type-detail-title">${escapeHtml(type.label)}</h4>
+              <p>${escapeHtml(guide.rule)}</p>
+            </div>
+            <span class="memory-type-detail-badge">${escapeHtml(guide.detail)}</span>
+          </div>
+          <div class="memory-path-source">
+            <span>代表词</span>
+            <strong>${escapeHtml(example.dictionary)}</strong>
+            <span>${escapeHtml(example.kana)} · ${escapeHtml(example.meaning)}</span>
+          </div>
+          <div class="memory-path-list" aria-label="${escapeHtml(type.label)}六种常用变化">
+            ${rows}
+          </div>
+          <div class="memory-type-detail-note"><strong>记忆重点：</strong>${escapeHtml(guide.note)}</div>
+        </section>
+      `;
+    }
+
+    function renderMemoryOverview() {
+      const selectedType = getMemoryType();
+      const guide = VERB_TYPE_MEMORY_GUIDES[selectedType.id];
+      const typeSummaries = typeColumns.map((type) => {
+        const detail = VERB_TYPE_MEMORY_GUIDES[type.id];
+        const selected = selectedType.id === type.id;
+        return `
+          <button class="memory-type-item memory-type-tab" type="button" role="tab"
+            id="memory-type-${escapeHtml(type.id)}-tab" aria-controls="memory-type-detail"
+            aria-selected="${selected}" data-action="set-memory-type" data-type-id="${escapeHtml(type.id)}">
+            <strong>${escapeHtml(type.label)}</strong>
+            <span class="memory-type-detail">${escapeHtml(detail.detail)}</span>
+            <span class="memory-type-example">${escapeHtml(detail.example)}</span>
+            <span class="memory-type-focus">${escapeHtml(detail.focus)}</span>
+          </button>
+        `;
+      }).join("");
+      const detailPanel = selectedType.id === "godan"
+        ? renderGodanMemoryPanel() : renderTypedMemoryPanel(selectedType.id);
+      return `
+        <section class="memory-overview" data-memory-type="${escapeHtml(selectedType.id)}"
+          aria-labelledby="memory-overview-title">
+          <div class="memory-overview-head">
+            <div>
+              <p class="eyebrow">Memory / 一眼记忆</p>
+              <h3 id="memory-overview-title">先判断类型，再看它怎么变</h3>
+              <p>四类动词的变化方式不同：五段换音段，一段去「る」，来る和する按特殊路径记。点击下方标签，查看每一类的完整常用变化。</p>
+            </div>
+            <div class="memory-legend" aria-label="变形图例">
+              <span class="memory-legend-item is-root">保留部分</span>
+              <span class="memory-legend-item is-change">变化部分</span>
+              <span class="memory-legend-item is-suffix">接续</span>
+              <span class="memory-legend-item is-exception">例外</span>
+            </div>
+          </div>
+          <div class="memory-type-memory" aria-labelledby="memory-type-memory-title">
+            <div class="memory-type-memory-head">
+              <strong id="memory-type-memory-title">四类动词都要记，不能只看五段</strong>
+              <span>当前：${escapeHtml(selectedType.label)} · ${escapeHtml(guide.detail)}</span>
+            </div>
+            <div class="memory-type-strip" role="tablist" aria-label="选择动词类型">
+              ${typeSummaries}
+            </div>
+          </div>
+          ${detailPanel}
+        </section>
+      `;
+    }
+
+    function renderDerivedMemoryGroups() {
+      const selectedType = getMemoryType();
+      const example = typeExamples[selectedType.id];
+      const groups = DERIVED_MEMORY_GROUPS.map((group) => `
+        <article class="derived-memory-group" data-memory-group="${escapeHtml(group.id)}">
+          <div class="derived-memory-group-head">
+            <strong>${escapeHtml(group.label)}</strong>
+            <span>${escapeHtml(group.description)}</span>
+          </div>
+          <div class="derived-memory-form-list">
+            ${group.forms.map((formId) => {
+              const form = getForm(formId);
+              const result = form ? example.forms[formId] : "";
+              const rule = (formRules[formId] && formRules[formId][selectedType.id])
+                || MEMORY_FORM_RULES[formId] || "";
+              return `
+                <div class="derived-memory-form">
+                  <span class="derived-memory-form-label">${escapeHtml(form ? form.label : formId)}</span>
+                  <span class="derived-memory-form-content">
+                    <strong class="derived-memory-form-result">${escapeHtml(result)}</strong>
+                    <span class="derived-memory-form-rule">${escapeHtml(rule)}</span>
+                  </span>
+                </div>
+              `;
+            }).join("")}
+          </div>
+        </article>
+      `).join("");
+      return `
+        <section class="derived-memory" data-memory-type="${escapeHtml(selectedType.id)}"
+          aria-labelledby="derived-memory-title">
+          <div class="derived-memory-head">
+            <div>
+              <p class="eyebrow">Use / 按用途记</p>
+              <h3 id="derived-memory-title">派生形不要逐行硬背，先记它要表达什么</h3>
+              <p>当前显示 ${escapeHtml(selectedType.label)} 的结果。同一条词尾变化会服务于不同表达，先按用途找到形式，再回到完整表格核对细节。</p>
+            </div>
+            <span class="derived-memory-head-badge">${escapeHtml(selectedType.label)} · 19 形</span>
+          </div>
+          <div class="derived-memory-grid">
+            ${groups}
+          </div>
+        </section>
+      `;
+    }
+
+    function renderExceptionMemory() {
+      return `
+        <section class="exception-memory" aria-labelledby="exception-memory-title">
+          <div class="exception-memory-head">
+            <div>
+              <p class="eyebrow">Notice / 易错与例外</p>
+              <h3 id="exception-memory-title">规则旁边就记住会拐弯的地方</h3>
+              <p>看到普通规则时，同时确认这些高频例外和语义分叉，避免只记住公式却在实际词语上套错。</p>
+            </div>
+            <span class="exception-memory-head-badge">先记例外，再做迁移</span>
+          </div>
+          <div class="exception-memory-grid">
+            ${VERB_EXCEPTION_MEMORY.map((item) => `
+              <article class="exception-memory-card" data-exception-id="${escapeHtml(item.id)}">
+                <span class="exception-memory-tag">${escapeHtml(item.tag)}</span>
+                <h4>${escapeHtml(item.title)}</h4>
+                <strong class="exception-memory-equation">${escapeHtml(item.equation)}</strong>
+                <span class="exception-memory-note">${escapeHtml(item.note)}</span>
+              </article>
+            `).join("")}
+          </div>
+        </section>
       `;
     }
 
     function renderRulesPanel() {
       const activeGroup = getActiveGroup("rules");
       const forms = getFormsForGroup(activeGroup);
+      const memoryType = getMemoryType();
+      const memoryExample = typeExamples[memoryType.id];
       return `
         <section id="rules-panel" class="panel" role="tabpanel" aria-labelledby="view-rules-tab">
           <div class="panel-intro">
             <div>
               <p class="eyebrow">Rules / 规则讲解</p>
               <h3>把每一种词形盖成一方印</h3>
-              <p>主表只保留活用形和动词类型，规则摘要在卡片正面，翻开后查看代表词、结果和推导过程。</p>
+              <p>先选择动词类型，查看该类的完整常用变化；再按用途理解派生形，最后用完整 25 形表格查询细节。</p>
             </div>
-            <div class="intro-note">样例固定词：<strong>書く（かく）</strong><br>用于展示五段「く」音便。</div>
+            <div class="intro-note">当前类型：<strong>${escapeHtml(memoryType.label)}</strong><br>代表词：${escapeHtml(memoryExample.dictionary)}（${escapeHtml(memoryExample.kana)}）。</div>
           </div>
-          ${renderConjugationTabs("rules")}
-          ${activeGroup === "derived" ? renderRowAnchors() : ""}
-          <section class="group-body" id="rules-group-${activeGroup}-panel" role="tabpanel"
-            aria-labelledby="rules-group-${activeGroup}-tab">
-            ${renderRuleTable(forms)}
-          </section>
-          ${renderGodanSoundTable()}
+          ${renderMemoryOverview()}
+          ${memoryType.id === "godan" ? renderGodanSoundTable() : renderNonGodanSoundNote()}
+          ${renderDerivedMemoryGroups()}
+          ${renderExceptionMemory()}
+          <details class="reference-details" ${state.referenceOpen ? "open" : ""}>
+            <summary>
+              <span>完整规则查询</span>
+              <span class="reference-details-note">25 形 × 4 类动词 · 需要时展开</span>
+            </summary>
+            <div class="reference-details-body">
+              ${renderConjugationTabs("rules")}
+              ${activeGroup === "derived" ? renderDerivedCategoryChips() : ""}
+              ${activeGroup === "derived" ? renderRowAnchors() : ""}
+              <section class="group-body" id="rules-group-${activeGroup}-panel" role="tabpanel"
+                aria-labelledby="rules-group-${activeGroup}-tab">
+                ${renderRuleTable(forms)}
+              </section>
+            </div>
+          </details>
+          ${renderUsageReference()}
         </section>
       `;
     }
@@ -2273,8 +4615,11 @@
       return String(value || "").trim().normalize("NFKC");
     }
 
-    /* 当前练习的题目列表：[{ form, accepted }] */
+    /* 当前练习的题目列表；旧的同词多形会话继续使用 currentVerb/currentForms */
     function getPracticeItems() {
+      if (state.currentQuestions.length) {
+        return getProgressiveItems();
+      }
       if (!state.currentVerb || !state.currentForms.length) {
         return [];
       }
@@ -2285,12 +4630,32 @@
       });
       return state.currentForms.map((id) => ({
         form: byId[id],
-        accepted: buildAcceptedAnswers(id, data.forms, data.kanaForms)
+        accepted: buildAcceptedAnswers(id, data.forms, data.kanaForms, state.currentVerb)
       }));
     }
 
     /* A6：开始新练习 = 随机动词 + 随机 N 形 */
     function startNewPractice() {
+      if (state.practiceKind !== "same") {
+        const questions = createProgressiveQuestions(state.practiceKind, state.practiceCount);
+        if (!questions.length) {
+          announce("当前筛选下无法生成题目，请调整类型或形范围。");
+          return;
+        }
+        state.currentVerb = null;
+        state.currentForms = [];
+        state.currentQuestions = questions;
+        state.answers = {};
+        state.choices = {};
+        state.result = null;
+        state.answerRevision = 0;
+        state.lastCheckedSignature = null;
+        state.onlyWrong = false;
+        saveSessionState();
+        renderApp();
+        announce(`已开始${getPracticeKindLabel(state.practiceKind)}：共 ${questions.length} 题。`);
+        return;
+      }
       const verb = pickPracticeVerb();
       if (!verb) {
         announce("当前筛选下没有可选动词，请调整类型范围。");
@@ -2298,9 +4663,12 @@
       }
       state.currentVerb = verb;
       state.currentForms = pickPracticeForms(state.practiceCount);
+      state.currentQuestions = [];
       state.answers = {};
       state.choices = {};
       state.result = null;
+      state.answerRevision = 0;
+      state.lastCheckedSignature = null;
       state.onlyWrong = false;
       saveSessionState();
       renderApp();
@@ -2309,13 +4677,19 @@
 
     /* 错题再练：从累计错题集随机选一个动词，取它的错形 */
     function retryWrongPractice() {
-      const wrongs = state.stats.wrongItems.filter(
-        (w) => w && w.dict && w.formId && lexicon.some((v) => v.dictionary === w.dict)
+      const allWrongs = state.stats.wrongItems.filter(
+        (w) => w && w.dict && w.formId
+          && lexicon.some((v) => v.dictionary === w.dict)
+          && (w.formId === "__type__" || w.formId === "__polite__" || allForms.some((form) => form.id === w.formId))
       );
-      if (!wrongs.length) {
+      if (!allWrongs.length) {
         announce("暂无错题记录，先做一组练习吧。");
         return;
       }
+      const dueWrongs = allWrongs.filter((w) => !w.dueAt || w.dueAt <= Date.now());
+      const wrongs = (dueWrongs.length ? dueWrongs : allWrongs.slice().sort(
+        (a, b) => (Number(a.dueAt) || 0) - (Number(b.dueAt) || 0)
+      ));
       const byVerb = {};
       wrongs.forEach((w) => {
         if (!byVerb[w.dict]) {
@@ -2328,15 +4702,123 @@
       const dicts = Object.keys(byVerb);
       const dict = dicts[Math.floor(Math.random() * dicts.length)];
       const verb = lexicon.find((v) => v.dictionary === dict);
-      state.currentVerb = verb;
-      state.currentForms = shuffle(byVerb[dict]).slice(0, state.practiceCount);
+      const selectedWrongForms = shuffle(byVerb[dict]).slice(0, state.practiceCount);
+      const hasSpecialQuestions = selectedWrongForms.some((formId) => formId === "__type__" || formId === "__polite__");
+      if (hasSpecialQuestions) {
+        const allClassify = selectedWrongForms.every((formId) => formId === "__type__");
+        const allPolite = selectedWrongForms.every((formId) => formId === "__polite__");
+        state.practiceKind = allClassify ? "classify" : allPolite ? "polite" : "mixed";
+        state.currentVerb = null;
+        state.currentForms = [];
+        state.currentQuestions = selectedWrongForms.map((formId, index) => {
+          const sourceFormId = formId === "__polite__"
+            ? (Math.random() < .5 ? "shuushikei" : "masu") : null;
+          return {
+            id: `q-${Date.now()}-${index}`,
+            dictionary: dict,
+            formId: formId === "__type__"
+              ? null : formId === "__polite__"
+                ? (sourceFormId === "masu" ? "shuushikei" : "masu") : formId,
+            sourceFormId,
+            kind: formId === "__type__" ? "classify" : formId === "__polite__" ? "polite" : "mixed"
+          };
+        });
+      } else {
+        state.practiceKind = "same";
+        state.currentVerb = verb;
+        state.currentForms = selectedWrongForms;
+        state.currentQuestions = [];
+      }
       state.answers = {};
       state.choices = {};
       state.result = null;
+      state.answerRevision = 0;
+      state.lastCheckedSignature = null;
       state.onlyWrong = true;
       saveSessionState();
       renderApp();
-      announce(`错题再练：${verb.dictionary}，共 ${state.currentForms.length} 个待复习形。`);
+      announce(`错题再练：${verb.dictionary}，共 ${state.currentQuestions.length || state.currentForms.length} 个待复习题。`);
+    }
+
+    function renderQuestionWord(verb) {
+      return `
+        <div class="question-word">
+          <strong>${escapeHtml(verb.dictionary)}</strong>
+          ${state.showKana ? `<span>${escapeHtml(verb.kana)}</span>` : ""}
+          ${state.showMeaning ? `<small>中文：${escapeHtml(verb.meaning)}</small>` : ""}
+        </div>
+      `;
+    }
+
+    function renderProgressiveRow(item) {
+      const resultItem = state.result && state.result.items[item.id]
+        ? state.result.items[item.id] : null;
+      const rowClass = resultItem ? (resultItem.correct ? "is-correct" : "is-wrong") : "";
+      const title = item.kind === "classify"
+        ? "判断词类" : item.kind === "polite" ? item.targetLabel : item.form.label;
+      const description = item.kind === "classify"
+        ? "先判断这个词属于哪一类。"
+        : item.kind === "polite" ? `把${item.sourceForm.label}转换为${item.targetLabel}。` : item.form.note;
+      const answerOptions = item.kind === "classify"
+        ? typeColumns.map((type) => ({ value: type.id, label: type.label }))
+        : item.kind === "polite"
+          ? getPoliteOptions(item).map((value) => ({ value, label: value }))
+        : getOptions(item.verb, item.form.id).map((value) => ({ value, label: value }));
+      const selected = state.choices[item.id] || "";
+      const sentence = item.template
+        ? `${item.template.prefix}＿＿${item.template.suffix}` : "";
+      const label = `
+        <div class="practice-row-label">
+          <strong>${title}</strong>
+          ${item.form ? `<span>${item.form.jp}</span>` : ""}
+          <small>${description}</small>
+        </div>
+      `;
+
+      const answer = state.practiceMode === "simple"
+        ? `
+          <fieldset class="choice-grid ${item.kind === "classify" ? "type-choice-grid" : ""}">
+            <legend class="visually-hidden">${title}选择题</legend>
+            ${answerOptions.map((option, index) => `
+              <label class="choice-option">
+                <input type="radio" name="choice-${escapeHtml(item.id)}" value="${escapeHtml(option.value)}"
+                  ${selected === option.value ? "checked" : ""} data-action="choose-answer"
+                  data-question-id="${escapeHtml(item.id)}">
+                <span>${escapeHtml(option.label)}</span><em>${String.fromCharCode(65 + index)}</em>
+              </label>
+            `).join("")}
+          </fieldset>
+        `
+        : `
+          <label class="visually-hidden" for="answer-${escapeHtml(item.id)}">${title}答案</label>
+          <input id="answer-${escapeHtml(item.id)}" class="answer-field" type="text" inputmode="text"
+          autocomplete="off" placeholder="${item.kind === "classify" ? "输入词类，如一类･五段动词" : `输入${title}结果`}"
+            value="${escapeHtml(state.answers[item.id] || "")}"
+            data-action="type-answer" data-question-id="${escapeHtml(item.id)}">
+        `;
+      return `
+        <article class="practice-row progressive-row ${rowClass}" data-question-id="${escapeHtml(item.id)}">
+          <div class="progressive-question">
+            ${renderQuestionWord(item.verb)}
+            ${item.kind === "polite" ? `
+              <div class="conversion-prompt">
+                <span>${escapeHtml(item.sourceForm.label)}</span>
+                <strong>${escapeHtml(item.sourceValue)}</strong>
+                <span>→</span><em>?</em>
+                <small>目标：${escapeHtml(item.targetLabel)}</small>
+              </div>
+            ` : ""}
+            ${item.kind === "sentence" && item.template ? `
+              <div class="sentence-prompt">
+                <div>${escapeHtml(sentence)}</div>
+                <small>${escapeHtml(item.template.translation)}</small>
+              </div>
+            ` : ""}
+          </div>
+          ${label}
+          <div class="progressive-answer">${answer}</div>
+        </article>
+      `;
     }
 
     function renderPracticeRow(form) {
@@ -2383,8 +4865,49 @@
       `;
     }
 
+    function getProgressiveResultSummary(items) {
+      const resultItems = items.map((item) => state.result.items[item.id]).filter(Boolean);
+      const correct = resultItems.filter((item) => item.correct).length;
+      const total = resultItems.length;
+      const percentage = total === 0 ? 0 : Math.round((correct / total) * 100);
+      const wrongItems = items.filter((item) => state.result.items[item.id] && !state.result.items[item.id].correct);
+      return `
+        <section class="result-summary" aria-labelledby="result-title">
+          <div class="score-bubble">${percentage}%<span>${correct}/${total}</span></div>
+          <div>
+            <h3 id="result-title">检查完成</h3>
+            <p>本次${getPracticeKindLabel(state.practiceKind)}共 ${total} 题，答对 ${correct} 题。${wrongItems.length ? "错题已加入复习队列。" : "本次全部答对，可以继续提高难度。"}</p>
+            ${wrongItems.length > 0 ? `
+              <div class="result-items">
+                ${wrongItems.map((item) => {
+                  const expected = item.kind === "classify"
+                    ? typeColumns.find((type) => type.id === item.verb.type).label
+                    : item.data.forms[item.form.id];
+                  return `
+                    <div class="result-item is-wrong">
+                      <strong>${escapeHtml(item.verb.dictionary)}</strong>
+                      <span>${escapeHtml(item.kind === "classify" ? "词类" : item.kind === "polite" ? item.targetLabel : item.form.label)}</span>
+                      <small>${escapeHtml(expected)}</small>
+                    </div>
+                  `;
+                }).join("")}
+              </div>
+            ` : `
+              <div class="exception-callout"><span aria-hidden="true">✓</span><span><strong>全部答对！</strong>可以切换到更少提示或句子练习。</span></div>
+            `}
+          </div>
+        </section>
+      `;
+    }
+
     function getResultSummary() {
-      if (!state.result || !state.currentVerb) {
+      if (!state.result) {
+        return "";
+      }
+      if (state.currentQuestions.length) {
+        return getProgressiveResultSummary(getProgressiveItems());
+      }
+      if (!state.currentVerb) {
         return "";
       }
       const items = Object.values(state.result.items);
@@ -2429,11 +4952,13 @@
     }
 
     function renderPracticePanel() {
-      const hasSession = !!state.currentVerb && state.currentForms.length > 0;
+      const progressiveSession = state.currentQuestions.length > 0;
+      const hasSession = progressiveSession || (!!state.currentVerb && state.currentForms.length > 0);
       const wrongCount = state.stats.wrongItems.length;
       const items = getPracticeItems();
       const scopeLabel = state.practiceScope === "base" ? "基础六形"
         : state.practiceScope === "derived" ? "派生形" : "全部 25 形";
+      const kindLabel = getPracticeKindLabel(state.practiceKind);
       return `
         <section id="practice-panel" class="panel" role="tabpanel" aria-labelledby="view-practice-tab">
           <div class="panel-intro">
@@ -2442,7 +4967,7 @@
               <h3>翻开一页，亲手盖出答案</h3>
               <p>从词库随机抽词、按规则实时变形；选好类型与题数后开始，错题会进入累计错题集。</p>
             </div>
-            <div class="intro-note">词库 <strong>${lexicon.length} 词</strong><br>累计错题 ${wrongCount} 条</div>
+            <div class="intro-note">词库 <strong>${lexicon.length} 词</strong><br>待复习 ${wrongCount} 条<br><small>连续答对 3 次后移出</small></div>
           </div>
           <div class="practice-toolbar">
             <div class="mode-switch" aria-label="练习模式">
@@ -2460,10 +4985,20 @@
               ${hasSession ? `
                 <button class="config-toggle" type="button" data-action="toggle-config"
                   aria-expanded="${state.configOpen ? "true" : "false"}">${state.configOpen ? "收起设置" : "展开设置"}</button>
-                <span class="config-summary">当前：${scopeLabel} · ${state.practiceCount} 题</span>
+                <span class="config-summary">当前：${kindLabel} · ${scopeLabel} · ${state.practiceCount} 题</span>
               ` : ""}
             </div>
             <div class="config-rows">
+            <div class="config-row">
+              <span class="config-label">题型</span>
+              <div class="type-chips practice-kinds">
+                ${Object.entries(PRACTICE_KIND_LABELS).map(([id, label]) => `
+                  <button class="type-chip ${state.practiceKind === id ? "is-active" : ""}"
+                    type="button" data-action="set-practice-kind" data-kind="${id}"
+                    aria-pressed="${state.practiceKind === id}" title="${PRACTICE_KIND_DESCRIPTIONS[id]}">${label}</button>
+                `).join("")}
+              </div>
+            </div>
             <div class="config-row">
               <span class="config-label">动词类型</span>
               <div class="type-chips">
@@ -2497,6 +5032,19 @@
               </select>
               <span class="assistive-copy">从「${scopeLabel}」中随机抽取</span>
             </div>
+            <div class="config-row">
+              <span class="config-label">提示</span>
+              <div class="hint-options">
+                <label class="hint-option">
+                  <input type="checkbox" data-action="toggle-hint" data-hint="kana" ${state.showKana ? "checked" : ""}>
+                  显示假名
+                </label>
+                <label class="hint-option">
+                  <input type="checkbox" data-action="toggle-hint" data-hint="meaning" ${state.showMeaning ? "checked" : ""}>
+                  显示中文
+                </label>
+              </div>
+            </div>
             </div>
           </section>
 
@@ -2508,21 +5056,34 @@
           </div>
 
           ${hasSession ? `
-            <div class="practice-prompt">
-              <div class="practice-word">
-                <strong>${state.currentVerb.dictionary}</strong>
-                <span>${state.currentVerb.kana}</span>
-                <small>中文：${state.currentVerb.meaning}</small>
+            ${progressiveSession ? `
+              <div class="practice-prompt">
+                <div class="practice-word">
+                  <strong>${kindLabel}</strong>
+                  <small>每题会${state.practiceKind === "classify" ? "先要求判断词类" : "随机更换词条"}，用来练习迁移。</small>
+                </div>
+                <div class="practice-prompt-side">
+                  <strong>${state.onlyWrong ? "错题复习" : "本次练习"}</strong>
+                  <span>范围：${scopeLabel} · 共 ${items.length} 题 · ${state.showKana ? "显示假名" : "隐藏假名"} · ${state.showMeaning ? "显示中文" : "隐藏中文"}。</span>
+                </div>
               </div>
-              <div class="practice-prompt-side">
-                <strong>${state.onlyWrong ? "错题复习" : "本次练习"}</strong>
-                <span>范围：${scopeLabel} · 共 ${items.length} 题 · 动词类型不直接显示，先自行判断。</span>
+            ` : `
+              <div class="practice-prompt">
+                <div class="practice-word">
+                  <strong>${state.currentVerb.dictionary}</strong>
+                  ${state.showKana ? `<span>${state.currentVerb.kana}</span>` : ""}
+                  ${state.showMeaning ? `<small>中文：${state.currentVerb.meaning}</small>` : ""}
+                </div>
+                <div class="practice-prompt-side">
+                  <strong>${state.onlyWrong ? "错题复习" : "本次练习"}</strong>
+                  <span>范围：${scopeLabel} · 共 ${items.length} 题 · 动词类型不直接显示，先自行判断。</span>
+                </div>
               </div>
-            </div>
+            `}
             ${getResultSummary()}
             <section class="practice-group">
-              <h3>${state.currentVerb.dictionary} 的 ${items.length} 个活用形</h3>
-              <div class="practice-list">${items.map((item) => renderPracticeRow(item.form)).join("")}</div>
+              <h3>${progressiveSession ? `${kindLabel} · ${items.length} 题` : `${state.currentVerb.dictionary} 的 ${items.length} 个活用形`}</h3>
+              <div class="practice-list">${items.map((item) => progressiveSession ? renderProgressiveRow(item) : renderPracticeRow(item.form)).join("")}</div>
             </section>
             <div class="practice-actions">
               <button class="primary-button" type="button" data-action="check-practice">检查答案</button>
@@ -2559,6 +5120,13 @@
         </nav>
         ${state.view === "rules" ? renderRulesPanel() : renderPracticePanel()}
       `;
+      const referenceDetails = elements.appShell.querySelector(".reference-details");
+      if (referenceDetails) {
+        referenceDetails.addEventListener("toggle", () => {
+          state.referenceOpen = referenceDetails.open;
+          saveSessionState();
+        });
+      }
       window.NihongoTheme.updateSwitcher();
     }
 
@@ -2569,19 +5137,85 @@
       announce(state.view === "rules" ? "已切换到规则讲解" : "已切换到练习");
     }
 
+    function getSubmittedAnswer(item) {
+      return state.practiceMode === "simple"
+        ? state.choices[item.id] || "" : state.answers[item.id] || "";
+    }
+
+    function checkProgressivePractice() {
+      const items = getProgressiveItems();
+      if (!items.length) {
+        announce("还没有练习题目，请先「开始新练习」。");
+        return;
+      }
+      const submissions = items.map((item) => [item.id, getSubmittedAnswer(item)]);
+      const signature = JSON.stringify({
+        kind: state.practiceKind,
+        questions: state.currentQuestions,
+        mode: state.practiceMode,
+        revision: state.answerRevision,
+        submissions
+      });
+      if (state.result && state.lastCheckedSignature === signature) {
+        announce("答案没有变化，本次检查不重复计入统计。");
+        return;
+      }
+      const resultItems = {};
+      items.forEach((item, index) => {
+        const submitted = submissions[index][1];
+        const correct = item.accepted.map(normalizeAnswer).includes(normalizeAnswer(submitted));
+        const formKey = item.formKey || (item.form ? item.form.id : "__type__");
+        resultItems[item.id] = { correct, submitted };
+        state.stats.byVerb[item.verb.dictionary] = state.stats.byVerb[item.verb.dictionary] || { t: 0, c: 0 };
+        state.stats.byVerb[item.verb.dictionary].t += 1;
+        state.stats.byForm[formKey] = state.stats.byForm[formKey] || { t: 0, c: 0 };
+        state.stats.byForm[formKey].t += 1;
+        if (correct) {
+          state.stats.byVerb[item.verb.dictionary].c += 1;
+          state.stats.byForm[formKey].c += 1;
+          resolveWrongItem(item.verb.dictionary, formKey);
+        } else {
+          recordWrongItem(item.verb.dictionary, formKey);
+        }
+      });
+      state.result = { kind: state.practiceKind, items: resultItems, checkedAt: Date.now() };
+      state.lastCheckedSignature = signature;
+      state.onlyWrong = false;
+      saveStats();
+      saveSessionState();
+      renderApp();
+      announce(`答案已检查：${getPracticeKindLabel(state.practiceKind)} ${items.length} 题，累计统计已更新。`);
+    }
+
     function checkPractice() {
+      if (state.currentQuestions.length) {
+        checkProgressivePractice();
+        return;
+      }
       const items = getPracticeItems();
       if (!items.length) {
         announce("还没有练习题目，请先「开始新练习」。");
         return;
       }
-      const data = getCurrentVerbData();
       const verbKey = state.currentVerb.dictionary;
+      const submissions = items.map(({ form }) => [
+        form.id,
+        state.practiceMode === "simple" ? state.choices[form.id] || "" : state.answers[form.id] || ""
+      ]);
+      const signature = JSON.stringify({
+        verb: verbKey,
+        forms: state.currentForms,
+        mode: state.practiceMode,
+        revision: state.answerRevision,
+        submissions
+      });
+      if (state.result && state.lastCheckedSignature === signature) {
+        announce("答案没有变化，本次检查不重复计入统计。");
+        return;
+      }
       const resultItems = {};
-      items.forEach(({ form, accepted }) => {
-        const submitted = state.practiceMode === "simple"
-          ? state.choices[form.id] || ""
-          : state.answers[form.id] || "";
+      items.forEach(({ form, accepted }, index) => {
+        const submitted = submissions[index][1];
         const correct = accepted.map(normalizeAnswer).includes(normalizeAnswer(submitted));
         resultItems[form.id] = { correct, submitted };
         // 累计统计（A5：localStorage 长期保存）
@@ -2592,15 +5226,13 @@
         if (correct) {
           state.stats.byVerb[verbKey].c += 1;
           state.stats.byForm[form.id].c += 1;
+          resolveWrongItem(verbKey, form.id);
         } else {
-          state.stats.wrongItems.push({ dict: verbKey, formId: form.id });
-          // 控制错题集规模：仅保留最近 200 条
-          if (state.stats.wrongItems.length > 200) {
-            state.stats.wrongItems.splice(0, state.stats.wrongItems.length - 200);
-          }
+          recordWrongItem(verbKey, form.id);
         }
       });
       state.result = { verb: verbKey, items: resultItems, checkedAt: Date.now() };
+      state.lastCheckedSignature = signature;
       state.onlyWrong = false;
       saveStats();
       saveSessionState();
@@ -2612,6 +5244,8 @@
       state.answers = {};
       state.choices = {};
       state.result = null;
+      state.answerRevision += 1;
+      state.lastCheckedSignature = null;
       state.onlyWrong = false;
       saveSessionState();
       renderApp();
@@ -2666,6 +5300,23 @@
         return;
       }
 
+      if (action === "set-memory-type") {
+        const typeId = target.dataset.typeId;
+        if (!typeColumns.some((type) => type.id === typeId)) {
+          announce("无法切换到未知的动词类型。");
+          return;
+        }
+        if (state.memoryType === typeId) {
+          return;
+        }
+        state.memoryType = typeId;
+        saveSessionState();
+        renderApp();
+        const selectedType = getMemoryType();
+        announce(`已切换到${selectedType.label}的详细变化。`);
+        return;
+      }
+
       if (action === "set-form-group") {
         const scope = target.dataset.scope === "practice" ? "practice" : "rules";
         state.activeGroups[scope] = target.dataset.groupId === "derived" ? "derived" : "base";
@@ -2678,9 +5329,32 @@
       if (action === "set-mode") {
         state.practiceMode = target.dataset.mode === "standard" ? "standard" : "simple";
         state.result = null;
+        state.answerRevision += 1;
+        state.lastCheckedSignature = null;
         saveSessionState();
         renderApp();
         announce(state.practiceMode === "simple" ? "已切换到简易模式" : "已切换到标准模式");
+        return;
+      }
+
+      if (action === "set-practice-kind") {
+        const kind = ["same", "mixed", "sentence", "classify", "polite"].includes(target.dataset.kind)
+          ? target.dataset.kind : "same";
+        if (state.practiceKind === kind) {
+          return;
+        }
+        state.practiceKind = kind;
+        state.currentVerb = null;
+        state.currentForms = [];
+        state.currentQuestions = [];
+        state.answers = {};
+        state.choices = {};
+        state.result = null;
+        state.answerRevision += 1;
+        state.lastCheckedSignature = null;
+        saveSessionState();
+        renderApp();
+        announce(`题型已切换为${getPracticeKindLabel(kind)}，请开始新练习。`);
         return;
       }
 
@@ -2803,15 +5477,37 @@
     elements.appShell.addEventListener("change", (event) => {
       const target = event.target;
       if (target.dataset.action === "choose-answer") {
-        state.choices[target.dataset.formId] = target.value;
+        const answerKey = target.dataset.questionId || target.dataset.formId;
+        state.choices[answerKey] = target.value;
         state.result = null;
+        state.answerRevision += 1;
+        state.lastCheckedSignature = null;
         saveSessionState();
         return;
       }
       if (target.dataset.action === "type-answer") {
-        state.answers[target.dataset.formId] = target.value;
+        const answerKey = target.dataset.questionId || target.dataset.formId;
+        state.answers[answerKey] = target.value;
         state.result = null;
+        state.answerRevision += 1;
+        state.lastCheckedSignature = null;
         saveSessionState();
+        return;
+      }
+      if (target.dataset.action === "toggle-hint") {
+        if (target.dataset.hint === "kana") {
+          state.showKana = target.checked;
+        } else if (target.dataset.hint === "meaning") {
+          state.showMeaning = target.checked;
+        } else {
+          return;
+        }
+        state.result = null;
+        state.answerRevision += 1;
+        state.lastCheckedSignature = null;
+        saveSessionState();
+        renderApp();
+        announce(`${target.dataset.hint === "kana" ? "假名" : "中文"}提示已${target.checked ? "显示" : "隐藏"}。`);
         return;
       }
       if (target.dataset.action === "set-practice-count") {

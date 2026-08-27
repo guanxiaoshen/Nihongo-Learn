@@ -122,8 +122,9 @@
     }
 
     button:focus-visible,
-    input:focus-visible {
-      outline: 3px solid rgba(var(--vermilion-deep-rgb), .48);
+    input:focus-visible,
+    a:focus-visible {
+      outline: 3px solid var(--vermilion);
       outline-offset: 3px;
     }
 
@@ -467,6 +468,433 @@
       animation: panel-enter .45s ease both;
     }
 
+    /* P3：先展示公式、谓语路径和句中功能，完整表格作为查询层 */
+    .adj-memory-overview {
+      display: grid;
+      gap: 14px;
+      padding: 16px;
+      border: 2px solid var(--vermilion);
+      border-radius: 2px;
+      background:
+        linear-gradient(120deg, rgba(var(--vermilion-rgb), .08), transparent 58%),
+        var(--surface-strong);
+      box-shadow: 6px 7px 0 rgba(var(--vermilion-deep-rgb), .08);
+    }
+
+    .adj-memory-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .adj-memory-head h3 {
+      margin: 0;
+      color: var(--ink);
+      font-family: var(--display);
+      font-size: clamp(1.22rem, 2vw, 1.55rem);
+      line-height: 1.2;
+    }
+
+    .adj-memory-head p {
+      max-width: 760px;
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: .82rem;
+      line-height: 1.5;
+    }
+
+    .adj-memory-badge {
+      flex: 0 0 auto;
+      padding: 5px 8px;
+      border: 1px solid var(--vermilion);
+      color: var(--vermilion-deep);
+      background: var(--vermilion-soft);
+      font-size: .7rem;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .adj-formula-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .adj-formula-card {
+      display: grid;
+      align-content: start;
+      gap: 8px;
+      min-width: 0;
+      padding: 12px;
+      border: 1px solid var(--line-strong);
+      background: var(--surface);
+    }
+
+    .adj-formula-card-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .adj-formula-card h4 {
+      margin: 0;
+      color: var(--ink);
+      font-family: var(--display);
+      font-size: 1.05rem;
+    }
+
+    .adj-formula-card-badge {
+      flex: 0 0 auto;
+      color: var(--vermilion-deep);
+      font-size: .7rem;
+      font-weight: 900;
+    }
+
+    .adj-formula-rule {
+      padding: 8px 9px;
+      border-left: 3px solid var(--vermilion);
+      color: var(--vermilion-deep);
+      background: var(--vermilion-soft);
+      font-family: var(--display);
+      font-size: .9rem;
+      font-weight: 900;
+      line-height: 1.4;
+    }
+
+    .adj-formula-note,
+    .adj-formula-example {
+      color: var(--muted);
+      font-size: .74rem;
+      line-height: 1.45;
+    }
+
+    .adj-formula-example {
+      padding-top: 6px;
+      border-top: 1px dashed var(--line);
+      color: var(--ink);
+      font-family: var(--display);
+      font-size: .88rem;
+      font-weight: 800;
+    }
+
+    .adj-predicate-section {
+      display: grid;
+      gap: 9px;
+    }
+
+    .adj-predicate-section-head {
+      display: flex;
+      align-items: baseline;
+      gap: 9px;
+    }
+
+    .adj-predicate-section-head strong {
+      color: var(--vermilion-deep);
+      font-family: var(--display);
+      font-size: 1rem;
+    }
+
+    .adj-predicate-section-head span {
+      color: var(--muted);
+      font-size: .74rem;
+    }
+
+    .adj-predicate-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .adj-predicate-card {
+      display: grid;
+      align-content: start;
+      gap: 8px;
+      min-width: 0;
+      padding: 10px;
+      border: 1px solid var(--line-strong);
+      background: var(--surface);
+    }
+
+    .adj-predicate-card-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 8px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .adj-predicate-card-head strong {
+      color: var(--vermilion-deep);
+      font-family: var(--display);
+      font-size: .94rem;
+    }
+
+    .adj-predicate-card-head span {
+      color: var(--muted);
+      font-size: .68rem;
+      font-weight: 800;
+    }
+
+    .adj-predicate-list {
+      display: grid;
+      gap: 4px;
+    }
+
+    .adj-predicate-row {
+      display: grid;
+      grid-template-columns: 58px minmax(0, 1fr);
+      align-items: baseline;
+      gap: 6px;
+      padding: 5px 6px;
+      background: var(--wash);
+    }
+
+    .adj-predicate-label {
+      color: var(--muted);
+      font-size: .68rem;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .adj-predicate-result {
+      display: inline-flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      min-width: 0;
+      color: var(--ink);
+      font-family: var(--display);
+      font-size: .94rem;
+      font-weight: 900;
+      letter-spacing: .02em;
+    }
+
+    .adj-token {
+      display: inline-block;
+    }
+
+    .adj-token.is-root {
+      color: var(--ink);
+    }
+
+    .adj-token.is-change {
+      padding: 1px 3px;
+      color: var(--vermilion-deep);
+      background: var(--vermilion-soft);
+      box-shadow: inset 0 -2px 0 var(--vermilion);
+    }
+
+    .adj-token.is-suffix {
+      margin-left: 2px;
+      padding: 1px 4px;
+      color: var(--success);
+      background: var(--success-soft);
+      font-family: var(--sans);
+      font-size: .76rem;
+      letter-spacing: 0;
+    }
+
+    .adj-usage-reference {
+      display: grid;
+      gap: 10px;
+      padding: 14px;
+      border: 1px solid var(--line-strong);
+      border-left: 4px solid var(--accent-muted);
+      background: var(--wash);
+    }
+
+    .adj-usage-reference-head {
+      display: flex;
+      align-items: baseline;
+      gap: 9px;
+    }
+
+    .adj-usage-reference-head strong {
+      color: var(--vermilion-deep);
+      font-family: var(--display);
+      font-size: 1rem;
+    }
+
+    .adj-usage-reference-head span {
+      color: var(--muted);
+      font-size: .74rem;
+    }
+
+    .usage-reference-head.adj-usage-reference-head {
+      display: flex;
+      align-items: baseline;
+      gap: 9px;
+    }
+
+    .adj-usage-guide-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .adj-usage-guide {
+      display: grid;
+      align-content: start;
+      gap: 5px;
+      padding: 9px;
+      border: 1px solid var(--line);
+      background: var(--surface);
+    }
+
+    .adj-usage-guide strong {
+      color: var(--vermilion-deep);
+      font-family: var(--display);
+      font-size: .88rem;
+    }
+
+    .adj-usage-guide-formula {
+      color: var(--ink);
+      font-family: var(--display);
+      font-size: .84rem;
+      font-weight: 800;
+      line-height: 1.4;
+    }
+
+    .adj-usage-guide-note {
+      color: var(--muted);
+      font-size: .7rem;
+      line-height: 1.4;
+    }
+
+    .adj-exception-reference {
+      display: grid;
+      gap: 10px;
+      padding: 14px;
+      border: 1px solid var(--line-strong);
+      border-top: 4px solid var(--danger);
+      background: var(--surface);
+    }
+
+    .adj-exception-reference-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .adj-exception-reference-head h3 {
+      margin: 0;
+      color: var(--ink);
+      font-family: var(--display);
+      font-size: 1.05rem;
+    }
+
+    .adj-exception-reference-head span {
+      color: var(--danger);
+      font-size: .7rem;
+      font-weight: 900;
+    }
+
+    .adj-exception-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .adj-exception-card {
+      display: grid;
+      align-content: start;
+      gap: 6px;
+      min-width: 0;
+      padding: 9px;
+      border: 1px solid var(--line);
+      background: var(--surface-strong);
+    }
+
+    .adj-exception-tag {
+      color: var(--danger);
+      font-size: .66rem;
+      font-weight: 900;
+      letter-spacing: .08em;
+    }
+
+    .adj-exception-card h4 {
+      margin: 0;
+      color: var(--ink);
+      font-family: var(--display);
+      font-size: .88rem;
+      line-height: 1.35;
+    }
+
+    .adj-exception-equation {
+      color: var(--vermilion-deep);
+      font-family: var(--display);
+      font-size: .88rem;
+      font-weight: 900;
+      line-height: 1.4;
+    }
+
+    .adj-exception-note {
+      padding-top: 5px;
+      border-top: 1px dashed var(--line);
+      color: var(--muted);
+      font-size: .7rem;
+      line-height: 1.4;
+    }
+
+    .reference-details {
+      border: 2px solid var(--line-strong);
+      background: var(--surface);
+    }
+
+    .reference-details[open] {
+      border-color: var(--vermilion);
+    }
+
+    .reference-details summary {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 11px 13px;
+      color: var(--vermilion-deep);
+      background:
+        linear-gradient(90deg, rgba(var(--vermilion-rgb), .08), transparent 65%),
+        var(--wash);
+      cursor: pointer;
+      font-family: var(--display);
+      font-size: 1rem;
+      font-weight: 900;
+      list-style: none;
+    }
+
+    .reference-details summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .reference-details summary::after {
+      color: var(--muted);
+      content: "展开查询";
+      font-family: var(--sans);
+      font-size: .72rem;
+      font-weight: 800;
+    }
+
+    .reference-details[open] summary::after {
+      content: "收起查询";
+    }
+
+    .reference-details-note {
+      color: var(--muted);
+      font-family: var(--sans);
+      font-size: .72rem;
+      font-weight: 700;
+    }
+
+    .reference-details-body {
+      display: grid;
+      gap: 12px;
+      padding: 12px;
+      border-top: 1px solid var(--line-strong);
+    }
+
     /* P3：练习设置折叠 */
     .config-head {
       display: flex;
@@ -501,6 +929,29 @@
       margin-left: auto;
       color: var(--muted);
       font-size: .74rem;
+    }
+
+    .hint-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 12px;
+    }
+
+    .hint-option {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      color: var(--muted);
+      font-size: .78rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .hint-option input {
+      width: 16px;
+      height: 16px;
+      margin: 0;
+      accent-color: var(--vermilion);
     }
 
     .practice-config.is-folded .config-rows {
@@ -549,21 +1000,74 @@
     .rule-table thead th:first-child {
       left: 0;
       z-index: 8;
-      width: 150px;
+      width: 132px;
+      min-width: 132px;
+      text-align: center;
+    }
+
+    .form-header-main {
+      display: block;
+      font-family: var(--display);
+      font-size: .94rem;
+      letter-spacing: .08em;
+      line-height: 1.2;
+    }
+
+    .form-header-sub {
+      display: block;
+      margin-top: 3px;
+      color: rgba(var(--surface-rgb), .72);
+      font-family: var(--mono);
+      font-size: .62rem;
+      font-weight: 700;
+      letter-spacing: .16em;
+      line-height: 1;
+      text-transform: uppercase;
     }
 
     .rule-table .form-cell {
       position: sticky;
       left: 0;
       z-index: 4;
-      width: 150px;
-      min-width: 150px;
+      width: 132px;
+      min-width: 132px;
+      padding: 12px 8px;
       color: var(--vermilion-deep);
       background:
         repeating-linear-gradient(45deg, transparent 0 9px, rgba(var(--vermilion-rgb), .025) 10px 11px, transparent 12px 22px),
         var(--wash);
       box-shadow: inset 4px 0 0 var(--vermilion);
+      vertical-align: middle;
       text-align: center;
+    }
+
+    .rule-table .form-cell[data-form-group="base"] {
+      box-shadow: inset 6px 0 0 var(--vermilion);
+    }
+
+    .form-cell-content {
+      display: grid;
+      min-height: 132px;
+      align-content: center;
+      justify-items: center;
+      gap: 6px;
+    }
+
+    .form-index {
+      display: inline-grid;
+      min-width: 30px;
+      height: 24px;
+      place-items: center;
+      padding: 0 7px;
+      border: 1px solid var(--vermilion);
+      border-radius: 999px;
+      color: var(--vermilion-deep);
+      background: var(--vermilion-soft);
+      font-family: var(--mono);
+      font-size: .68rem;
+      font-weight: 800;
+      letter-spacing: .08em;
+      line-height: 1;
     }
 
     .rule-table tbody tr:hover .form-cell {
@@ -582,14 +1086,30 @@
 
     .form-name {
       display: block;
+      max-width: 100%;
+      color: var(--vermilion-deep);
       font-family: var(--display);
+      font-size: 1rem;
       font-weight: 900;
+      letter-spacing: .02em;
+      line-height: 1.25;
+      overflow-wrap: anywhere;
     }
 
     .form-jp {
       display: block;
-      margin-top: 2px;
-      font-size: .8rem;
+      margin-top: 0;
+      color: var(--accent-muted);
+      font-size: .72rem;
+      font-weight: 800;
+      letter-spacing: .06em;
+      line-height: 1.3;
+    }
+
+    .form-cell[data-form-group="derived"] .form-index {
+      border-color: var(--line-strong);
+      color: var(--accent-muted);
+      background: var(--surface);
     }
 
     .rule-card {
@@ -802,25 +1322,24 @@
 
     .sound-reference {
       display: grid;
-      gap: 12px;
-      padding: 15px;
+      gap: 10px;
+      margin-top: 4px;
+      padding: 12px 16px 16px;
       border: 1px solid var(--line-strong);
-      border-radius: 2px;
-      background:
-        repeating-linear-gradient(135deg, transparent 0 16px, rgba(var(--vermilion-rgb), .02) 17px 18px, transparent 19px 34px),
-        var(--wash);
-      box-shadow: var(--shadow-small);
+      border-top: 4px solid var(--vermilion);
+      border-radius: 0 0 2px 2px;
+      background: var(--surface);
     }
 
     .sound-reference h3 {
       margin: 0;
       color: var(--vermilion-deep);
       font-family: var(--display);
-      font-size: 1.1rem;
+      font-size: 1rem;
     }
 
-    .sound-reference p {
-      margin: -5px 0 0;
+    .sound-reference > div:first-child p {
+      margin: 0;
       color: var(--muted);
       font-size: .8rem;
     }
@@ -855,7 +1374,7 @@
 
     .sound-summary-grid {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 7px;
     }
 
@@ -888,7 +1407,7 @@
 
     .sound-table {
       width: 100%;
-      min-width: 860px;
+      min-width: 900px;
       border-collapse: collapse;
       font-size: .8rem;
     }
@@ -897,7 +1416,7 @@
     .sound-table td {
       padding: 8px 9px;
       border: 1px solid rgba(var(--vermilion-deep-rgb), .24);
-      text-align: left;
+      text-align: center;
     }
 
     .sound-table th {
@@ -906,9 +1425,25 @@
       font-weight: 900;
     }
 
+    .sound-table thead th {
+      padding-top: 9px;
+      padding-bottom: 9px;
+      background:
+        linear-gradient(180deg, rgba(var(--vermilion-rgb), .1), transparent),
+        var(--surface-strong);
+      font-size: .76rem;
+      letter-spacing: .03em;
+    }
+
     .sound-table tbody th {
       background: var(--vermilion-soft);
       font-family: var(--display);
+      text-align: left;
+    }
+
+    .sound-table tbody tr:hover th,
+    .sound-table tbody tr:hover td {
+      background: var(--wash-hover);
     }
 
     .exception-callout {
@@ -1133,6 +1668,95 @@
       border: 1px solid var(--line);
       border-radius: 2px;
       background: var(--surface-strong);
+    }
+
+    .progressive-row {
+      grid-template-columns: minmax(180px, .85fr) 150px minmax(0, 1fr);
+      align-items: center;
+    }
+
+    .progressive-question {
+      display: grid;
+      gap: 7px;
+    }
+
+    .question-word {
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 6px 10px;
+    }
+
+    .question-word strong {
+      color: var(--vermilion-deep);
+      font-family: var(--display);
+      font-size: 1.45rem;
+      line-height: 1.1;
+    }
+
+    .question-word span {
+      color: var(--accent-muted);
+      font-size: .82rem;
+      font-weight: 900;
+    }
+
+    .question-word small {
+      flex-basis: 100%;
+      color: var(--muted);
+      font-size: .74rem;
+    }
+
+    .sentence-prompt {
+      padding: 7px 9px;
+      border-left: 3px solid var(--vermilion);
+      color: var(--ink);
+      background: var(--wash);
+      font-family: var(--display);
+      font-size: .95rem;
+      font-weight: 800;
+    }
+
+    .sentence-prompt small {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-family: var(--sans);
+      font-size: .72rem;
+      font-weight: 600;
+    }
+
+    .conversion-prompt {
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 5px 8px;
+      padding: 7px 9px;
+      border-left: 3px solid var(--accent-muted);
+      color: var(--muted);
+      background: var(--wash);
+      font-size: .78rem;
+    }
+
+    .conversion-prompt strong {
+      color: var(--ink);
+      font-family: var(--display);
+      font-size: .96rem;
+    }
+
+    .conversion-prompt em {
+      color: var(--vermilion-deep);
+      font-size: 1.1rem;
+      font-style: normal;
+      font-weight: 900;
+    }
+
+    .conversion-prompt small {
+      flex-basis: 100%;
+      font-size: .72rem;
+    }
+
+    .progressive-answer {
+      min-width: 0;
     }
 
     .practice-row.is-correct {
@@ -1366,6 +1990,75 @@
       margin-bottom: 5px;
     }
 
+    .usage-reference {
+      display: grid;
+      gap: 12px;
+      margin-top: 14px;
+      padding: 16px;
+      border: 1px solid var(--line-strong);
+      border-top: 4px solid var(--accent-muted);
+      background: var(--wash);
+    }
+
+    .usage-reference-head {
+      display: grid;
+      gap: 3px;
+    }
+
+    .usage-reference-head h3 {
+      margin: 0;
+      color: var(--ink);
+      font-family: var(--display);
+      font-size: 1.15rem;
+    }
+
+    .usage-reference-head p {
+      margin: 0;
+      color: var(--muted);
+      font-size: .8rem;
+    }
+
+    .usage-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .usage-card {
+      display: grid;
+      align-content: start;
+      gap: 5px;
+      padding: 11px;
+      border: 1px solid var(--line);
+      background: var(--surface);
+    }
+
+    .usage-card h4 {
+      margin: 0;
+      color: var(--vermilion-deep);
+      font-family: var(--display);
+      font-size: .9rem;
+    }
+
+    .usage-card-sentence {
+      color: var(--ink);
+      font-family: var(--display);
+      font-size: .95rem;
+      font-weight: 800;
+    }
+
+    .usage-card-translation,
+    .usage-card-note {
+      color: var(--muted);
+      font-size: .75rem;
+      line-height: 1.4;
+    }
+
+    .usage-card-note {
+      padding-top: 4px;
+      border-top: 1px dashed var(--line);
+    }
+
     @keyframes ink-sweep {
       from {
         opacity: .2;
@@ -1439,6 +2132,19 @@
         max-width: none;
       }
 
+      .adj-formula-grid,
+      .adj-predicate-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .adj-usage-guide-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .adj-exception-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
       .page-heading-mark {
         width: 54px;
         height: 54px;
@@ -1498,6 +2204,65 @@
         line-height: 1.3;
       }
 
+      .adj-memory-overview {
+        padding: 12px;
+      }
+
+      .adj-memory-head,
+      .adj-usage-reference-head,
+      .adj-exception-reference-head {
+        display: grid;
+        align-items: start;
+        gap: 7px;
+      }
+
+      .usage-reference-head.adj-usage-reference-head {
+        display: grid;
+        align-items: start;
+        gap: 7px;
+      }
+
+      .adj-usage-guide-grid,
+      .adj-exception-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .reference-details-body {
+        padding: 10px;
+      }
+
+      .rule-table thead th:first-child,
+      .rule-table .form-cell {
+        width: 112px;
+        min-width: 112px;
+      }
+
+      .rule-table .form-cell {
+        padding: 10px 6px;
+      }
+
+      .form-cell-content {
+        min-height: 132px;
+        gap: 5px;
+      }
+
+      .form-index {
+        min-width: 27px;
+        height: 22px;
+        padding: 0 6px;
+        font-size: .62rem;
+      }
+
+      .form-name {
+        font-size: .9rem;
+        letter-spacing: 0;
+      }
+
+      .form-jp {
+        font-size: .66rem;
+        letter-spacing: .03em;
+      }
+
       .sound-summary-grid {
         grid-template-columns: 1fr;
       }
@@ -1525,6 +2290,10 @@
       }
 
       .result-summary {
+        grid-template-columns: 1fr;
+      }
+
+      .usage-grid {
         grid-template-columns: 1fr;
       }
 
@@ -1567,6 +2336,7 @@
 
     const STORAGE_KEY = "adj-noun-stamp-state-v1";
     const STATS_KEY = "adj-noun-practice-stats-v1";
+    const REVIEW_INTERVALS = [5 * 60 * 1000, 60 * 60 * 1000, 24 * 60 * 60 * 1000, 3 * 24 * 60 * 60 * 1000, 7 * 24 * 60 * 60 * 1000];
 
     const theme = {
       id: "stamp",
@@ -1670,6 +2440,12 @@
     const soundRows = adjData.summaryRows;
     const typeExamples = adjData.examples;
     const lexicon = adjData.lexicon;
+    const usageExamples = adjData.usageExamples || [];
+    const memoryFormulas = adjData.memoryFormulas || [];
+    const usageGuides = adjData.usageGuides || [];
+    const exceptionMemory = adjData.exceptionMemory || [];
+    const sentenceTemplates = adjData.sentenceTemplates || {};
+    const MEMORY_FORM_IDS = ["kotei", "hitei", "kako", "kakoHitei", "te", "jouken"];
 
     const answerSets = {};
     allForms.forEach((form) => {
@@ -1687,15 +2463,22 @@
       answers: {},
       choices: {},
       result: null,
+      answerRevision: 0,
+      lastCheckedSignature: null,
       onlyWrong: false,
+      practiceKind: "same",
+      showKana: true,
+      showMeaning: true,
       /* 练习改造（词库随机抽词） */
       practiceTypes: ["i-adj", "na-adj", "noun"],
       practiceScope: "all",
       practiceCount: 6,
       currentVerb: null,
       currentForms: [],
+      currentQuestions: [],
       stats: null,
-      configOpen: true
+      configOpen: true,
+      referenceOpen: false
     };
 
     state.stats = loadStats();
@@ -1703,6 +2486,31 @@
     /* 累计练习统计（localStorage 长期保存）：错题集 + 各词/各形正确率 */
     function emptyStats() {
       return { byVerb: {}, byForm: {}, wrongItems: [] };
+    }
+
+    function normalizeWrongItems(items) {
+      const unique = [];
+      items.forEach((item) => {
+        if (!item || typeof item !== "object" || !item.dict || !item.formId) {
+          return;
+        }
+        const existing = unique.find((entry) => entry.dict === item.dict && entry.formId === item.formId);
+        if (existing) {
+          existing.wrongCount += Number(item.wrongCount) || 1;
+          existing.lastWrongAt = Math.max(existing.lastWrongAt, Number(item.lastWrongAt) || 0);
+        } else {
+          unique.push({
+            dict: String(item.dict),
+            formId: String(item.formId),
+            wrongCount: Math.max(1, Number(item.wrongCount) || 1),
+            lastWrongAt: Number(item.lastWrongAt) || 0,
+            correctStreak: Math.max(0, Number(item.correctStreak) || 0),
+            lastCorrectAt: Number(item.lastCorrectAt) || 0,
+            dueAt: Number(item.dueAt) || 0
+          });
+        }
+      });
+      return unique.slice(-200);
     }
 
     function loadStats() {
@@ -1718,7 +2526,7 @@
         return {
           byVerb: parsed.byVerb && typeof parsed.byVerb === "object" ? parsed.byVerb : {},
           byForm: parsed.byForm && typeof parsed.byForm === "object" ? parsed.byForm : {},
-          wrongItems: Array.isArray(parsed.wrongItems) ? parsed.wrongItems : []
+          wrongItems: Array.isArray(parsed.wrongItems) ? normalizeWrongItems(parsed.wrongItems) : []
         };
       } catch (error) {
         console.error("练习统计读取失败，已重置。", error);
@@ -1739,6 +2547,47 @@
       saveStats();
     }
 
+    function recordWrongItem(dict, formId) {
+      const now = Date.now();
+      const existing = state.stats.wrongItems.find((item) => item.dict === dict && item.formId === formId);
+      if (existing) {
+        existing.wrongCount = (Number(existing.wrongCount) || 0) + 1;
+        existing.lastWrongAt = now;
+        existing.correctStreak = 0;
+        existing.dueAt = existing.lastWrongAt;
+      } else {
+        state.stats.wrongItems.push({
+          dict,
+          formId,
+          wrongCount: 1,
+          lastWrongAt: now,
+          correctStreak: 0,
+          lastCorrectAt: 0,
+          dueAt: now
+        });
+      }
+      if (state.stats.wrongItems.length > 200) {
+        state.stats.wrongItems.splice(0, state.stats.wrongItems.length - 200);
+      }
+    }
+
+    function resolveWrongItem(dict, formId) {
+      const index = state.stats.wrongItems.findIndex(
+        (item) => item.dict === dict && item.formId === formId
+      );
+      if (index < 0) {
+        return;
+      }
+      const item = state.stats.wrongItems[index];
+      item.correctStreak = (Number(item.correctStreak) || 0) + 1;
+      item.lastCorrectAt = Date.now();
+      if (item.correctStreak >= 3) {
+        state.stats.wrongItems.splice(index, 1);
+        return;
+      }
+      item.dueAt = item.lastCorrectAt + REVIEW_INTERVALS[Math.min(item.correctStreak, REVIEW_INTERVALS.length - 1)];
+    }
+
     function shuffle(items) {
       const copy = items.slice();
       for (let i = copy.length - 1; i > 0; i -= 1) {
@@ -1750,7 +2599,7 @@
       return copy;
     }
 
-    /* 在选定的类型范围内随机抽取一个练习动词 */
+    /* 在选定的词类范围内随机抽取一个练习词 */
     function pickPracticeVerb() {
       const pool = lexicon.filter((verb) => state.practiceTypes.includes(verb.type));
       if (pool.length === 0) {
@@ -1767,7 +2616,7 @@
     }
 
     /* 构建当前词某个形的可接受答案集（A4：多可接受写法，含 ではない 等价） */
-    function buildAcceptedAnswers(formId, forms, kanaForms, stem) {
+    function buildAcceptedAnswers(formId, forms, kanaForms, stem, verb) {
       const dictForm = forms[formId];
       const kanaForm = kanaForms[formId];
       const set = [dictForm, kanaForm];
@@ -1785,6 +2634,13 @@
           set.push(alt);
         }
       }
+      const variants = verb && verb.acceptedAnswers && Array.isArray(verb.acceptedAnswers[formId])
+        ? verb.acceptedAnswers[formId] : [];
+      variants.forEach((variant) => {
+        if (variant && !set.includes(variant)) {
+          set.push(variant);
+        }
+      });
       return set.filter(Boolean);
     }
 
@@ -1795,7 +2651,7 @@
       return window.NIHONGO_DATA["adj-conjugator"].conjugate(state.currentVerb);
     }
 
-    /* A3：简易模式干扰项 = 同一动词的其他活用形（不足时用全局答案池补位） */
+    /* A3：简易模式干扰项 = 同一词条的其他变形（不足时用全局答案池补位） */
     function getOptions(verb, formId) {
       const data = window.NIHONGO_DATA["adj-conjugator"].conjugate(verb);
       const expected = data.forms[formId];
@@ -1819,6 +2675,132 @@
       }
       const picked = shuffle(distractors).slice(0, 3);
       return shuffle([expected, ...picked]);
+    }
+
+    const PRACTICE_KIND_LABELS = {
+      same: "同词多形",
+      mixed: "混合词条",
+      sentence: "句子填空",
+      classify: "词类判断",
+      polite: "普通／礼貌体"
+    };
+    const PRACTICE_KIND_DESCRIPTIONS = {
+      same: "一个词连续练多个变形",
+      mixed: "每题随机换词和变形",
+      sentence: "根据句子语境填写变形",
+      classify: "先判断词属于哪一类",
+      polite: "在普通谓语和です体之间切换"
+    };
+
+    function getPracticeKindLabel(kind) {
+      return PRACTICE_KIND_LABELS[kind] || PRACTICE_KIND_LABELS.same;
+    }
+
+    function getPracticeFormPool() {
+      return allForms;
+    }
+
+    function getTypeAnswers(typeId) {
+      const type = typeColumns.find((column) => column.id === typeId);
+      if (!type) {
+        return [typeId];
+      }
+      return [typeId, type.label];
+    }
+
+    function createProgressiveQuestions(kind, count) {
+      const verbPool = lexicon.filter((verb) => state.practiceTypes.includes(verb.type));
+      if (!verbPool.length) {
+        return [];
+      }
+      const formPool = getPracticeFormPool();
+      if (kind !== "classify" && kind !== "polite" && !formPool.length) {
+        return [];
+      }
+      const questions = [];
+      const used = new Set();
+      const maxQuestions = Math.min(count, kind === "classify" || kind === "polite"
+        ? verbPool.length : formPool.length * verbPool.length);
+      let attempts = 0;
+      while (questions.length < maxQuestions && attempts < maxQuestions * 12) {
+        attempts += 1;
+        const verb = verbPool[Math.floor(Math.random() * verbPool.length)];
+        const form = kind === "classify" || kind === "polite"
+          ? null : formPool[Math.floor(Math.random() * formPool.length)];
+        const sourceMode = kind === "polite"
+          ? (Math.random() < .5 ? "plain" : "polite") : null;
+        const targetMode = kind === "polite"
+          ? (sourceMode === "plain" ? "polite" : "plain") : null;
+        const key = `${verb.dictionary}:${kind}:${form ? form.id : (targetMode || "type")}`;
+        if (used.has(key) && used.size < verbPool.length * (kind === "classify" || kind === "polite" ? 1 : formPool.length)) {
+          continue;
+        }
+        used.add(key);
+        questions.push({
+          id: `q-${Date.now()}-${questions.length}`,
+          dictionary: verb.dictionary,
+          formId: form ? form.id : null,
+          sourceMode,
+          targetMode,
+          kind
+        });
+      }
+      return questions;
+    }
+
+    function getProgressiveItems() {
+      return state.currentQuestions.map((question, index) => {
+        const verb = lexicon.find((entry) => entry.dictionary === question.dictionary);
+        if (!verb) {
+          return null;
+        }
+        const data = window.NIHONGO_DATA["adj-conjugator"].conjugate(verb);
+        const kind = question.kind === "classify" ? "classify" : (question.kind || state.practiceKind);
+        const form = question.formId ? getForm(question.formId) : null;
+        if (kind !== "classify" && kind !== "polite" && !form) {
+          return null;
+        }
+        const plainValue = data.forms.kotei;
+        const plainKana = data.kanaForms.kotei;
+        const politeValue = verb.type === "i-adj"
+          ? `${plainValue}です` : `${verb.dictionary}です`;
+        const politeKana = verb.type === "i-adj"
+          ? `${plainKana}です` : `${verb.kana}です`;
+        const isPolite = kind === "polite" && question.targetMode === "polite";
+        const accepted = kind === "classify"
+          ? getTypeAnswers(verb.type)
+          : kind === "polite"
+            ? [isPolite ? politeValue : plainValue, isPolite ? politeKana : plainKana]
+          : buildAcceptedAnswers(form.id, data.forms, data.kanaForms, data.stem, verb);
+        const template = kind === "sentence" && form
+          ? (sentenceTemplates[verb.type] || {})[form.id] : null;
+        return {
+          id: question.id || `q-${index}-${verb.dictionary}-${question.formId || "type"}`,
+          kind,
+          verb,
+          data,
+          form,
+          sourceValue: kind === "polite"
+            ? (question.sourceMode === "polite" ? politeValue : plainValue) : "",
+          sourceLabel: kind === "polite"
+            ? (question.sourceMode === "polite" ? "礼貌体" : "普通体") : "",
+          targetLabel: kind === "polite"
+            ? (isPolite ? "礼貌体" : "普通体") : "",
+          formKey: kind === "polite" ? "__polite__" : (form ? form.id : "__type__"),
+          accepted,
+          template
+        };
+      }).filter(Boolean);
+    }
+
+    function getPoliteOptions(item) {
+      return shuffle([...new Set([
+        item.accepted[0],
+        item.sourceValue,
+        item.data.forms.hitei,
+        item.data.forms.kako,
+        item.data.forms.te
+      ].filter(Boolean))]).slice(0, 4);
     }
 
     const elements = {
@@ -1870,7 +2852,18 @@
       if (stored.result && typeof stored.result === "object") {
         state.result = stored.result;
       }
+      if (Number.isInteger(stored.answerRevision) && stored.answerRevision >= 0) {
+        state.answerRevision = stored.answerRevision;
+      }
+      if (typeof stored.lastCheckedSignature === "string") {
+        state.lastCheckedSignature = stored.lastCheckedSignature;
+      }
       state.onlyWrong = stored.onlyWrong === true;
+      if (["same", "mixed", "sentence", "classify", "polite"].includes(stored.practiceKind)) {
+        state.practiceKind = stored.practiceKind;
+      }
+      state.showKana = stored.showKana !== false;
+      state.showMeaning = stored.showMeaning !== false;
       if (Array.isArray(stored.practiceTypes) && stored.practiceTypes.length > 0) {
         const validTypes = stored.practiceTypes.filter((type) => typeColumns.some((column) => column.id === type));
         if (validTypes.length > 0) {
@@ -1880,7 +2873,7 @@
       if (stored.practiceScope === "base" || stored.practiceScope === "derived" || stored.practiceScope === "all") {
         state.practiceScope = stored.practiceScope;
       }
-      if (Number(stored.practiceCount) >= 5 && Number(stored.practiceCount) <= 25) {
+      if (Number(stored.practiceCount) === 3 || Number(stored.practiceCount) === 6) {
         state.practiceCount = Number(stored.practiceCount);
       }
       if (stored.currentVerb && stored.currentVerb.dictionary && stored.currentVerb.kana && stored.currentVerb.type) {
@@ -1890,8 +2883,26 @@
         }
       }
       state.configOpen = stored.configOpen !== false;
+      state.referenceOpen = stored.referenceOpen === true;
       if (Array.isArray(stored.currentForms)) {
         state.currentForms = stored.currentForms.filter((id) => allForms.some((form) => form.id === id));
+      }
+      if (Array.isArray(stored.currentQuestions)) {
+        state.currentQuestions = stored.currentQuestions.filter((question) => {
+          if (!question || !question.dictionary || !lexicon.some((verb) => verb.dictionary === question.dictionary)) {
+            return false;
+          }
+          return question.kind === "classify" || question.kind === "polite"
+            || allForms.some((form) => form.id === question.formId);
+        }).map((question, index) => ({
+          id: typeof question.id === "string" && question.id ? question.id : `q-${index}`,
+          dictionary: question.dictionary,
+          formId: question.kind === "classify" ? null : question.formId,
+          sourceMode: question.sourceMode === "plain" || question.sourceMode === "polite" ? question.sourceMode : null,
+          targetMode: question.targetMode === "plain" || question.targetMode === "polite" ? question.targetMode : null,
+          kind: ["classify", "polite", "mixed", "sentence"].includes(question.kind)
+            ? question.kind : state.practiceKind
+        }));
       }
     }
 
@@ -1903,13 +2914,20 @@
         answers: state.answers,
         choices: state.choices,
         result: state.result,
+        answerRevision: state.answerRevision,
+        lastCheckedSignature: state.lastCheckedSignature,
         onlyWrong: state.onlyWrong,
+        practiceKind: state.practiceKind,
+        showKana: state.showKana,
+        showMeaning: state.showMeaning,
         practiceTypes: state.practiceTypes,
         practiceScope: state.practiceScope,
         practiceCount: state.practiceCount,
         currentVerb: state.currentVerb,
         currentForms: state.currentForms,
-        configOpen: state.configOpen
+        currentQuestions: state.currentQuestions,
+        configOpen: state.configOpen,
+        referenceOpen: state.referenceOpen
       }));
     }
 
@@ -1965,6 +2983,15 @@
         if (!formIds.has(formId) || !answer.canonical || !answer.acceptedAnswers.includes(answer.canonical)) {
           errors.push(`${formId}: 答案集合无效`);
         }
+      });
+
+      typeColumns.forEach((type) => {
+        allForms.forEach((form) => {
+          const template = sentenceTemplates[type.id] && sentenceTemplates[type.id][form.id];
+          if (!template || typeof template.prefix !== "string" || typeof template.suffix !== "string") {
+            errors.push(`${type.id}/${form.id}: 句子填空模板无效`);
+          }
+        });
       });
 
       if (errors.length > 0) {
@@ -2076,19 +3103,25 @@
       return `
         <div class="table-scroll">
           <table class="rule-table">
-            <caption class="visually-hidden">活用形与动词类型变化规则。点击卡片查看代表示例。</caption>
+            <caption class="visually-hidden">活用形与词类变化规则。点击卡片查看代表示例。</caption>
             <thead>
               <tr>
-                <th scope="col">活用形</th>
+                <th class="form-header" scope="col">
+                  <span class="form-header-main">活用形</span>
+                  <small class="form-header-sub">FORM</small>
+                </th>
                 ${typeColumns.map((type) => `<th scope="col">${type.label}</th>`).join("")}
               </tr>
             </thead>
             <tbody>
               ${forms.map((form) => `
                 <tr>
-                  <th class="form-cell" scope="row">
-                    <span class="form-name">${form.label}</span>
-                    <span class="form-jp">${form.jp}</span>
+                  <th class="form-cell" data-form-group="base" scope="row">
+                    <div class="form-cell-content">
+                      <span class="form-index" aria-hidden="true">${String(allForms.findIndex((item) => item.id === form.id) + 1).padStart(2, "0")}</span>
+                      <span class="form-name">${form.label}</span>
+                      <span class="form-jp">${form.jp}</span>
+                    </div>
                   </th>
                   ${typeColumns.map((type) => `<td>${getRuleCard(type.id, form.id)}</td>`).join("")}
                 </tr>
@@ -2096,6 +3129,94 @@
             </tbody>
           </table>
         </div>
+      `;
+    }
+
+    function renderAdjMemoryParts(typeId, formId) {
+      const example = typeExamples[typeId];
+      const result = example.forms[formId];
+      if (typeId === "i-adj") {
+        const stem = example.dictionary.slice(0, -1);
+        const parts = {
+          kotei: [{ className: "is-root", value: stem }, { className: "is-change", value: "い" }],
+          hitei: [{ className: "is-root", value: stem }, { className: "is-change", value: "く" }, { className: "is-suffix", value: "ない" }],
+          kako: [{ className: "is-root", value: stem }, { className: "is-change", value: "かった" }],
+          kakoHitei: [{ className: "is-root", value: stem }, { className: "is-change", value: "く" }, { className: "is-suffix", value: "なかった" }],
+          te: [{ className: "is-root", value: stem }, { className: "is-change", value: "くて" }],
+          jouken: [{ className: "is-root", value: stem }, { className: "is-change", value: "ければ" }]
+        };
+        return (parts[formId] || [{ className: "is-change", value: result }])
+          .map((part) => `<span class="adj-token ${part.className}">${escapeHtml(part.value)}</span>`)
+          .join("");
+      }
+      const suffix = result.indexOf(example.dictionary) === 0
+        ? result.slice(example.dictionary.length) : result;
+      return `
+        <span class="adj-token is-root">${escapeHtml(example.dictionary)}</span>
+        ${suffix ? `<span class="adj-token is-suffix">${escapeHtml(suffix)}</span>` : ""}
+      `;
+    }
+
+    function renderAdjMemoryOverview() {
+      const formulaCards = memoryFormulas.map((formula) => `
+        <article class="adj-formula-card">
+          <div class="adj-formula-card-head">
+            <h4>${escapeHtml(formula.label)}</h4>
+            <span class="adj-formula-card-badge">${escapeHtml(formula.badge)}</span>
+          </div>
+          <strong class="adj-formula-rule">${escapeHtml(formula.formula)}</strong>
+          <span class="adj-formula-note">${escapeHtml(formula.note)}</span>
+          <span class="adj-formula-example">${escapeHtml(formula.example)}</span>
+        </article>
+      `).join("");
+      const predicateCards = typeColumns.map((type) => {
+        const example = typeExamples[type.id];
+        const rows = MEMORY_FORM_IDS.map((formId) => {
+          const form = getForm(formId);
+          return `
+            <div class="adj-predicate-row">
+              <span class="adj-predicate-label">${escapeHtml(form ? form.label : formId)}</span>
+              <strong class="adj-predicate-result" aria-label="${escapeHtml(example.forms[formId])}">
+                ${renderAdjMemoryParts(type.id, formId)}
+              </strong>
+            </div>
+          `;
+        }).join("");
+        return `
+          <article class="adj-predicate-card">
+            <div class="adj-predicate-card-head">
+              <strong>${escapeHtml(type.label)}</strong>
+              <span>${escapeHtml(example.dictionary)} · ${escapeHtml(example.kana)}</span>
+            </div>
+            <div class="adj-predicate-list" aria-label="${escapeHtml(type.label)}六种谓语变化">
+              ${rows}
+            </div>
+          </article>
+        `;
+      }).join("");
+      return `
+        <section class="adj-memory-overview" aria-labelledby="adj-memory-title">
+          <div class="adj-memory-head">
+            <div>
+              <p class="eyebrow">Memory / 一眼记忆</p>
+              <h3 id="adj-memory-title">先记两条公式，再看六种谓语变化</h3>
+              <p>い形容词先去「い」再接后缀；な形容词和名词保留词干，接上「だ」系。下面用三个代表词把六种基本变化连成一条路径。</p>
+            </div>
+            <span class="adj-memory-badge">2 条公式 · 6 种变化</span>
+          </div>
+          <div class="adj-formula-grid" aria-label="形容词和名词核心公式">
+            ${formulaCards}
+          </div>
+          <div class="adj-predicate-section">
+            <div class="adj-predicate-section-head">
+              <strong>谓语变化路径</strong>
+              <span>先看句末怎么变，再看名词前和动词前的连接</span>
+            </div>
+            <div class="adj-predicate-grid">
+              ${predicateCards}
+            </div>
+          </div>
+        </section>
       `;
     }
 
@@ -2132,6 +3253,7 @@
               <caption class="visually-hidden">三类变形速查</caption>
               <thead>
                 <tr>
+                  <th scope="col">词类</th>
                   ${allForms.map((form) => `<th scope="col">${form.label}</th>`).join("")}
                 </tr>
               </thead>
@@ -2151,6 +3273,60 @@
             <span><strong>易错提醒：</strong>「いい」的变形是 よくない／よかった／よくて／よければ，不按「词干＋くない」生成。</span>
           </div>
         </aside>
+      `;
+    }
+
+    function renderUsageReference() {
+      return `
+        <section class="usage-reference adj-usage-reference" aria-labelledby="usage-reference-title">
+          <div class="usage-reference-head adj-usage-reference-head">
+            <div>
+              <h3 id="usage-reference-title">句中功能：定语、副词和名词连接</h3>
+              <p>上方六行是谓语变化；这里单独看词放在名词前、动词前和名词之间时怎么连接。</p>
+            </div>
+            <span>先看后面接什么</span>
+          </div>
+          <div class="adj-usage-guide-grid" aria-label="形容词和名词句中功能">
+            ${usageGuides.map((guide) => `
+              <article class="adj-usage-guide">
+                <strong>${escapeHtml(guide.label)}</strong>
+                <span class="adj-usage-guide-formula">${escapeHtml(guide.formula)}</span>
+                <span class="adj-usage-guide-note">${escapeHtml(guide.note)}</span>
+              </article>
+            `).join("")}
+          </div>
+          <div class="usage-grid">
+            ${usageExamples.map((example) => `
+              <article class="usage-card">
+                <h4>${escapeHtml(example.title)}</h4>
+                <div class="usage-card-sentence">${escapeHtml(example.sentence)}</div>
+                <div class="usage-card-translation">${escapeHtml(example.translation)}</div>
+                <div class="usage-card-note">${escapeHtml(example.note)}</div>
+              </article>
+            `).join("")}
+          </div>
+        </section>
+      `;
+    }
+
+    function renderExceptionReference() {
+      return `
+        <section class="adj-exception-reference" aria-labelledby="adj-exception-title">
+          <div class="adj-exception-reference-head">
+            <h3 id="adj-exception-title">易错词：看到词尾也要确认词类</h3>
+            <span>公式之外，记住词的身份和位置</span>
+          </div>
+          <div class="adj-exception-grid">
+            ${exceptionMemory.map((item) => `
+              <article class="adj-exception-card" data-exception-id="${escapeHtml(item.id)}">
+                <span class="adj-exception-tag">${escapeHtml(item.tag)}</span>
+                <h4>${escapeHtml(item.title)}</h4>
+                <strong class="adj-exception-equation">${escapeHtml(item.equation)}</strong>
+                <span class="adj-exception-note">${escapeHtml(item.note)}</span>
+              </article>
+            `).join("")}
+          </div>
+        </section>
       `;
     }
 
@@ -2183,14 +3359,25 @@
             <div>
               <p class="eyebrow">Rules / 规则讲解</p>
               <h3>把每一种词形盖成一方印</h3>
-              <p>主表只保留活用形和词类，规则摘要在卡片正面，翻开后查看代表词、结果和推导过程。</p>
+              <p>先看两条核心公式和三类代表词的变化路径，再区分定语、副词和名词连接；完整六形表格保留在下方查询。</p>
             </div>
-            <div class="intro-note">样例固定词：<strong>高い（たかい）</strong><br>用于展示い形容词「い → く」变形。</div>
+            <div class="intro-note">学习起点：<strong>高い（たかい）</strong><br>先记「い → く／け」，再对照「だ」系。</div>
           </div>
-          <section class="group-body">
-            ${renderRuleTable(allForms)}
-          </section>
-          ${renderSoundReference()}
+          ${renderAdjMemoryOverview()}
+          ${renderUsageReference()}
+          ${renderExceptionReference()}
+          <details class="reference-details" ${state.referenceOpen ? "open" : ""}>
+            <summary>
+              <span>完整变化查询</span>
+              <span class="reference-details-note">6 形 × 3 类词 · 需要时展开</span>
+            </summary>
+            <div class="reference-details-body">
+              <section class="group-body">
+                ${renderRuleTable(allForms)}
+              </section>
+              ${renderSoundReference()}
+            </div>
+          </details>
         </section>
       `;
     }
@@ -2199,8 +3386,11 @@
       return String(value || "").trim().normalize("NFKC");
     }
 
-    /* 当前练习的题目列表：[{ form, accepted }] */
+    /* 当前练习的题目列表；旧的同词多形会话继续使用 currentVerb/currentForms */
     function getPracticeItems() {
+      if (state.currentQuestions.length) {
+        return getProgressiveItems();
+      }
       if (!state.currentVerb || !state.currentForms.length) {
         return [];
       }
@@ -2211,37 +3401,66 @@
       });
       return state.currentForms.map((id) => ({
         form: byId[id],
-        accepted: buildAcceptedAnswers(id, data.forms, data.kanaForms, data.stem)
+        accepted: buildAcceptedAnswers(id, data.forms, data.kanaForms, data.stem, state.currentVerb)
       }));
     }
 
-    /* A6：开始新练习 = 随机动词 + 随机 N 形 */
+    /* A6：开始新练习 = 随机词条 + 随机 N 形 */
     function startNewPractice() {
+      if (state.practiceKind !== "same") {
+        const questions = createProgressiveQuestions(state.practiceKind, state.practiceCount);
+        if (!questions.length) {
+          announce("当前筛选下无法生成题目，请调整词类范围。");
+          return;
+        }
+        state.currentVerb = null;
+        state.currentForms = [];
+        state.currentQuestions = questions;
+        state.answers = {};
+        state.choices = {};
+        state.result = null;
+        state.answerRevision = 0;
+        state.lastCheckedSignature = null;
+        state.onlyWrong = false;
+        saveSessionState();
+        renderApp();
+        announce(`已开始${getPracticeKindLabel(state.practiceKind)}：共 ${questions.length} 题。`);
+        return;
+      }
       const verb = pickPracticeVerb();
       if (!verb) {
-        announce("当前筛选下没有可选动词，请调整类型范围。");
+        announce("当前筛选下没有可选词条，请调整词类范围。");
         return;
       }
       state.currentVerb = verb;
       state.currentForms = pickPracticeForms(state.practiceCount);
+      state.currentQuestions = [];
       state.answers = {};
       state.choices = {};
       state.result = null;
+      state.answerRevision = 0;
+      state.lastCheckedSignature = null;
       state.onlyWrong = false;
       saveSessionState();
       renderApp();
       announce(`已抽取新练习：${verb.dictionary}（${verb.kana}），共 ${state.currentForms.length} 个活用形。`);
     }
 
-    /* 错题再练：从累计错题集随机选一个动词，取它的错形 */
+    /* 错题再练：从累计错题集随机选一个词条，取它的错形 */
     function retryWrongPractice() {
-      const wrongs = state.stats.wrongItems.filter(
-        (w) => w && w.dict && w.formId && lexicon.some((v) => v.dictionary === w.dict)
+      const allWrongs = state.stats.wrongItems.filter(
+        (w) => w && w.dict && w.formId
+          && lexicon.some((v) => v.dictionary === w.dict)
+          && (w.formId === "__type__" || w.formId === "__polite__" || allForms.some((form) => form.id === w.formId))
       );
-      if (!wrongs.length) {
+      if (!allWrongs.length) {
         announce("暂无错题记录，先做一组练习吧。");
         return;
       }
+      const dueWrongs = allWrongs.filter((w) => !w.dueAt || w.dueAt <= Date.now());
+      const wrongs = (dueWrongs.length ? dueWrongs : allWrongs.slice().sort(
+        (a, b) => (Number(a.dueAt) || 0) - (Number(b.dueAt) || 0)
+      ));
       const byVerb = {};
       wrongs.forEach((w) => {
         if (!byVerb[w.dict]) {
@@ -2254,15 +3473,123 @@
       const dicts = Object.keys(byVerb);
       const dict = dicts[Math.floor(Math.random() * dicts.length)];
       const verb = lexicon.find((v) => v.dictionary === dict);
-      state.currentVerb = verb;
-      state.currentForms = shuffle(byVerb[dict]).slice(0, state.practiceCount);
+      const selectedWrongForms = shuffle(byVerb[dict]).slice(0, state.practiceCount);
+      const hasSpecialQuestions = selectedWrongForms.some((formId) => formId === "__type__" || formId === "__polite__");
+      if (hasSpecialQuestions) {
+        const allClassify = selectedWrongForms.every((formId) => formId === "__type__");
+        const allPolite = selectedWrongForms.every((formId) => formId === "__polite__");
+        state.practiceKind = allClassify ? "classify" : allPolite ? "polite" : "mixed";
+        state.currentVerb = null;
+        state.currentForms = [];
+        state.currentQuestions = selectedWrongForms.map((formId, index) => {
+          const sourceMode = formId === "__polite__"
+            ? (Math.random() < .5 ? "plain" : "polite") : null;
+          return {
+            id: `q-${Date.now()}-${index}`,
+            dictionary: dict,
+            formId: formId === "__type__" || formId === "__polite__" ? null : formId,
+            sourceMode,
+            targetMode: formId === "__polite__"
+              ? (sourceMode === "plain" ? "polite" : "plain") : null,
+            kind: formId === "__type__" ? "classify" : formId === "__polite__" ? "polite" : "mixed"
+          };
+        });
+      } else {
+        state.practiceKind = "same";
+        state.currentVerb = verb;
+        state.currentForms = selectedWrongForms;
+        state.currentQuestions = [];
+      }
       state.answers = {};
       state.choices = {};
       state.result = null;
+      state.answerRevision = 0;
+      state.lastCheckedSignature = null;
       state.onlyWrong = true;
       saveSessionState();
       renderApp();
-      announce(`错题再练：${verb.dictionary}，共 ${state.currentForms.length} 个待复习形。`);
+      announce(`错题再练：${verb.dictionary}，共 ${state.currentQuestions.length || state.currentForms.length} 个待复习题。`);
+    }
+
+    function renderQuestionWord(verb) {
+      return `
+        <div class="question-word">
+          <strong>${escapeHtml(verb.dictionary)}</strong>
+          ${state.showKana ? `<span>${escapeHtml(verb.kana)}</span>` : ""}
+          ${state.showMeaning ? `<small>中文：${escapeHtml(verb.meaning)}</small>` : ""}
+        </div>
+      `;
+    }
+
+    function renderProgressiveRow(item) {
+      const resultItem = state.result && state.result.items[item.id]
+        ? state.result.items[item.id] : null;
+      const rowClass = resultItem ? (resultItem.correct ? "is-correct" : "is-wrong") : "";
+      const title = item.kind === "classify"
+        ? "判断词类" : item.kind === "polite" ? item.targetLabel : item.form.label;
+      const description = item.kind === "classify"
+        ? "先判断这个词属于哪一类。"
+        : item.kind === "polite" ? `把${item.sourceLabel}转换为${item.targetLabel}。` : item.form.note;
+      const answerOptions = item.kind === "classify"
+        ? typeColumns.map((type) => ({ value: type.id, label: type.label }))
+        : item.kind === "polite"
+          ? getPoliteOptions(item).map((value) => ({ value, label: value }))
+        : getOptions(item.verb, item.form.id).map((value) => ({ value, label: value }));
+      const selected = state.choices[item.id] || "";
+      const sentence = item.template
+        ? `${item.template.prefix}＿＿${item.template.suffix}` : "";
+      const label = `
+        <div class="practice-row-label">
+          <strong>${title}</strong>
+          ${item.form ? `<span>${item.form.jp}</span>` : ""}
+          <small>${description}</small>
+        </div>
+      `;
+
+      const answer = state.practiceMode === "simple"
+        ? `
+          <fieldset class="choice-grid ${item.kind === "classify" ? "type-choice-grid" : ""}">
+            <legend class="visually-hidden">${title}选择题</legend>
+            ${answerOptions.map((option, index) => `
+              <label class="choice-option">
+                <input type="radio" name="choice-${escapeHtml(item.id)}" value="${escapeHtml(option.value)}"
+                  ${selected === option.value ? "checked" : ""} data-action="choose-answer"
+                  data-question-id="${escapeHtml(item.id)}">
+                <span>${escapeHtml(option.label)}</span><em>${String.fromCharCode(65 + index)}</em>
+              </label>
+            `).join("")}
+          </fieldset>
+        `
+        : `
+          <label class="visually-hidden" for="answer-${escapeHtml(item.id)}">${title}答案</label>
+          <input id="answer-${escapeHtml(item.id)}" class="answer-field" type="text" inputmode="text"
+            autocomplete="off" placeholder="${item.kind === "classify" ? "输入词类，如い形容词" : `输入${title}结果`}"
+            value="${escapeHtml(state.answers[item.id] || "")}"
+            data-action="type-answer" data-question-id="${escapeHtml(item.id)}">
+        `;
+      return `
+        <article class="practice-row progressive-row ${rowClass}" data-question-id="${escapeHtml(item.id)}">
+          <div class="progressive-question">
+            ${renderQuestionWord(item.verb)}
+            ${item.kind === "polite" ? `
+              <div class="conversion-prompt">
+                <span>${escapeHtml(item.sourceLabel)}</span>
+                <strong>${escapeHtml(item.sourceValue)}</strong>
+                <span>→</span><em>?</em>
+                <small>目标：${escapeHtml(item.targetLabel)}</small>
+              </div>
+            ` : ""}
+            ${item.kind === "sentence" && item.template ? `
+              <div class="sentence-prompt">
+                <div>${escapeHtml(sentence)}</div>
+                <small>${escapeHtml(item.template.translation)}</small>
+              </div>
+            ` : ""}
+          </div>
+          ${label}
+          <div class="progressive-answer">${answer}</div>
+        </article>
+      `;
     }
 
     function renderPracticeRow(form) {
@@ -2309,8 +3636,49 @@
       `;
     }
 
+    function getProgressiveResultSummary(items) {
+      const resultItems = items.map((item) => state.result.items[item.id]).filter(Boolean);
+      const correct = resultItems.filter((item) => item.correct).length;
+      const total = resultItems.length;
+      const percentage = total === 0 ? 0 : Math.round((correct / total) * 100);
+      const wrongItems = items.filter((item) => state.result.items[item.id] && !state.result.items[item.id].correct);
+      return `
+        <section class="result-summary" aria-labelledby="result-title">
+          <div class="score-bubble">${percentage}%<span>${correct}/${total}</span></div>
+          <div>
+            <h3 id="result-title">检查完成</h3>
+            <p>本次${getPracticeKindLabel(state.practiceKind)}共 ${total} 题，答对 ${correct} 题。${wrongItems.length ? "错题已加入复习队列。" : "本次全部答对，可以继续提高难度。"}</p>
+            ${wrongItems.length > 0 ? `
+              <div class="result-items">
+                ${wrongItems.map((item) => {
+                  const expected = item.kind === "classify"
+                    ? typeColumns.find((type) => type.id === item.verb.type).label
+                    : item.kind === "polite" ? item.accepted[0] : item.data.forms[item.form.id];
+                  return `
+                    <div class="result-item is-wrong">
+                      <strong>${escapeHtml(item.verb.dictionary)}</strong>
+                      <span>${escapeHtml(item.kind === "classify" ? "词类" : item.kind === "polite" ? item.targetLabel : item.form.label)}</span>
+                      <small>${escapeHtml(expected)}</small>
+                    </div>
+                  `;
+                }).join("")}
+              </div>
+            ` : `
+              <div class="exception-callout"><span aria-hidden="true">✓</span><span><strong>全部答对！</strong>可以切换到更少提示或句子练习。</span></div>
+            `}
+          </div>
+        </section>
+      `;
+    }
+
     function getResultSummary() {
-      if (!state.result || !state.currentVerb) {
+      if (!state.result) {
+        return "";
+      }
+      if (state.currentQuestions.length) {
+        return getProgressiveResultSummary(getProgressiveItems());
+      }
+      if (!state.currentVerb) {
         return "";
       }
       const items = Object.values(state.result.items);
@@ -2355,10 +3723,12 @@
     }
 
     function renderPracticePanel() {
-      const hasSession = !!state.currentVerb && state.currentForms.length > 0;
+      const progressiveSession = state.currentQuestions.length > 0;
+      const hasSession = progressiveSession || (!!state.currentVerb && state.currentForms.length > 0);
       const wrongCount = state.stats.wrongItems.length;
       const items = getPracticeItems();
       const scopeLabel = "全部 6 形";
+      const kindLabel = getPracticeKindLabel(state.practiceKind);
       return `
         <section id="practice-panel" class="panel" role="tabpanel" aria-labelledby="view-practice-tab">
           <div class="panel-intro">
@@ -2367,7 +3737,7 @@
               <h3>翻开一页，亲手盖出答案</h3>
               <p>从词库随机抽词、按规则实时变形；选好类型与题数后开始，错题会进入累计错题集。</p>
             </div>
-            <div class="intro-note">词库 <strong>${lexicon.length} 词</strong><br>累计错题 ${wrongCount} 条</div>
+            <div class="intro-note">词库 <strong>${lexicon.length} 词</strong><br>待复习 ${wrongCount} 条<br><small>连续答对 3 次后移出</small></div>
           </div>
           <div class="practice-toolbar">
             <div class="mode-switch" aria-label="练习模式">
@@ -2385,10 +3755,20 @@
               ${hasSession ? `
                 <button class="config-toggle" type="button" data-action="toggle-config"
                   aria-expanded="${state.configOpen ? "true" : "false"}">${state.configOpen ? "收起设置" : "展开设置"}</button>
-                <span class="config-summary">当前：${scopeLabel} · ${state.practiceCount} 题</span>
+                <span class="config-summary">当前：${kindLabel} · ${scopeLabel} · ${state.practiceCount} 题</span>
               ` : ""}
             </div>
             <div class="config-rows">
+            <div class="config-row">
+              <span class="config-label">题型</span>
+              <div class="type-chips practice-kinds">
+                ${Object.entries(PRACTICE_KIND_LABELS).map(([id, label]) => `
+                  <button class="type-chip ${state.practiceKind === id ? "is-active" : ""}"
+                    type="button" data-action="set-practice-kind" data-kind="${id}"
+                    aria-pressed="${state.practiceKind === id}" title="${PRACTICE_KIND_DESCRIPTIONS[id]}">${label}</button>
+                `).join("")}
+              </div>
+            </div>
             <div class="config-row">
               <span class="config-label">词类</span>
               <div class="type-chips">
@@ -2408,6 +3788,19 @@
               </select>
               <span class="assistive-copy">从「${scopeLabel}」中随机抽取</span>
             </div>
+            <div class="config-row">
+              <span class="config-label">提示</span>
+              <div class="hint-options">
+                <label class="hint-option">
+                  <input type="checkbox" data-action="toggle-hint" data-hint="kana" ${state.showKana ? "checked" : ""}>
+                  显示假名
+                </label>
+                <label class="hint-option">
+                  <input type="checkbox" data-action="toggle-hint" data-hint="meaning" ${state.showMeaning ? "checked" : ""}>
+                  显示中文
+                </label>
+              </div>
+            </div>
             </div>
           </section>
 
@@ -2419,21 +3812,34 @@
           </div>
 
           ${hasSession ? `
-            <div class="practice-prompt">
-              <div class="practice-word">
-                <strong>${state.currentVerb.dictionary}</strong>
-                <span>${state.currentVerb.kana}</span>
-                <small>中文：${state.currentVerb.meaning}</small>
+            ${progressiveSession ? `
+              <div class="practice-prompt">
+                <div class="practice-word">
+                  <strong>${kindLabel}</strong>
+                  <small>每题会${state.practiceKind === "classify" ? "先要求判断词类" : "随机更换词条"}，用来练习迁移。</small>
+                </div>
+                <div class="practice-prompt-side">
+                  <strong>${state.onlyWrong ? "错题复习" : "本次练习"}</strong>
+                  <span>范围：${scopeLabel} · 共 ${items.length} 题 · ${state.showKana ? "显示假名" : "隐藏假名"} · ${state.showMeaning ? "显示中文" : "隐藏中文"}。</span>
+                </div>
               </div>
-              <div class="practice-prompt-side">
-                <strong>${state.onlyWrong ? "错题复习" : "本次练习"}</strong>
-                <span>范围：${scopeLabel} · 共 ${items.length} 题 · 动词类型不直接显示，先自行判断。</span>
+            ` : `
+              <div class="practice-prompt">
+                <div class="practice-word">
+                  <strong>${state.currentVerb.dictionary}</strong>
+                  ${state.showKana ? `<span>${state.currentVerb.kana}</span>` : ""}
+                  ${state.showMeaning ? `<small>中文：${state.currentVerb.meaning}</small>` : ""}
+                </div>
+                <div class="practice-prompt-side">
+                  <strong>${state.onlyWrong ? "错题复习" : "本次练习"}</strong>
+                  <span>范围：${scopeLabel} · 共 ${items.length} 题 · 词类不直接显示，先自行判断。</span>
+                </div>
               </div>
-            </div>
+            `}
             ${getResultSummary()}
             <section class="practice-group">
-              <h3>${state.currentVerb.dictionary} 的 ${items.length} 个活用形</h3>
-              <div class="practice-list">${items.map((item) => renderPracticeRow(item.form)).join("")}</div>
+              <h3>${progressiveSession ? `${kindLabel} · ${items.length} 题` : `${state.currentVerb.dictionary} 的 ${items.length} 个活用形`}</h3>
+              <div class="practice-list">${items.map((item) => progressiveSession ? renderProgressiveRow(item) : renderPracticeRow(item.form)).join("")}</div>
             </section>
             <div class="practice-actions">
               <button class="primary-button" type="button" data-action="check-practice">检查答案</button>
@@ -2470,6 +3876,13 @@
         </nav>
         ${state.view === "rules" ? renderRulesPanel() : renderPracticePanel()}
       `;
+      const referenceDetails = elements.appShell.querySelector(".reference-details");
+      if (referenceDetails) {
+        referenceDetails.addEventListener("toggle", () => {
+          state.referenceOpen = referenceDetails.open;
+          saveSessionState();
+        });
+      }
       window.NihongoTheme.updateSwitcher();
     }
 
@@ -2480,19 +3893,85 @@
       announce(state.view === "rules" ? "已切换到规则讲解" : "已切换到练习");
     }
 
+    function getSubmittedAnswer(item) {
+      return state.practiceMode === "simple"
+        ? state.choices[item.id] || "" : state.answers[item.id] || "";
+    }
+
+    function checkProgressivePractice() {
+      const items = getProgressiveItems();
+      if (!items.length) {
+        announce("还没有练习题目，请先「开始新练习」。");
+        return;
+      }
+      const submissions = items.map((item) => [item.id, getSubmittedAnswer(item)]);
+      const signature = JSON.stringify({
+        kind: state.practiceKind,
+        questions: state.currentQuestions,
+        mode: state.practiceMode,
+        revision: state.answerRevision,
+        submissions
+      });
+      if (state.result && state.lastCheckedSignature === signature) {
+        announce("答案没有变化，本次检查不重复计入统计。");
+        return;
+      }
+      const resultItems = {};
+      items.forEach((item, index) => {
+        const submitted = submissions[index][1];
+        const correct = item.accepted.map(normalizeAnswer).includes(normalizeAnswer(submitted));
+        const formKey = item.formKey || (item.form ? item.form.id : "__type__");
+        resultItems[item.id] = { correct, submitted };
+        state.stats.byVerb[item.verb.dictionary] = state.stats.byVerb[item.verb.dictionary] || { t: 0, c: 0 };
+        state.stats.byVerb[item.verb.dictionary].t += 1;
+        state.stats.byForm[formKey] = state.stats.byForm[formKey] || { t: 0, c: 0 };
+        state.stats.byForm[formKey].t += 1;
+        if (correct) {
+          state.stats.byVerb[item.verb.dictionary].c += 1;
+          state.stats.byForm[formKey].c += 1;
+          resolveWrongItem(item.verb.dictionary, formKey);
+        } else {
+          recordWrongItem(item.verb.dictionary, formKey);
+        }
+      });
+      state.result = { kind: state.practiceKind, items: resultItems, checkedAt: Date.now() };
+      state.lastCheckedSignature = signature;
+      state.onlyWrong = false;
+      saveStats();
+      saveSessionState();
+      renderApp();
+      announce(`答案已检查：${getPracticeKindLabel(state.practiceKind)} ${items.length} 题，累计统计已更新。`);
+    }
+
     function checkPractice() {
+      if (state.currentQuestions.length) {
+        checkProgressivePractice();
+        return;
+      }
       const items = getPracticeItems();
       if (!items.length) {
         announce("还没有练习题目，请先「开始新练习」。");
         return;
       }
-      const data = getCurrentVerbData();
       const verbKey = state.currentVerb.dictionary;
+      const submissions = items.map(({ form }) => [
+        form.id,
+        state.practiceMode === "simple" ? state.choices[form.id] || "" : state.answers[form.id] || ""
+      ]);
+      const signature = JSON.stringify({
+        verb: verbKey,
+        forms: state.currentForms,
+        mode: state.practiceMode,
+        revision: state.answerRevision,
+        submissions
+      });
+      if (state.result && state.lastCheckedSignature === signature) {
+        announce("答案没有变化，本次检查不重复计入统计。");
+        return;
+      }
       const resultItems = {};
-      items.forEach(({ form, accepted }) => {
-        const submitted = state.practiceMode === "simple"
-          ? state.choices[form.id] || ""
-          : state.answers[form.id] || "";
+      items.forEach(({ form, accepted }, index) => {
+        const submitted = submissions[index][1];
         const correct = accepted.map(normalizeAnswer).includes(normalizeAnswer(submitted));
         resultItems[form.id] = { correct, submitted };
         // 累计统计（A5：localStorage 长期保存）
@@ -2503,15 +3982,13 @@
         if (correct) {
           state.stats.byVerb[verbKey].c += 1;
           state.stats.byForm[form.id].c += 1;
+          resolveWrongItem(verbKey, form.id);
         } else {
-          state.stats.wrongItems.push({ dict: verbKey, formId: form.id });
-          // 控制错题集规模：仅保留最近 200 条
-          if (state.stats.wrongItems.length > 200) {
-            state.stats.wrongItems.splice(0, state.stats.wrongItems.length - 200);
-          }
+          recordWrongItem(verbKey, form.id);
         }
       });
       state.result = { verb: verbKey, items: resultItems, checkedAt: Date.now() };
+      state.lastCheckedSignature = signature;
       state.onlyWrong = false;
       saveStats();
       saveSessionState();
@@ -2523,6 +4000,8 @@
       state.answers = {};
       state.choices = {};
       state.result = null;
+      state.answerRevision += 1;
+      state.lastCheckedSignature = null;
       state.onlyWrong = false;
       saveSessionState();
       renderApp();
@@ -2589,9 +4068,32 @@
       if (action === "set-mode") {
         state.practiceMode = target.dataset.mode === "standard" ? "standard" : "simple";
         state.result = null;
+        state.answerRevision += 1;
+        state.lastCheckedSignature = null;
         saveSessionState();
         renderApp();
         announce(state.practiceMode === "simple" ? "已切换到简易模式" : "已切换到标准模式");
+        return;
+      }
+
+      if (action === "set-practice-kind") {
+        const kind = ["same", "mixed", "sentence", "classify", "polite"].includes(target.dataset.kind)
+          ? target.dataset.kind : "same";
+        if (state.practiceKind === kind) {
+          return;
+        }
+        state.practiceKind = kind;
+        state.currentVerb = null;
+        state.currentForms = [];
+        state.currentQuestions = [];
+        state.answers = {};
+        state.choices = {};
+        state.result = null;
+        state.answerRevision += 1;
+        state.lastCheckedSignature = null;
+        saveSessionState();
+        renderApp();
+        announce(`题型已切换为${getPracticeKindLabel(kind)}，请开始新练习。`);
         return;
       }
 
@@ -2602,7 +4104,7 @@
           if (state.practiceTypes.length > 1) {
             state.practiceTypes.splice(index, 1);
           } else {
-            announce("至少保留一种动词类型。");
+            announce("至少保留一种词类。");
             return;
           }
         } else {
@@ -2610,7 +4112,7 @@
         }
         saveSessionState();
         renderApp();
-        announce("练习动词类型范围已更新。");
+        announce("练习词类范围已更新。");
         return;
       }
 
@@ -2620,14 +4122,14 @@
           state.practiceScope = scope;
           saveSessionState();
           renderApp();
-          announce(scope === "base" ? "抽题范围：基础六形" : scope === "derived" ? "抽题范围：派生形" : "抽题范围：全部 25 形");
+          announce(scope === "base" ? "抽题范围：基础六形" : scope === "derived" ? "抽题范围：派生形" : "抽题范围：全部 6 形");
         }
         return;
       }
 
       if (action === "set-practice-count") {
         const count = Number(target.value);
-        if (count >= 5 && count <= 25) {
+        if (count === 3 || count === 6) {
           state.practiceCount = count;
           saveSessionState();
           renderApp();
@@ -2687,15 +4189,37 @@
     elements.appShell.addEventListener("change", (event) => {
       const target = event.target;
       if (target.dataset.action === "choose-answer") {
-        state.choices[target.dataset.formId] = target.value;
+        const answerKey = target.dataset.questionId || target.dataset.formId;
+        state.choices[answerKey] = target.value;
         state.result = null;
+        state.answerRevision += 1;
+        state.lastCheckedSignature = null;
         saveSessionState();
         return;
       }
       if (target.dataset.action === "type-answer") {
-        state.answers[target.dataset.formId] = target.value;
+        const answerKey = target.dataset.questionId || target.dataset.formId;
+        state.answers[answerKey] = target.value;
         state.result = null;
+        state.answerRevision += 1;
+        state.lastCheckedSignature = null;
         saveSessionState();
+        return;
+      }
+      if (target.dataset.action === "toggle-hint") {
+        if (target.dataset.hint === "kana") {
+          state.showKana = target.checked;
+        } else if (target.dataset.hint === "meaning") {
+          state.showMeaning = target.checked;
+        } else {
+          return;
+        }
+        state.result = null;
+        state.answerRevision += 1;
+        state.lastCheckedSignature = null;
+        saveSessionState();
+        renderApp();
+        announce(`${target.dataset.hint === "kana" ? "假名" : "中文"}提示已${target.checked ? "显示" : "隐藏"}。`);
         return;
       }
       if (target.dataset.action === "set-practice-count") {
