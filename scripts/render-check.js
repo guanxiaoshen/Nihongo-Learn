@@ -59,6 +59,19 @@ dom.window.addEventListener('load', function () {
       assert('P1 变形结果区分保留/变化/接续', doc.querySelectorAll('.memory-token.is-root').length >= 6
         && doc.querySelectorAll('.memory-token.is-change').length >= 6
         && doc.querySelectorAll('.memory-token.is-suffix').length >= 6);
+      assert('P2 派生形按用途分组', doc.querySelector('.derived-memory') !== null
+        && doc.querySelectorAll('.derived-memory-group').length === 5);
+      assert('P2 派生形覆盖 19 形', doc.querySelectorAll('.derived-memory-form').length === 19);
+      assert('P2 派生形分组标题齐全', ['日常常用', '愿望与条件', '否定连接与禁止', '语态', '敬语与推量'].every(function (text) {
+        return shell.innerHTML.includes(text);
+      }));
+      assert('P2 て/た 音便记忆顺序存在', doc.querySelectorAll('.sound-memory-step').length === 4
+        && shell.innerHTML.includes('て形／た形：先按词尾记音便'));
+      assert('P2 易错与例外就地展示', doc.querySelector('.exception-memory') !== null
+        && doc.querySelectorAll('.exception-memory-card').length === 4
+        && ['行く', 'ある', 'できる', '召し上がる'].every(function (text) {
+          return shell.innerHTML.includes(text);
+        }));
       assert('完整规则表位于可展开查询层', doc.querySelector('.reference-details') !== null
         && doc.querySelector('.reference-details .rule-table') !== null);
       assert('两个主 Tab', doc.querySelectorAll('.main-tab').length === 2);
