@@ -50,6 +50,17 @@ dom.window.addEventListener('load', function () {
 
       console.log('--- 规则视图 ---');
       assert('规则表格存在', shell.innerHTML.includes('rule-table'));
+      assert('P1 记忆优先总览存在', doc.querySelector('.memory-overview') !== null);
+      assert('P1 五段音段记忆轴 5 列', doc.querySelectorAll('.memory-axis-column').length === 5);
+      assert('P1 書く常用变形路径 6 项', doc.querySelectorAll('.memory-path-row').length === 6);
+      assert('P1 書く路径覆盖核心结果', ['書かない', '書きます', '書いて', '書いた', '書けば', '書こう'].every(function (value) {
+        return shell.innerHTML.includes(value);
+      }));
+      assert('P1 变形结果区分保留/变化/接续', doc.querySelectorAll('.memory-token.is-root').length >= 6
+        && doc.querySelectorAll('.memory-token.is-change').length >= 6
+        && doc.querySelectorAll('.memory-token.is-suffix').length >= 6);
+      assert('完整规则表位于可展开查询层', doc.querySelector('.reference-details') !== null
+        && doc.querySelector('.reference-details .rule-table') !== null);
       assert('两个主 Tab', doc.querySelectorAll('.main-tab').length === 2);
       assert('4 类动词列', ['五段', '一段', 'か変', 'さ変'].every(function (s) { return shell.innerHTML.includes(s); }));
       assert('基础六形卡片 24 张', doc.querySelectorAll('.rule-card').length === 24);

@@ -496,6 +496,397 @@
       animation: panel-enter .45s ease both;
     }
 
+    /* P1：先展示可记忆的变化轴与代表词路径，完整表格退到查询层 */
+    .memory-overview {
+      display: grid;
+      gap: 14px;
+      padding: 16px;
+      border: 2px solid var(--vermilion);
+      border-radius: 2px;
+      background:
+        linear-gradient(120deg, rgba(var(--vermilion-rgb), .08), transparent 58%),
+        var(--surface-strong);
+      box-shadow: 6px 7px 0 rgba(var(--vermilion-deep-rgb), .08);
+    }
+
+    .memory-overview-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .memory-overview-head h3 {
+      margin: 0;
+      color: var(--ink);
+      font-family: var(--display);
+      font-size: clamp(1.22rem, 2vw, 1.55rem);
+      line-height: 1.2;
+    }
+
+    .memory-overview-head p {
+      max-width: 740px;
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: .82rem;
+      line-height: 1.5;
+    }
+
+    .memory-legend {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 6px;
+      flex: 0 0 auto;
+    }
+
+    .memory-legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 7px;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      background: var(--wash);
+      font-size: .7rem;
+      font-weight: 800;
+    }
+
+    .memory-legend-item::before {
+      width: 9px;
+      height: 9px;
+      border: 1px solid currentColor;
+      background: currentColor;
+      content: "";
+    }
+
+    .memory-legend-item.is-root {
+      color: var(--ink);
+    }
+
+    .memory-legend-item.is-change {
+      color: var(--vermilion-deep);
+    }
+
+    .memory-legend-item.is-suffix {
+      color: var(--success);
+    }
+
+    .memory-legend-item.is-exception {
+      color: var(--danger);
+    }
+
+    .memory-overview-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .memory-card {
+      display: grid;
+      align-content: start;
+      gap: 11px;
+      min-width: 0;
+      padding: 13px;
+      border: 1px solid var(--line-strong);
+      background: var(--surface);
+    }
+
+    .memory-card-head {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .memory-card-kicker {
+      display: block;
+      margin-bottom: 3px;
+      color: var(--vermilion-deep);
+      font-size: .7rem;
+      font-weight: 900;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    .memory-card h4 {
+      margin: 0;
+      color: var(--ink);
+      font-family: var(--display);
+      font-size: 1.08rem;
+    }
+
+    .memory-card-badge {
+      flex: 0 0 auto;
+      padding: 4px 7px;
+      border: 1px solid var(--vermilion);
+      color: var(--vermilion-deep);
+      background: var(--vermilion-soft);
+      font-size: .68rem;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .memory-axis-scroll {
+      max-width: 100%;
+      overflow-x: auto;
+      scrollbar-color: var(--vermilion) var(--vermilion-soft);
+    }
+
+    .memory-axis {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(92px, 1fr));
+      min-width: 500px;
+      border: 1px solid var(--line-strong);
+      background: var(--surface-strong);
+    }
+
+    .memory-axis-column {
+      display: grid;
+      align-content: start;
+      gap: 5px;
+      min-height: 146px;
+      padding: 9px 7px;
+      text-align: center;
+    }
+
+    .memory-axis-column + .memory-axis-column {
+      border-left: 1px solid var(--line);
+    }
+
+    .memory-axis-label {
+      color: var(--vermilion-deep);
+      font-family: var(--display);
+      font-size: 1.02rem;
+      font-weight: 900;
+    }
+
+    .memory-axis-term {
+      color: var(--muted);
+      font-size: .68rem;
+      font-weight: 800;
+    }
+
+    .memory-axis-sample {
+      display: inline-flex;
+      justify-content: center;
+      color: var(--ink);
+      font-family: var(--display);
+      font-size: 1.22rem;
+      font-weight: 900;
+      letter-spacing: .04em;
+    }
+
+    .memory-axis-formula {
+      margin-top: auto;
+      color: var(--muted);
+      font-size: .7rem;
+      font-weight: 800;
+      line-height: 1.35;
+    }
+
+    .memory-card-note {
+      display: grid;
+      gap: 3px;
+      padding: 8px 9px;
+      border-left: 3px solid var(--vermilion);
+      background: var(--wash);
+    }
+
+    .memory-card-note-label {
+      color: var(--vermilion-deep);
+      font-size: .68rem;
+      font-weight: 900;
+      letter-spacing: .08em;
+    }
+
+    .memory-card-note strong {
+      color: var(--ink);
+      font-family: var(--display);
+      font-size: .88rem;
+    }
+
+    .memory-card-note small {
+      color: var(--muted);
+      font-size: .7rem;
+      line-height: 1.4;
+    }
+
+    .memory-path-source {
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 6px 10px;
+      padding: 8px 9px;
+      border: 1px dashed var(--line-strong);
+      background: var(--wash);
+    }
+
+    .memory-path-source span {
+      color: var(--muted);
+      font-size: .7rem;
+      font-weight: 800;
+    }
+
+    .memory-path-source strong {
+      color: var(--vermilion-deep);
+      font-family: var(--display);
+      font-size: 1.3rem;
+      letter-spacing: .05em;
+    }
+
+    .memory-path-list {
+      display: grid;
+      border: 1px solid var(--line);
+      background: var(--surface-strong);
+    }
+
+    .memory-path-row {
+      display: grid;
+      grid-template-columns: 74px minmax(0, 1fr) minmax(116px, .8fr);
+      align-items: center;
+      gap: 9px;
+      min-width: 0;
+      padding: 7px 9px;
+    }
+
+    .memory-path-row + .memory-path-row {
+      border-top: 1px solid var(--line);
+    }
+
+    .memory-path-label {
+      color: var(--vermilion-deep);
+      font-size: .76rem;
+      font-weight: 900;
+    }
+
+    .memory-equation {
+      display: inline-flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 0;
+      color: var(--ink);
+      font-family: var(--display);
+      font-size: 1rem;
+      font-weight: 900;
+      letter-spacing: .03em;
+    }
+
+    .memory-token {
+      display: inline-block;
+    }
+
+    .memory-token.is-root {
+      color: var(--ink);
+    }
+
+    .memory-token.is-change {
+      padding: 1px 3px;
+      color: var(--vermilion-deep);
+      background: var(--vermilion-soft);
+      box-shadow: inset 0 -2px 0 var(--vermilion);
+    }
+
+    .memory-token.is-suffix {
+      margin-left: 2px;
+      padding: 1px 4px;
+      color: var(--success);
+      background: var(--success-soft);
+      font-family: var(--sans);
+      font-size: .8rem;
+      letter-spacing: 0;
+    }
+
+    .memory-path-formula {
+      color: var(--muted);
+      font-size: .7rem;
+      font-weight: 800;
+      line-height: 1.35;
+    }
+
+    .memory-type-strip {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .memory-type-item {
+      display: grid;
+      gap: 2px;
+      min-width: 0;
+      padding: 8px 9px;
+      border: 1px solid var(--line);
+      background: var(--surface);
+    }
+
+    .memory-type-item strong {
+      color: var(--vermilion-deep);
+      font-family: var(--display);
+      font-size: .82rem;
+    }
+
+    .memory-type-item span {
+      color: var(--muted);
+      font-size: .7rem;
+      line-height: 1.35;
+    }
+
+    .reference-details {
+      border: 2px solid var(--line-strong);
+      background: var(--surface);
+    }
+
+    .reference-details[open] {
+      border-color: var(--vermilion);
+    }
+
+    .reference-details summary {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 11px 13px;
+      color: var(--vermilion-deep);
+      background:
+        linear-gradient(90deg, rgba(var(--vermilion-rgb), .08), transparent 65%),
+        var(--wash);
+      cursor: pointer;
+      font-family: var(--display);
+      font-size: 1rem;
+      font-weight: 900;
+      list-style: none;
+    }
+
+    .reference-details summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .reference-details summary::after {
+      color: var(--muted);
+      content: "展开查询";
+      font-family: var(--sans);
+      font-size: .72rem;
+      font-weight: 800;
+    }
+
+    .reference-details[open] summary::after {
+      content: "收起查询";
+    }
+
+    .reference-details-note {
+      color: var(--muted);
+      font-family: var(--sans);
+      font-size: .72rem;
+      font-weight: 700;
+    }
+
+    .reference-details-body {
+      display: grid;
+      gap: 10px;
+      padding: 12px;
+      border-top: 1px solid var(--line-strong);
+    }
+
     /* P3：派生形行内锚点胶囊 */
     .row-anchors {
       display: flex;
@@ -2031,6 +2422,10 @@
         max-width: none;
       }
 
+      .memory-overview-grid {
+        grid-template-columns: 1fr;
+      }
+
       .page-heading-mark {
         width: 54px;
         height: 54px;
@@ -2088,6 +2483,40 @@
       .conjugation-tab small {
         font-size: .74rem;
         line-height: 1.3;
+      }
+
+      .memory-overview {
+        padding: 12px;
+      }
+
+      .memory-overview-head {
+        display: grid;
+        align-items: start;
+        gap: 10px;
+      }
+
+      .memory-legend {
+        justify-content: flex-start;
+      }
+
+      .memory-axis {
+        min-width: 500px;
+      }
+
+      .memory-path-row {
+        grid-template-columns: 66px minmax(0, 1fr);
+      }
+
+      .memory-path-formula {
+        grid-column: 2;
+      }
+
+      .memory-type-strip {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .reference-details-body {
+        padding: 10px;
       }
 
       .derived-filter {
@@ -2243,31 +2672,31 @@
     const THEME_HEADLINE = {
       aka: {
         suffix: "印谱方格",
-        desc: "以柔和朱红、米白和和纸灰整理动词活用。像翻阅印谱一样，先看规则，再翻开卡片确认实例。",
+        desc: "以柔和朱红、米白和和纸灰整理动词活用。先看变化轴和代表词路径，再展开卡片查询实例。",
         edition: "和風 · 印谱六号",
         seal: "印"
       },
       sumi: {
         suffix: "墨流方格",
-        desc: "以墨青、宣纸白与淡墨灰整理动词活用。像墨流晕染一样，先看规则，再翻开卡片确认实例。",
+        desc: "以墨青、宣纸白与淡墨灰整理动词活用。先看变化轴和代表词路径，再展开卡片查询实例。",
         edition: "和風 · 墨流六号",
         seal: "墨"
       },
       koke: {
         suffix: "苔庭方格",
-        desc: "以苔绿、米黄纸与庭园灰整理动词活用。像苔庭沉静一样，先看规则，再翻开卡片确认实例。",
+        desc: "以苔绿、米黄纸与庭园灰整理动词活用。先看变化轴和代表词路径，再展开卡片查询实例。",
         edition: "和風 · 苔庭六号",
         seal: "苔"
       },
       kon: {
         suffix: "蓝染方格",
-        desc: "以绀蓝、淡蓝纸与靛灰整理动词活用。像蓝染布纹一样，先看规则，再翻开卡片确认实例。",
+        desc: "以绀蓝、淡蓝纸与靛灰整理动词活用。先看变化轴和代表词路径，再展开卡片查询实例。",
         edition: "和風 · 蓝染六号",
         seal: "蓝"
       },
       fuji: {
         suffix: "藤棚方格",
-        desc: "以藤紫、淡紫纸与藤灰整理动词活用。像藤棚花影一样，先看规则，再翻开卡片确认实例。",
+        desc: "以藤紫、淡紫纸与藤灰整理动词活用。先看变化轴和代表词路径，再展开卡片查询实例。",
         edition: "和風 · 藤棚六号",
         seal: "藤"
       }
@@ -2351,6 +2780,23 @@
       };
     });
 
+    const GODAN_MEMORY_AXIS = [
+      { formId: "mizenkei", label: "あ段", term: "未然", formula: "＋ない／れる／せる" },
+      { formId: "renyoukei", label: "い段", term: "连用", formula: "＋ます／たい" },
+      { formId: "shuushikei", label: "う段", term: "原形", formula: "辞书形" },
+      { formId: "kateikei", label: "え段", term: "假定", formula: "＋ば／命令" },
+      { formId: "ishi", label: "お段", term: "意志", formula: "＋う", trimSuffix: "う" }
+    ];
+
+    const GODAN_MEMORY_PATHS = [
+      { formId: "nai", label: "ない形", suffix: "ない", formula: "あ段＋ない", use: "不做某事" },
+      { formId: "masu", label: "ます形", suffix: "ます", formula: "い段＋ます", use: "礼貌表达" },
+      { formId: "te", label: "て形", suffix: "て", formula: "音便＋て", use: "连接、请求、进行" },
+      { formId: "ta", label: "た形", suffix: "た", formula: "音便＋た", use: "过去或完成" },
+      { formId: "ba", label: "ば形", suffix: "ば", formula: "え段＋ば", use: "假定条件" },
+      { formId: "ishi", label: "意志形", suffix: "う", formula: "お段＋う", use: "意志或提议" }
+    ];
+
     const state = {
       view: "rules",
       practiceMode: "simple",
@@ -2374,6 +2820,7 @@
       currentQuestions: [],
       stats: null,
       configOpen: true,
+      referenceOpen: false,
       derivedCategories: ALL_CATEGORY_IDS.slice()
     };
 
@@ -2766,6 +3213,7 @@
         }
       }
       state.configOpen = stored.configOpen !== false;
+      state.referenceOpen = stored.referenceOpen === true;
       if (Array.isArray(stored.currentForms)) {
         state.currentForms = stored.currentForms.filter((id) => allForms.some((form) => form.id === id));
       }
@@ -2814,6 +3262,7 @@
         currentForms: state.currentForms,
         currentQuestions: state.currentQuestions,
         configOpen: state.configOpen,
+        referenceOpen: state.referenceOpen,
         derivedCategories: state.derivedCategories
       }));
     }
@@ -3019,7 +3468,7 @@
       return `
         <div class="table-scroll">
           <table class="rule-table">
-            <caption class="visually-hidden">活用形与动词类型变化规则。点击卡片查看代表示例。</caption>
+            <caption class="visually-hidden">完整活用形与动词类型变化规则。点击卡片查看代表示例。</caption>
             <thead>
               <tr>
                 <th class="form-header" scope="col">
@@ -3171,8 +3620,8 @@
     function renderConjugationTabs(scope) {
       const activeGroup = getActiveGroup(scope);
       const tabs = [
-        { id: "base", label: "基础六形", description: "未然・连用・终止・连体・假定・命令" },
-        { id: "derived", label: "派生／接续形", description: "ない・ます・て・た・可能・敬语等" }
+        { id: "base", label: "基础六形", description: "先查词尾变化的语法骨架" },
+        { id: "derived", label: "派生／接续形", description: "按否定・条件・语态・敬语查询" }
       ];
       return `
         <div class="conjugation-tabs" role="tablist" aria-label="${scope === "rules" ? "规则类型" : "练习类型"}">
@@ -3213,6 +3662,111 @@
       `;
     }
 
+    function renderMemoryOverview() {
+      const example = typeExamples.godan;
+      const axis = GODAN_MEMORY_AXIS.map((item) => {
+        const formValue = example.forms[item.formId];
+        const value = item.trimSuffix && formValue.slice(-item.trimSuffix.length) === item.trimSuffix
+          ? formValue.slice(0, -item.trimSuffix.length) : formValue;
+        const root = value.slice(0, -1);
+        const ending = value.slice(-1);
+        return `
+          <div class="memory-axis-column" role="listitem">
+            <span class="memory-axis-label">${escapeHtml(item.label)}</span>
+            <span class="memory-axis-term">${escapeHtml(item.term)}</span>
+            <strong class="memory-axis-sample" aria-label="${escapeHtml(value)}">
+              <span class="memory-token is-root">${escapeHtml(root)}</span><span class="memory-token is-change">${escapeHtml(ending)}</span>
+            </strong>
+            <span class="memory-axis-formula">${escapeHtml(item.formula)}</span>
+          </div>
+        `;
+      }).join("");
+      const path = GODAN_MEMORY_PATHS.map((item) => {
+        const value = example.forms[item.formId];
+        const stem = value.slice(0, -item.suffix.length);
+        const root = stem.slice(0, -1);
+        const ending = stem.slice(-1);
+        return `
+          <div class="memory-path-row">
+            <span class="memory-path-label">${escapeHtml(item.label)}</span>
+            <span class="memory-equation" aria-label="${escapeHtml(value)}">
+              <span class="memory-token is-root">${escapeHtml(root)}</span><span class="memory-token is-change">${escapeHtml(ending)}</span><span class="memory-token is-suffix">${escapeHtml(item.suffix)}</span>
+            </span>
+            <span class="memory-path-formula">${escapeHtml(item.formula)}<br>${escapeHtml(item.use)}</span>
+          </div>
+        `;
+      }).join("");
+      const typeSummaries = [
+        { label: "五段", detail: "词尾换到不同音段", example: "書く → 書か／書き／書け" },
+        { label: "一段", detail: "去「る」后直接接", example: "食べる → 食べ＋ない" },
+        { label: "来る", detail: "こ／き／く 分开记", example: "来る → 来（こ）／来（き）" },
+        { label: "する", detail: "し系为主，可能是 できる", example: "する → しない／できる" }
+      ].map((item) => `
+        <div class="memory-type-item">
+          <strong>${escapeHtml(item.label)} · ${escapeHtml(item.detail)}</strong>
+          <span>${escapeHtml(item.example)}</span>
+        </div>
+      `).join("");
+      return `
+        <section class="memory-overview" aria-labelledby="memory-overview-title">
+          <div class="memory-overview-head">
+            <div>
+              <p class="eyebrow">Memory / 一眼记忆</p>
+              <h3 id="memory-overview-title">先记词尾怎么走，再看完整变形</h3>
+              <p>五段动词先沿着「あ・い・う・え・お」变化，再把词尾和后续接续连起来。下面用「書く」把常用路径完整走一遍。</p>
+            </div>
+            <div class="memory-legend" aria-label="变形图例">
+              <span class="memory-legend-item is-root">保留部分</span>
+              <span class="memory-legend-item is-change">变化部分</span>
+              <span class="memory-legend-item is-suffix">接续</span>
+              <span class="memory-legend-item is-exception">例外</span>
+            </div>
+          </div>
+          <div class="memory-overview-grid">
+            <article class="memory-card">
+              <div class="memory-card-head">
+                <div>
+                  <span class="memory-card-kicker">五段动词</span>
+                  <h4>あ・い・う・え・お 变化轴</h4>
+                </div>
+                <span class="memory-card-badge">先记这一张</span>
+              </div>
+              <div class="memory-axis-scroll">
+                <div class="memory-axis" role="list" aria-label="書く的五段音段变化">
+                  ${axis}
+                </div>
+              </div>
+              <div class="memory-card-note">
+                <span class="memory-card-note-label">记忆口诀</span>
+                <strong>あ段＋ない · い段＋ます/たい · う段原形 · え段＋ば · お段＋う</strong>
+                <small>命令和可能也常从え段理解；「う」结尾的ない形要记住「う→わ」。</small>
+              </div>
+            </article>
+            <article class="memory-card">
+              <div class="memory-card-head">
+                <div>
+                  <span class="memory-card-kicker">代表词路径</span>
+                  <h4>書く（かく）怎么一步步变</h4>
+                </div>
+                <span class="memory-card-badge">词干 · 词尾 · 接续</span>
+              </div>
+              <div class="memory-path-source">
+                <span>起点 · 五段「く」</span>
+                <strong>${escapeHtml(example.dictionary)}</strong>
+                <span>${escapeHtml(example.kana)} · ${escapeHtml(example.meaning)}</span>
+              </div>
+              <div class="memory-path-list" aria-label="書く的常用变形路径">
+                ${path}
+              </div>
+            </article>
+          </div>
+          <div class="memory-type-strip" aria-label="四类动词记忆提示">
+            ${typeSummaries}
+          </div>
+        </section>
+      `;
+    }
+
     function renderRulesPanel() {
       const activeGroup = getActiveGroup("rules");
       const forms = getFormsForGroup(activeGroup);
@@ -3222,18 +3776,27 @@
             <div>
               <p class="eyebrow">Rules / 规则讲解</p>
               <h3>把每一种词形盖成一方印</h3>
-              <p>主表只保留活用形和动词类型，规则摘要在卡片正面，翻开后查看代表词、结果和推导过程。</p>
+              <p>先看变化轴和代表词路径，再按用途理解派生形；完整 25 形表格保留在下方，方便需要时查询。</p>
             </div>
-            <div class="intro-note">样例固定词：<strong>書く（かく）</strong><br>用于展示五段「く」音便。</div>
+            <div class="intro-note">学习起点：<strong>書く（かく）</strong><br>先记五段音段，再看「く」音便。</div>
           </div>
-          ${renderConjugationTabs("rules")}
-          ${activeGroup === "derived" ? renderDerivedCategoryChips() : ""}
-          ${activeGroup === "derived" ? renderRowAnchors() : ""}
-          <section class="group-body" id="rules-group-${activeGroup}-panel" role="tabpanel"
-            aria-labelledby="rules-group-${activeGroup}-tab">
-            ${renderRuleTable(forms)}
-          </section>
+          ${renderMemoryOverview()}
           ${renderGodanSoundTable()}
+          <details class="reference-details" ${state.referenceOpen || activeGroup === "derived" ? "open" : ""}>
+            <summary>
+              <span>完整规则查询</span>
+              <span class="reference-details-note">25 形 × 4 类动词 · 需要时展开</span>
+            </summary>
+            <div class="reference-details-body">
+              ${renderConjugationTabs("rules")}
+              ${activeGroup === "derived" ? renderDerivedCategoryChips() : ""}
+              ${activeGroup === "derived" ? renderRowAnchors() : ""}
+              <section class="group-body" id="rules-group-${activeGroup}-panel" role="tabpanel"
+                aria-labelledby="rules-group-${activeGroup}-tab">
+                ${renderRuleTable(forms)}
+              </section>
+            </div>
+          </details>
           ${renderUsageReference()}
         </section>
       `;
@@ -3757,6 +4320,13 @@
         </nav>
         ${state.view === "rules" ? renderRulesPanel() : renderPracticePanel()}
       `;
+      const referenceDetails = elements.appShell.querySelector(".reference-details");
+      if (referenceDetails) {
+        referenceDetails.addEventListener("toggle", () => {
+          state.referenceOpen = referenceDetails.open;
+          saveSessionState();
+        });
+      }
       window.NihongoTheme.updateSwitcher();
     }
 
