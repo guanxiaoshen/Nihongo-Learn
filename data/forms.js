@@ -129,17 +129,37 @@
     { formId: "kanou", prefix: "私はこの動作が", suffix: "。", translation: "我能做这个动作。", note: "能力表达；注意不要和被动混淆。" }
   ];
 
-  /* 五段词尾音变对照（あ・い・う・え・え + て／た 音便） */
+  /* 五段词尾音变对照：口诀放进表格分组单元格，每行用同一代表词贯穿各列 */
+  var soundGroups = [
+    { id: "sokuon", label: "促音便", memory: "う・つ・る → って／った", hint: "词尾收成小っ" },
+    { id: "ion", label: "い音便", memory: "く → いて／いた；ぐ → いで／いだ", hint: "く／ぐ 变成 い" },
+    { id: "shion", label: "し音便", memory: "す → して／した", hint: "す 变成 し" },
+    { id: "hatsuon", label: "拨音便", memory: "ぬ・ぶ・む → んで／んだ", hint: "鼻音变成 ん" }
+  ];
+
   var soundRows = [
-    ["う", "わ", "い", "う", "え", "え", "って／った"],
-    ["く", "か", "き", "く", "け", "け", "いて／いた"],
-    ["ぐ", "が", "ぎ", "ぐ", "げ", "げ", "いで／いだ"],
-    ["す", "さ", "し", "す", "せ", "せ", "して／した"],
-    ["つ", "た", "ち", "つ", "て", "て", "って／った"],
-    ["ぬ", "な", "に", "ぬ", "ね", "ね", "んで／んだ"],
-    ["ぶ", "ば", "び", "ぶ", "べ", "べ", "んで／んだ"],
-    ["む", "ま", "み", "む", "め", "め", "んで／んだ"],
-    ["る", "ら", "り", "る", "れ", "れ", "って／った"]
+    { tail: "う", a: "わ", i: "い", u: "う", e: "え", teTa: "って／った", groupId: "sokuon",
+      example: { word: "買う", kana: "かう", result: "買って／買った" } },
+    { tail: "つ", a: "た", i: "ち", u: "つ", e: "て", teTa: "って／った", groupId: "sokuon",
+      example: { word: "待つ", kana: "まつ", result: "待って／待った" } },
+    { tail: "る", a: "ら", i: "り", u: "る", e: "れ", teTa: "って／った", groupId: "sokuon",
+      example: { word: "帰る", kana: "かえる", result: "帰って／帰った" } },
+    { tail: "く", a: "か", i: "き", u: "く", e: "け", teTa: "いて／いた", groupId: "ion",
+      example: { word: "書く", kana: "かく", result: "書いて／書いた" } },
+    { tail: "ぐ", a: "が", i: "ぎ", u: "ぐ", e: "げ", teTa: "いで／いだ", groupId: "ion",
+      example: { word: "泳ぐ", kana: "およぐ", result: "泳いで／泳いだ" } },
+    { tail: "す", a: "さ", i: "し", u: "す", e: "せ", teTa: "して／した", groupId: "shion",
+      example: { word: "話す", kana: "はなす", result: "話して／話した" } },
+    { tail: "ぬ", a: "な", i: "に", u: "ぬ", e: "ね", teTa: "んで／んだ", groupId: "hatsuon",
+      example: { word: "死ぬ", kana: "しぬ", result: "死んで／死んだ" } },
+    { tail: "ぶ", a: "ば", i: "び", u: "ぶ", e: "べ", teTa: "んで／んだ", groupId: "hatsuon",
+      example: { word: "遊ぶ", kana: "あそぶ", result: "遊んで／遊んだ" } },
+    { tail: "む", a: "ま", i: "み", u: "む", e: "め", teTa: "んで／んだ", groupId: "hatsuon",
+      example: { word: "飲む", kana: "のむ", result: "飲んで／飲んだ" } }
+  ];
+
+  var soundExceptions = [
+    { word: "行く", result: "行って／行った", note: "虽然词尾是「く」，但使用促音便，不使用「いて／いた」。" }
   ];
 
   window.NIHONGO_DATA = window.NIHONGO_DATA || {};
@@ -149,6 +169,8 @@
     typeColumns: typeColumns,
     formRules: formRules,
     soundRows: soundRows,
+    soundGroups: soundGroups,
+    soundExceptions: soundExceptions,
     usageExamples: usageExamples,
     contrastExamples: contrastExamples,
     sentenceTemplates: sentenceTemplates

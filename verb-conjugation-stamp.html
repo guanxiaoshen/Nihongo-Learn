@@ -121,8 +121,9 @@
     }
 
     button:focus-visible,
-    input:focus-visible {
-      outline: 3px solid rgba(var(--vermilion-deep-rgb), .48);
+    input:focus-visible,
+    a:focus-visible {
+      outline: 3px solid var(--vermilion);
       outline-offset: 3px;
     }
 
@@ -412,6 +413,35 @@
         var(--surface-strong);
     }
 
+    .derived-filter {
+      display: grid;
+      grid-template-columns: minmax(122px, auto) minmax(0, 1fr);
+      align-items: center;
+      gap: 10px 14px;
+      margin: 12px 0 14px;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-left: 4px solid var(--vermilion);
+      background: var(--wash);
+    }
+
+    .derived-filter-label {
+      display: grid;
+      gap: 2px;
+    }
+
+    .derived-filter-label strong {
+      color: var(--vermilion-deep);
+      font-family: var(--display);
+      font-size: .86rem;
+    }
+
+    .derived-filter-label span {
+      color: var(--muted);
+      font-size: .7rem;
+      line-height: 1.3;
+    }
+
     .conjugation-tab {
       display: grid;
       flex: 1 1 0;
@@ -503,11 +533,7 @@
       flex-wrap: wrap;
       align-items: center;
       gap: 8px;
-      margin: 10px 0 14px;
-      padding: 10px 12px;
-      border: 1px solid var(--line);
-      border-left: 4px solid var(--vermilion);
-      background: var(--wash);
+      min-width: 0;
     }
 
     .derived-categories .type-chip {
@@ -647,21 +673,74 @@
     .rule-table thead th:first-child {
       left: 0;
       z-index: 8;
-      width: 150px;
+      width: 132px;
+      min-width: 132px;
+      text-align: center;
+    }
+
+    .form-header-main {
+      display: block;
+      font-family: var(--display);
+      font-size: .94rem;
+      letter-spacing: .08em;
+      line-height: 1.2;
+    }
+
+    .form-header-sub {
+      display: block;
+      margin-top: 3px;
+      color: rgba(var(--surface-rgb), .72);
+      font-family: var(--mono);
+      font-size: .62rem;
+      font-weight: 700;
+      letter-spacing: .16em;
+      line-height: 1;
+      text-transform: uppercase;
     }
 
     .rule-table .form-cell {
       position: sticky;
       left: 0;
       z-index: 4;
-      width: 150px;
-      min-width: 150px;
+      width: 132px;
+      min-width: 132px;
+      padding: 12px 8px;
       color: var(--vermilion-deep);
       background:
         repeating-linear-gradient(45deg, transparent 0 9px, rgba(var(--vermilion-rgb), .025) 10px 11px, transparent 12px 22px),
         var(--wash);
       box-shadow: inset 4px 0 0 var(--vermilion);
+      vertical-align: middle;
       text-align: center;
+    }
+
+    .rule-table .form-cell[data-form-group="base"] {
+      box-shadow: inset 6px 0 0 var(--vermilion);
+    }
+
+    .form-cell-content {
+      display: grid;
+      min-height: 132px;
+      align-content: center;
+      justify-items: center;
+      gap: 6px;
+    }
+
+    .form-index {
+      display: inline-grid;
+      min-width: 30px;
+      height: 24px;
+      place-items: center;
+      padding: 0 7px;
+      border: 1px solid var(--vermilion);
+      border-radius: 999px;
+      color: var(--vermilion-deep);
+      background: var(--vermilion-soft);
+      font-family: var(--mono);
+      font-size: .68rem;
+      font-weight: 800;
+      letter-spacing: .08em;
+      line-height: 1;
     }
 
     .rule-table tbody tr:hover .form-cell {
@@ -680,14 +759,30 @@
 
     .form-name {
       display: block;
+      max-width: 100%;
+      color: var(--vermilion-deep);
       font-family: var(--display);
+      font-size: 1rem;
       font-weight: 900;
+      letter-spacing: .02em;
+      line-height: 1.25;
+      overflow-wrap: anywhere;
     }
 
     .form-jp {
       display: block;
-      margin-top: 2px;
-      font-size: .8rem;
+      margin-top: 0;
+      color: var(--accent-muted);
+      font-size: .72rem;
+      font-weight: 800;
+      letter-spacing: .06em;
+      line-height: 1.3;
+    }
+
+    .form-cell[data-form-group="derived"] .form-index {
+      border-color: var(--line-strong);
+      color: var(--accent-muted);
+      background: var(--surface);
     }
 
     .rule-card {
@@ -941,20 +1036,9 @@
       font-size: .74rem;
     }
 
-    .sound-annex-note {
-      margin: 0;
-      color: var(--muted);
-      font-size: .74rem;
-      line-height: 1.7;
-    }
-
-    .sound-annex-note strong {
-      color: var(--vermilion-deep);
-    }
-
     .sound-table {
       width: 100%;
-      min-width: 860px;
+      min-width: 900px;
       border-collapse: collapse;
       font-size: .8rem;
     }
@@ -963,7 +1047,7 @@
     .sound-table td {
       padding: 8px 9px;
       border: 1px solid rgba(var(--vermilion-deep-rgb), .24);
-      text-align: left;
+      text-align: center;
     }
 
     .sound-table th {
@@ -972,7 +1056,264 @@
       font-weight: 900;
     }
 
-    .sound-table tbody th {
+    .sound-table thead th {
+      padding-top: 9px;
+      padding-bottom: 9px;
+      background:
+        linear-gradient(180deg, rgba(var(--vermilion-rgb), .1), transparent),
+        var(--surface-strong);
+      font-size: .76rem;
+      letter-spacing: .03em;
+    }
+
+    .sound-table .sound-tail-cell {
+      width: 72px;
+      color: var(--vermilion-deep);
+      font-family: var(--display);
+      font-size: 1.08rem;
+    }
+
+    .sound-table .sound-vowel-cell {
+      width: 128px;
+      color: var(--ink);
+      font-family: var(--display);
+      font-size: .9rem;
+      font-weight: 800;
+      vertical-align: middle;
+    }
+
+    .sound-rule-value {
+      display: block;
+      color: var(--accent-muted);
+      font-family: var(--mono);
+      font-size: .76rem;
+      font-weight: 900;
+      letter-spacing: .08em;
+      line-height: 1;
+    }
+
+    .sound-vowel-example {
+      display: block;
+      margin-top: 5px;
+      color: var(--ink);
+      font-family: var(--display);
+      font-size: .88rem;
+      font-weight: 900;
+      line-height: 1.2;
+    }
+
+    .sound-vowel-example rt {
+      color: var(--accent-muted);
+      font-family: var(--sans);
+      font-size: .54rem;
+      font-weight: 700;
+    }
+
+    .sound-table .sound-result-cell {
+      width: 178px;
+      background:
+        linear-gradient(90deg, rgba(var(--vermilion-rgb), .06), transparent),
+        var(--surface);
+      font-family: var(--display);
+      vertical-align: middle;
+    }
+
+    .sound-result {
+      display: block;
+      color: var(--vermilion-deep);
+      font-size: .98rem;
+      font-weight: 900;
+      letter-spacing: .04em;
+    }
+
+    .sound-example {
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 3px 5px;
+      margin-top: 5px;
+      padding-top: 4px;
+      border-top: 1px dashed var(--line-strong);
+      text-align: center;
+    }
+
+    .sound-example-label {
+      color: var(--muted);
+      font-family: var(--sans);
+      font-size: .62rem;
+      font-weight: 900;
+    }
+
+    .sound-example-word {
+      color: var(--ink);
+      font-family: var(--display);
+      font-size: .8rem;
+      font-weight: 900;
+    }
+
+    .sound-example-word rt {
+      color: var(--accent-muted);
+      font-family: var(--sans);
+      font-size: .56rem;
+      font-weight: 700;
+    }
+
+    .sound-example-arrow {
+      color: var(--accent-muted);
+      font-family: var(--sans);
+      font-size: .7rem;
+      font-weight: 900;
+    }
+
+    .sound-example-result {
+      color: var(--muted);
+      font-family: var(--display);
+      font-size: .68rem;
+      font-weight: 800;
+      letter-spacing: .02em;
+    }
+
+    .sound-group-row th {
+      padding: 7px 10px;
+      border-top: 3px solid var(--vermilion);
+      color: var(--ink);
+      background:
+        linear-gradient(90deg, rgba(var(--vermilion-rgb), .14), transparent 68%),
+        var(--vermilion-soft);
+      text-align: left;
+    }
+
+    .sound-group-row:first-child th {
+      border-top-width: 1px;
+    }
+
+    .sound-group-content {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px 10px;
+    }
+
+    .sound-group-label {
+      display: inline-flex;
+      min-width: 68px;
+      min-height: 25px;
+      align-items: center;
+      justify-content: center;
+      padding: 3px 8px;
+      border: 1px solid var(--vermilion-deep);
+      border-radius: 999px;
+      color: var(--surface-strong);
+      background: var(--vermilion-deep);
+      font-size: .72rem;
+      font-weight: 900;
+      letter-spacing: .08em;
+    }
+
+    .sound-group-memory {
+      color: var(--vermilion-deep);
+      font-family: var(--display);
+      font-size: .9rem;
+      font-weight: 900;
+      letter-spacing: .04em;
+    }
+
+    .sound-group-hint {
+      margin-left: auto;
+      color: var(--muted);
+      font-size: .72rem;
+      font-weight: 700;
+    }
+
+    .sound-group-row.sound-group-ion th {
+      border-top-color: var(--accent-muted);
+      background:
+        linear-gradient(90deg, rgba(var(--accent-rgb), .15), transparent 68%),
+        var(--wash);
+    }
+
+    .sound-group-row.sound-group-ion .sound-group-label {
+      border-color: var(--accent-muted);
+      background: var(--accent-muted);
+    }
+
+    .sound-group-row.sound-group-shion th {
+      border-top-color: var(--success);
+      background:
+        linear-gradient(90deg, rgba(var(--success-rgb), .13), transparent 68%),
+        var(--wash);
+    }
+
+    .sound-group-row.sound-group-shion .sound-group-label {
+      border-color: var(--success);
+      background: var(--success);
+    }
+
+    .sound-group-row.sound-group-hatsuon th {
+      border-top-color: var(--vermilion-deep);
+    }
+
+    .sound-table .sound-exception-row th {
+      padding: 10px;
+      border: 1px solid var(--vermilion);
+      color: var(--muted);
+      background: var(--surface);
+      text-align: left;
+    }
+
+    .sound-exception-content {
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 5px 10px;
+    }
+
+    .sound-exception-label {
+      color: var(--vermilion-deep);
+      font-size: .72rem;
+      font-weight: 900;
+      letter-spacing: .08em;
+    }
+
+    .sound-exception-word {
+      color: var(--ink);
+      font-family: var(--display);
+      font-weight: 900;
+    }
+
+    .sound-exception-result {
+      color: var(--vermilion-deep);
+      font-family: var(--display);
+      font-size: .92rem;
+      font-weight: 900;
+    }
+
+    .sound-exception-note {
+      color: var(--muted);
+      font-size: .72rem;
+    }
+
+    .sound-table tbody tr.sound-rule-row:hover th,
+    .sound-table tbody tr.sound-rule-row:hover td {
+      background-color: var(--wash-hover);
+    }
+
+    .sound-table tbody tr.sound-rule-row:hover .sound-result-cell {
+      background:
+        linear-gradient(90deg, rgba(var(--vermilion-rgb), .1), transparent),
+        var(--wash-hover);
+    }
+
+    .sound-table tfoot {
+      border-top: 10px solid var(--surface);
+    }
+
+    .sound-table tfoot th {
+      border-bottom: 0;
+    }
+
+    .sound-table tbody .sound-rule-row > th {
       background: var(--vermilion-soft);
       font-family: var(--display);
     }
@@ -1749,6 +2090,53 @@
         line-height: 1.3;
       }
 
+      .derived-filter {
+        grid-template-columns: 1fr;
+        gap: 7px;
+      }
+
+      .derived-filter-label {
+        grid-template-columns: auto 1fr;
+        align-items: baseline;
+        gap: 8px;
+      }
+
+      .derived-filter-label span {
+        text-align: left;
+      }
+
+      .rule-table thead th:first-child,
+      .rule-table .form-cell {
+        width: 112px;
+        min-width: 112px;
+      }
+
+      .rule-table .form-cell {
+        padding: 10px 6px;
+      }
+
+      .form-cell-content {
+        min-height: 132px;
+        gap: 5px;
+      }
+
+      .form-index {
+        min-width: 27px;
+        height: 22px;
+        padding: 0 6px;
+        font-size: .62rem;
+      }
+
+      .form-name {
+        font-size: .9rem;
+        letter-spacing: 0;
+      }
+
+      .form-jp {
+        font-size: .66rem;
+        letter-spacing: .03em;
+      }
+
       .practice-prompt {
         display: grid;
       }
@@ -1778,6 +2166,20 @@
       .usage-grid,
       .contrast-grid {
         grid-template-columns: 1fr;
+      }
+
+      .sound-group-content {
+        align-items: flex-start;
+      }
+
+      .sound-group-memory {
+        flex: 1 1 220px;
+      }
+
+      .sound-group-hint,
+      .sound-exception-note {
+        flex-basis: 100%;
+        margin-left: 0;
       }
 
       .score-bubble {
@@ -1933,6 +2335,8 @@
     const typeColumns = formsData.typeColumns;
     const formRules = formsData.formRules;
     const soundRows = formsData.soundRows;
+    const soundGroups = formsData.soundGroups || [];
+    const soundExceptions = formsData.soundExceptions || [];
     const usageExamples = formsData.usageExamples || [];
     const contrastExamples = formsData.contrastExamples || [];
     const sentenceTemplates = formsData.sentenceTemplates || [];
@@ -2478,6 +2882,24 @@
           errors.push(`${example.title || "辨析项"}: 辨析数据无效`);
         }
       });
+      const soundGroupIds = new Set(soundGroups.map((group) => group.id));
+      soundGroups.forEach((group) => {
+        if (!group.id || !group.label || !group.memory || !group.hint) {
+          errors.push(`${group.id || "音便分组"}: 音便口诀数据无效`);
+        }
+      });
+      soundRows.forEach((row) => {
+        if (!row.tail || !row.a || !row.i || !row.u || !row.e || !row.teTa || !soundGroupIds.has(row.groupId)
+          || !row.example || !row.example.word || !row.example.kana || !row.example.result
+          || row.example.word.slice(-1) !== row.tail || row.example.kana.slice(-1) !== row.tail) {
+          errors.push(`${row.tail || "音便行"}: 音便词尾数据无效`);
+        }
+      });
+      soundExceptions.forEach((exception) => {
+        if (!exception.word || !exception.result || !exception.note) {
+          errors.push(`${exception.word || "例外"}: 音便例外数据无效`);
+        }
+      });
 
       if (errors.length > 0) {
         throw new Error(errors.join("\n"));
@@ -2600,16 +3022,22 @@
             <caption class="visually-hidden">活用形与动词类型变化规则。点击卡片查看代表示例。</caption>
             <thead>
               <tr>
-                <th scope="col">活用形</th>
+                <th class="form-header" scope="col">
+                  <span class="form-header-main">活用形</span>
+                  <small class="form-header-sub">FORM</small>
+                </th>
                 ${typeColumns.map((type) => `<th scope="col">${type.label}</th>`).join("")}
               </tr>
             </thead>
             <tbody>
               ${forms.map((form) => `
                 <tr id="form-row-${form.id}">
-                  <th class="form-cell" scope="row">
-                    <span class="form-name">${form.label}</span>
-                    <span class="form-jp">${form.jp}</span>
+                  <th class="form-cell" data-form-group="${baseForms.some((item) => item.id === form.id) ? "base" : "derived"}" scope="row">
+                    <div class="form-cell-content">
+                      <span class="form-index" aria-hidden="true">${String(allForms.findIndex((item) => item.id === form.id) + 1).padStart(2, "0")}</span>
+                      <span class="form-name">${form.label}</span>
+                      <span class="form-jp">${form.jp}</span>
+                    </div>
                   </th>
                   ${typeColumns.map((type) => `<td>${getRuleCard(type.id, form.id)}</td>`).join("")}
                 </tr>
@@ -2620,13 +3048,17 @@
       `;
     }
 
-    /* 五段音变对照：精简为规则表下方的紧凑附件（假定/命令合并一列，速记压成一行） */
+    /* 五段音变对照：将速记口诀放进表格分组单元格，行内保留具体变换 */
     function renderGodanSoundTable() {
+      const groupedRows = soundGroups.map((group) => ({
+        group,
+        rows: soundRows.filter((row) => row.groupId === group.id)
+      })).filter((item) => item.rows.length > 0);
       return `
         <section class="sound-annex" aria-labelledby="sound-annex-title">
           <div class="sound-annex-head">
             <h3 id="sound-annex-title">五段词尾音变对照</h3>
-            <span class="sound-annex-hint">与上方「て／た」行配套查看：先定位词尾，再看各段变形与 て／た 音便。</span>
+            <span class="sound-annex-hint">先看彩色口诀行；同一行使用同一个代表词，逐列查看「あ／い／う／え」和 て／た 的实例。</span>
           </div>
           <div class="table-scroll">
             <table class="sound-table">
@@ -2642,17 +3074,59 @@
                 </tr>
               </thead>
               <tbody>
-                ${soundRows.map((row) => `
-                  <tr>
-                    <th scope="row">${row[0]}</th>
-                    <td>${row[1]}</td><td>${row[2]}</td><td>${row[3]}</td>
-                    <td>${row[4]}</td><td>${row[6]}</td>
+                ${groupedRows.map(({ group, rows }) => `
+                  <tr class="sound-group-row sound-group-${escapeHtml(group.id)}">
+                    <th colspan="6" scope="rowgroup">
+                      <div class="sound-group-content">
+                        <span class="sound-group-label">${escapeHtml(group.label)}</span>
+                        <span class="sound-group-memory">${escapeHtml(group.memory)}</span>
+                        <span class="sound-group-hint">${escapeHtml(group.hint)}</span>
+                      </div>
+                    </th>
                   </tr>
+                  ${rows.map((row) => `
+                    <tr class="sound-rule-row sound-rule-${escapeHtml(group.id)}">
+                      <th class="sound-tail-cell" scope="row">${escapeHtml(row.tail)}</th>
+                      ${["a", "i", "u", "e"].map((vowel) => `
+                        <td class="sound-vowel-cell">
+                          <span class="sound-rule-value">${escapeHtml(row[vowel])}</span>
+                          <ruby class="sound-vowel-example">${escapeHtml(row.example.word.slice(0, -1) + row[vowel])}<rt>${escapeHtml(row.example.kana.slice(0, -1) + row[vowel])}</rt></ruby>
+                        </td>
+                      `).join("")}
+                      <td class="sound-result-cell">
+                        <strong class="sound-result">${escapeHtml(row.teTa)}</strong>
+                        ${row.example ? `
+                          <span class="sound-example">
+                            <span class="sound-example-label">例</span>
+                            <ruby class="sound-example-word">${escapeHtml(row.example.word)}<rt>${escapeHtml(row.example.kana)}</rt></ruby>
+                            <span class="sound-example-arrow">→</span>
+                            <span class="sound-example-result">${escapeHtml(row.example.result)}</span>
+                          </span>
+                        ` : ""}
+                      </td>
+                    </tr>
+                  `).join("")}
                 `).join("")}
               </tbody>
+              ${soundExceptions.length ? `
+                <tfoot>
+                  ${soundExceptions.map((exception) => `
+                    <tr class="sound-exception-row">
+                      <th colspan="6" scope="row">
+                        <div class="sound-exception-content">
+                          <span class="sound-exception-label">例外</span>
+                          <span class="sound-exception-word">${escapeHtml(exception.word)}</span>
+                          <span>→</span>
+                          <span class="sound-exception-result">${escapeHtml(exception.result)}</span>
+                          <span class="sound-exception-note">${escapeHtml(exception.note)}</span>
+                        </div>
+                      </th>
+                    </tr>
+                  `).join("")}
+                </tfoot>
+              ` : ""}
             </table>
           </div>
-          <p class="sound-annex-note"><strong>速记：</strong>促音便 う・つ・る → って／った；い音便 く → いて／いた、ぐ → いで／いだ；し音便 す → して／した；拨音便 ぬ・ぶ・む → んで／んだ。<strong>例外：</strong>「行く」→ 行って／行った。</p>
         </section>
       `;
     }
@@ -2712,7 +3186,6 @@
               <small>${tab.description}</small>
             </button>
           `).join("")}
-          ${scope === "rules" && activeGroup === "derived" ? renderDerivedCategoryChips() : ""}
         </div>
       `;
     }
@@ -2721,15 +3194,21 @@
     function renderDerivedCategoryChips() {
       const allOn = state.derivedCategories.length === DERIVED_CATEGORIES.length;
       return `
-        <div class="derived-categories" role="group" aria-label="派生形分类筛选">
-          ${DERIVED_CATEGORIES.map((c) => `
-            <button class="type-chip ${state.derivedCategories.includes(c.id) ? "is-active" : ""}"
-              type="button" data-action="toggle-derived-category" data-category-id="${c.id}"
-              aria-pressed="${state.derivedCategories.includes(c.id)}">
-              ${c.label}<span class="chip-count">${c.forms.length}</span>
-            </button>
-          `).join("")}
-          ${allOn ? "" : `<button class="derived-reset" type="button" data-action="reset-derived-categories">显示全部</button>`}
+        <div class="derived-filter">
+          <div class="derived-filter-label">
+            <strong>派生形筛选</strong>
+            <span>按功能显示规则行</span>
+          </div>
+          <div class="derived-categories" role="group" aria-label="派生形分类筛选">
+            ${DERIVED_CATEGORIES.map((c) => `
+              <button class="type-chip ${state.derivedCategories.includes(c.id) ? "is-active" : ""}"
+                type="button" data-action="toggle-derived-category" data-category-id="${c.id}"
+                aria-pressed="${state.derivedCategories.includes(c.id)}">
+                ${c.label}<span class="chip-count">${c.forms.length}</span>
+              </button>
+            `).join("")}
+            ${allOn ? "" : `<button class="derived-reset" type="button" data-action="reset-derived-categories">显示全部</button>`}
+          </div>
         </div>
       `;
     }
@@ -2748,6 +3227,7 @@
             <div class="intro-note">样例固定词：<strong>書く（かく）</strong><br>用于展示五段「く」音便。</div>
           </div>
           ${renderConjugationTabs("rules")}
+          ${activeGroup === "derived" ? renderDerivedCategoryChips() : ""}
           ${activeGroup === "derived" ? renderRowAnchors() : ""}
           <section class="group-body" id="rules-group-${activeGroup}-panel" role="tabpanel"
             aria-labelledby="rules-group-${activeGroup}-tab">

@@ -10,6 +10,12 @@
 > - ✅ P2 间距网格 / 触控目标 / 中间断点（commit `ef2f153`）
 > - ✅ P3 锚点导航 / 练习设置折叠 / ESC（commit `ef2f153`）
 > - ✅ 风格统一：顶部框体与 note 外壳 → 双层线条 + 直角（commit `42e089d`）
+>
+> **追加优化（2026-08-27）**：规则表「活用形」首列改为固定宽度的层级化标签牌，内容垂直居中，加入序号、主次字号和读音行，降低复杂背景下的文字堆叠感。
+> 五段音变速查同步改为表内分组口诀行：促音便、い音便、し音便、拨音便各自直接显示词尾范围与 `て／た` 结果，`行く` 例外置于表尾，移除表外长段速记。
+> 派生形分类筛选从标签栏内部移至标签栏下方的独立筛选栏；规则表「活用形」首列收窄为桌面 132px、移动端 112px，释放横向空间。
+> 全站风格统一：首页与两个学习页采用同一纸面纹理、键盘焦点、音变速查表表头/行悬停和间距语言；形容词/名词页的速查区外框与动词页保持同源。
+> 五段音变表的结果单元格增加“代表词例 + 振假名 + 变形结果”，并统一表头、居中对齐和移动端横向滚动体验；形容词/名词速查表补齐“词类”表头以保持列对齐。
 
 ---
 
@@ -58,7 +64,7 @@
 
 | # | 严重度 | 问题 | 位置 | 建议 |
 |---|---|---|---|---|
-| F1 | 🔴 高 | **键盘焦点几乎不可见**：primary/secondary/type-chip/mode-button/theme-option/count-select 均无 `:focus-visible`（verb/adj 页各仅 2 处） | 全部按钮 | 全局统一 `:focus-visible { outline: 3px solid var(--vermilion); outline-offset: 2px; }`，与现有链接焦点风格对齐 |
+| F1 | 🔴 高 | **键盘焦点几乎不可见**：primary/secondary/type-chip/mode-button/theme-option/count-select 均无 `:focus-visible`（verb/adj 页各仅 2 处） | 全部按钮 | 全局统一 `:focus-visible { outline: 3px solid var(--vermilion); outline-offset: 3px; }`，与现有链接焦点风格对齐 |
 | F2 | 🟠 中 | `secondary-button` 无通用 `:disabled` 样式（仅 start-actions 特例）；radio/select 焦点依赖浏览器默认 | 按钮/表单 | 补 `.secondary-button:disabled` + select/radio 的 focus 样式 |
 | F3 | 🟡 低 | 主题面板只能点按钮开合，**无 ESC / 外点关闭**；键盘进入菜单后缺少方向键支持 | css/themes.css | 补 ESC 关闭 + `role="menu"` 的方向键导航（或降级为简单 dialog 语义） |
 | F4 | 🟡 低 | 卡片翻转有延迟级联动画（--card-delay），但无 hover 微反馈 | 规则卡片 | 可选：正面加"悬停微抬升"；不必强求 |

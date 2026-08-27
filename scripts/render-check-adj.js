@@ -50,7 +50,11 @@ dom.window.addEventListener('load', function () {
       assert('规则卡片 6形×3类=18 张', doc.querySelectorAll('.rule-card').length === 18);
       assert('卡片背面含 ruby 注音', doc.querySelectorAll('.card-example-result ruby').length > 0);
       assert('卡片背面含分解', doc.querySelectorAll('.breakdown').length > 0);
+      assert('活用形首列使用层级化标记', doc.querySelectorAll('.form-cell-content').length === 6);
+      assert('活用形首列显示序号', doc.querySelector('.form-index').textContent.trim() === '01');
       assert('变形速查表存在', shell.innerHTML.includes('三类变形速查'));
+      assert('变形速查表头与数据列对齐', doc.querySelectorAll('.sound-table thead th').length === 7
+        && doc.querySelectorAll('.sound-table tbody tr:first-child > *').length === 7);
       assert('句中用法区存在', shell.innerHTML.includes('usage-reference'));
       assert('句中用法卡片存在', doc.querySelectorAll('.usage-card').length === 6);
       assert('无 base/derived 分组 tab', doc.querySelectorAll('.conjugation-tab').length === 0);

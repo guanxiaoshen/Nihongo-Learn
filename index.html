@@ -91,9 +91,10 @@
       margin: 0;
       color: var(--ink);
       background:
-        radial-gradient(circle at 91% 2%, rgba(var(--vermilion-rgb), .1), transparent 18rem),
+        radial-gradient(circle at 91% 2%, rgba(var(--vermilion-rgb), .12), transparent 18rem),
         radial-gradient(circle at 3% 94%, rgba(var(--accent-rgb), .06), transparent 22rem),
         repeating-linear-gradient(0deg, rgba(var(--vermilion-deep-rgb), .018) 0 1px, transparent 1px 5px),
+        repeating-linear-gradient(90deg, transparent 0 23px, rgba(var(--accent-rgb), .014) 24px 25px, transparent 26px 49px),
         var(--paper);
       font-size: 15px;
       line-height: 1.55;
@@ -105,19 +106,30 @@
       inset: 0;
       pointer-events: none;
       background:
-        repeating-radial-gradient(circle at 0 100%, transparent 0 17px, rgba(var(--vermilion-rgb), .04) 18px 19px, transparent 20px 36px),
-        linear-gradient(135deg, transparent 0 47%, rgba(var(--vermilion-rgb), .022) 48% 49%, transparent 50% 100%);
+        repeating-radial-gradient(circle at 0 100%, transparent 0 17px, rgba(var(--vermilion-rgb), .045) 18px 19px, transparent 20px 36px),
+        linear-gradient(135deg, transparent 0 47%, rgba(var(--vermilion-rgb), .025) 48% 49%, transparent 50% 100%);
       background-size: 72px 42px, 100% 100%;
-      opacity: .42;
+      opacity: .45;
     }
 
     a {
       color: inherit;
     }
 
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      color: inherit;
+    }
+
+    button:focus-visible,
+    input:focus-visible,
     a:focus-visible {
-      outline: 3px solid rgba(var(--vermilion-deep-rgb), .48);
-      outline-offset: 4px;
+      outline: 3px solid var(--vermilion);
+      outline-offset: 3px;
     }
 
     .visually-hidden {

@@ -57,6 +57,28 @@ dom.window.addEventListener('load', function () {
       assert('卡片背面含 ruby 注音', doc.querySelectorAll('.card-example-result ruby').length > 0);
       assert('卡片背面含词干/接续分解', doc.querySelectorAll('.breakdown').length > 0);
       assert('分解标注使用 <ruby> 汉字注音', shell.innerHTML.includes('<ruby>'));
+      assert('音便口诀融入表格分组单元格', doc.querySelectorAll('.sound-group-row').length === 4
+        && doc.querySelectorAll('.sound-group-memory').length === 4);
+      assert('音便口诀覆盖四类记忆规则', ['う・つ・る', 'く → いて', 'す → して', 'ぬ・ぶ・む'].every(function (text) {
+        return shell.innerHTML.includes(text);
+      }));
+      assert('音便行保留九个词尾结果', doc.querySelectorAll('.sound-rule-row').length === 9);
+      assert('音便行含九个代表词例', doc.querySelectorAll('.sound-example').length === 9
+        && doc.querySelectorAll('.sound-example-word').length === 9);
+      const sokuonExamples = Array.prototype.map.call(
+        doc.querySelector('.sound-rule-sokuon').querySelectorAll('.sound-vowel-example'),
+        function (example) { return example.textContent; }
+      );
+      assert('音便各段单元格含同源实例', doc.querySelectorAll('.sound-vowel-example').length === 36
+        && sokuonExamples.length === 4 && sokuonExamples.every(function (value) { return value.includes('買'); }));
+      assert('音便代表词例覆盖各词尾', ['買う', '待つ', '帰る', '書く', '泳ぐ', '話す', '死ぬ', '遊ぶ', '飲む'].every(function (word) {
+        return shell.innerHTML.includes(word);
+      }));
+      assert('行く例外融入表格尾部', doc.querySelectorAll('.sound-exception-row').length === 1
+        && shell.innerHTML.includes('sound-exception-result'));
+      assert('表格外长段速记已移除', doc.querySelectorAll('.sound-annex-note').length === 0);
+      assert('活用形首列使用层级化标记', doc.querySelectorAll('.form-cell-content').length === 6);
+      assert('活用形首列显示序号', doc.querySelector('.form-index').textContent.trim() === '01');
       assert('句子用法区存在', shell.innerHTML.includes('usage-reference'));
       assert('句子用法卡片存在', doc.querySelectorAll('.usage-card').length === 14);
       assert('语法辨析卡片存在', doc.querySelectorAll('.contrast-card').length === 3);
@@ -126,6 +148,10 @@ dom.window.addEventListener('load', function () {
       console.log('--- P3 增强（锚点 / 折叠） ---');
       doc.querySelector('[data-action="set-form-group"][data-group-id="derived"]').click();
       assert('派生组行锚点胶囊存在', doc.querySelectorAll('.row-anchor').length === 19);
+      assert('派生形首列层级标记同步更新', doc.querySelectorAll('.form-cell-content').length === 19);
+      assert('派生筛选栏位于标签栏下方', doc.querySelector('.derived-filter') !== null
+        && !doc.querySelector('.conjugation-tabs .derived-filter')
+        && doc.querySelector('.conjugation-tabs').nextElementSibling.classList.contains('derived-filter'));
       assert('表格行带锚点 id', doc.querySelector('#form-row-te') !== null);
       doc.querySelector('[data-view="practice"]').click();
       doc.querySelector('[data-action="start-practice"]').click();
