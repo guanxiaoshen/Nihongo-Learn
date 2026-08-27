@@ -106,6 +106,77 @@
     { typeId: "noun", title: "名词否定修饰", sentence: "学生ではない人です。", translation: "是不属于学生的人。", note: "名词否定可用 ではない。" }
   ];
 
+  var memoryFormulas = [
+    {
+      id: "i-adj",
+      label: "い形容词",
+      badge: "去「い」再接",
+      formula: "词干（去い）＋くない／かった／くて／ければ",
+      note: "原形保留「い」；否定、过去、连接和条件先把词尾换成「く／け」。",
+      example: "高い → 高くない・高かった・高くて・高ければ"
+    },
+    {
+      id: "na-noun",
+      label: "な形容词／名词",
+      badge: "直接接だ系",
+      formula: "词干＋だ／じゃない／だった／で／なら",
+      note: "词干本身不变；句末用「だ」系，连接用「で」，条件用「なら」。",
+      example: "静か → 静かじゃない；学生 → 学生なら"
+    }
+  ];
+
+  var usageGuides = [
+    {
+      id: "attributive",
+      label: "定语",
+      formula: "い形容词直接接名词；な形容词接「な」；名词接「の」",
+      note: "名词前的连接方式和句末谓语不同，先看后面是不是名词。"
+    },
+    {
+      id: "adverbial",
+      label: "副词",
+      formula: "い形容词：い→く；な形容词：词干＋に",
+      note: "副词用法是句中功能，不要把「早く／静かに」和六种谓语变化混为一谈。"
+    },
+    {
+      id: "predicate",
+      label: "谓语",
+      formula: "句末按肯定／否定／过去／连接／条件变化",
+      note: "先判断词类，再套对应公式；な形容词和名词共享だ系骨架。"
+    }
+  ];
+
+  var exceptionMemory = [
+    {
+      id: "ii",
+      tag: "特殊 い形容词",
+      title: "いい 不能照普通词干生成",
+      equation: "いい → よくない／よかった",
+      note: "否定、过去、连接和条件使用「よく／よけれ」系列；肯定还可见「よい」。"
+    },
+    {
+      id: "kirei",
+      tag: "词类判断",
+      title: "きれい 以「い」结尾却是な形容词",
+      equation: "きれいな部屋／きれいに話す",
+      note: "看到词尾「い」不能直接判定为い形容词，要按词条类型记忆。"
+    },
+    {
+      id: "na-predicate",
+      tag: "句末连接",
+      title: "な形容词／名词句末用だ系",
+      equation: "静かだ／静かじゃない／学生だった",
+      note: "「な」用于名词前修饰；句末肯定使用「だ」，不要把两种位置混用。"
+    },
+    {
+      id: "noun-modifier",
+      tag: "名词连接",
+      title: "名词修饰名词通常用の",
+      equation: "学生の本／学生ではない人",
+      note: "名词的定语连接和谓语变化是两套用法，先确认它是在修饰名词还是做句末判断。"
+    }
+  ];
+
   var sentenceTemplates = {
     "i-adj": {
       kotei: { prefix: "この本は", suffix: "。", translation: "这本书是这个性质。" },
@@ -142,6 +213,9 @@
     lexicon: lexicon,
     summaryRows: summaryRows,
     usageExamples: usageExamples,
+    memoryFormulas: memoryFormulas,
+    usageGuides: usageGuides,
+    exceptionMemory: exceptionMemory,
     sentenceTemplates: sentenceTemplates
   };
 })();

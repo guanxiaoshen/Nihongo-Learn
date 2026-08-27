@@ -804,6 +804,164 @@
       line-height: 1.35;
     }
 
+    .memory-type-memory {
+      display: grid;
+      gap: 8px;
+      padding: 11px;
+      border: 1px solid var(--line-strong);
+      background: var(--wash);
+    }
+
+    .memory-type-memory-head {
+      display: flex;
+      align-items: baseline;
+      gap: 9px;
+    }
+
+    .memory-type-memory-head strong {
+      color: var(--vermilion-deep);
+      font-family: var(--display);
+      font-size: .98rem;
+    }
+
+    .memory-type-memory-head span {
+      color: var(--muted);
+      font-size: .72rem;
+    }
+
+    .memory-type-item.memory-type-tab {
+      display: grid;
+      width: 100%;
+      margin: 0;
+      color: inherit;
+      font-family: var(--sans);
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .memory-type-item.memory-type-tab:hover {
+      border-color: var(--vermilion);
+      background: var(--wash-hover);
+      transform: translateY(-1px);
+    }
+
+    .memory-type-item.memory-type-tab[aria-selected="true"] {
+      border-color: var(--vermilion);
+      background: var(--vermilion-soft);
+      box-shadow: inset 0 -3px 0 var(--vermilion), 3px 3px 0 rgba(var(--vermilion-deep-rgb), .08);
+      transform: translateY(-1px);
+    }
+
+    .memory-type-detail-panel {
+      display: grid;
+      gap: 11px;
+      padding: 13px;
+      border: 2px solid var(--vermilion);
+      background: var(--surface);
+    }
+
+    .memory-type-detail-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .memory-type-detail-head h4 {
+      margin: 0;
+      color: var(--ink);
+      font-family: var(--display);
+      font-size: 1.16rem;
+    }
+
+    .memory-type-detail-head p {
+      max-width: 760px;
+      margin: 5px 0 0;
+      color: var(--muted);
+      font-size: .76rem;
+      line-height: 1.45;
+    }
+
+    .memory-type-detail-badge {
+      flex: 0 0 auto;
+      padding: 5px 8px;
+      border: 1px solid var(--vermilion);
+      color: var(--vermilion-deep);
+      background: var(--vermilion-soft);
+      font-size: .7rem;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .memory-type-detail-note {
+      padding: 8px 9px;
+      border-left: 3px solid var(--accent-muted);
+      color: var(--muted);
+      background: var(--wash);
+      font-size: .74rem;
+      line-height: 1.45;
+    }
+
+    .memory-equation-join {
+      padding: 0 3px;
+      color: var(--accent-muted);
+      font-family: var(--sans);
+      font-size: .76rem;
+    }
+
+    .memory-equation-result {
+      margin-left: 7px;
+      padding: 1px 4px;
+      color: var(--vermilion-deep);
+      background: var(--vermilion-soft);
+      font-family: var(--display);
+      font-size: .82rem;
+    }
+
+    .sound-note {
+      display: grid;
+      gap: 8px;
+      padding: 12px 16px 14px;
+      border: 1px solid var(--line-strong);
+      border-top: 4px solid var(--accent-muted);
+      background: var(--surface);
+    }
+
+    .sound-note h3 {
+      margin: 0;
+      color: var(--vermilion-deep);
+      font-family: var(--display);
+      font-size: 1rem;
+    }
+
+    .sound-note p {
+      margin: 0;
+      color: var(--muted);
+      font-size: .76rem;
+      line-height: 1.45;
+    }
+
+    .sound-note-example {
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 5px 8px;
+      padding: 8px 9px;
+      border-left: 3px solid var(--accent-muted);
+      color: var(--ink);
+      background: var(--wash);
+      font-family: var(--display);
+      font-size: .9rem;
+      font-weight: 900;
+    }
+
+    .sound-note-example span {
+      color: var(--muted);
+      font-family: var(--sans);
+      font-size: .72rem;
+      font-weight: 700;
+    }
+
     .memory-type-strip {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -822,13 +980,31 @@
     .memory-type-item strong {
       color: var(--vermilion-deep);
       font-family: var(--display);
-      font-size: .82rem;
+      font-size: .8rem;
+      line-height: 1.35;
     }
 
     .memory-type-item span {
       color: var(--muted);
       font-size: .7rem;
       line-height: 1.35;
+    }
+
+    .memory-type-item .memory-type-detail {
+      color: var(--vermilion-deep);
+      font-weight: 800;
+    }
+
+    .memory-type-item .memory-type-example {
+      color: var(--ink);
+      font-family: var(--display);
+      font-weight: 800;
+    }
+
+    .memory-type-item .memory-type-focus {
+      padding-top: 4px;
+      border-top: 1px dashed var(--line);
+      font-size: .66rem;
     }
 
     .derived-memory {
@@ -2743,6 +2919,16 @@
         gap: 10px;
       }
 
+      .memory-type-detail-head {
+        display: grid;
+        align-items: start;
+        gap: 8px;
+      }
+
+      .memory-type-detail-panel {
+        padding: 11px;
+      }
+
       .memory-legend {
         justify-content: flex-start;
       }
@@ -3071,6 +3257,62 @@
       { formId: "ishi", label: "意志形", suffix: "う", formula: "お段＋う", use: "意志或提议" }
     ];
 
+    const VERB_TYPE_MEMORY_GUIDES = {
+      godan: {
+        detail: "词尾换到不同音段",
+        example: "書く → 書か／書き／書け",
+        focus: "重点：あ・い・う・え・お",
+        rule: "词尾按用途换到不同音段；て形和た形再按词尾套音便。",
+        note: "五段动词的词干前半部分保留，最后一个假名按用途改变；「う」结尾的ない形要记住「う→わ」。",
+        paths: GODAN_MEMORY_PATHS
+      },
+      ichidan: {
+        detail: "去「る」后直接接",
+        example: "食べる → 食べ＋ない／ます／て",
+        focus: "重点：词干基本不变",
+        rule: "去掉词尾「る」，词干后直接接后续；不发生五段音便。",
+        note: "ば形是在词干后接「れ＋ば」，意志形接「よう」；可能形是「られる」。",
+        paths: [
+          { formId: "nai", label: "ない形", formula: "去「る」＋ない", use: "不做某事", parts: [{ className: "is-root", value: "stem" }, { className: "is-suffix", value: "ない" }] },
+          { formId: "masu", label: "ます形", formula: "去「る」＋ます", use: "礼貌表达", parts: [{ className: "is-root", value: "stem" }, { className: "is-suffix", value: "ます" }] },
+          { formId: "te", label: "て形", formula: "去「る」＋て", use: "连接、请求、进行", parts: [{ className: "is-root", value: "stem" }, { className: "is-suffix", value: "て" }] },
+          { formId: "ta", label: "た形", formula: "去「る」＋た", use: "过去或完成", parts: [{ className: "is-root", value: "stem" }, { className: "is-suffix", value: "た" }] },
+          { formId: "ba", label: "ば形", formula: "去「る」＋れ＋ば", use: "假定条件", parts: [{ className: "is-root", value: "stem" }, { className: "is-change", value: "れ" }, { className: "is-suffix", value: "ば" }] },
+          { formId: "ishi", label: "意志形", formula: "去「る」＋よう", use: "意志或提议", parts: [{ className: "is-root", value: "stem" }, { className: "is-suffix", value: "よう" }] }
+        ]
+      },
+      kuru: {
+        detail: "こ・き・く 分开记",
+        example: "来る → 来（こ）ない／来（き）ます",
+        focus: "重点：读音交替不规则",
+        rule: "来る不能按五段或一段机械套用，先记住「こ／き／く」的交替。",
+        note: "ない形和意志形读「こ」，ます/て/た读「き」，ば形读「くれ」；括号读音要一起记。",
+        paths: [
+          { formId: "nai", label: "ない形", formula: "来（こ）＋ない", use: "不来", parts: [{ className: "is-change", value: "来（こ）" }, { className: "is-suffix", value: "ない" }] },
+          { formId: "masu", label: "ます形", formula: "来（き）＋ます", use: "礼貌表达", parts: [{ className: "is-change", value: "来（き）" }, { className: "is-suffix", value: "ます" }] },
+          { formId: "te", label: "て形", formula: "来（き）＋て", use: "连接、请求、进行", parts: [{ className: "is-change", value: "来（き）" }, { className: "is-suffix", value: "て" }] },
+          { formId: "ta", label: "た形", formula: "来（き）＋た", use: "过去或完成", parts: [{ className: "is-change", value: "来（き）" }, { className: "is-suffix", value: "た" }] },
+          { formId: "ba", label: "ば形", formula: "来（く）れ＋ば", use: "假定条件", parts: [{ className: "is-change", value: "来（く）れ" }, { className: "is-suffix", value: "ば" }] },
+          { formId: "ishi", label: "意志形", formula: "来（こ）＋よう", use: "意志或提议", parts: [{ className: "is-change", value: "来（こ）" }, { className: "is-suffix", value: "よう" }] }
+        ]
+      },
+      suru: {
+        detail: "し系为主，可能是 できる",
+        example: "する → しない／します／して",
+        focus: "重点：可能形单独记 できる",
+        rule: "する的大多数常用变化以「し」为核心；可能形不是机械接后缀，而是「できる」。",
+        note: "ば形使用「すれ＋ば」；复合する动词保留前面的词干，如「勉強する → 勉強しない」。",
+        paths: [
+          { formId: "nai", label: "ない形", formula: "し＋ない", use: "不做某事", parts: [{ className: "is-change", value: "し" }, { className: "is-suffix", value: "ない" }] },
+          { formId: "masu", label: "ます形", formula: "し＋ます", use: "礼貌表达", parts: [{ className: "is-change", value: "し" }, { className: "is-suffix", value: "ます" }] },
+          { formId: "te", label: "て形", formula: "し＋て", use: "连接、请求、进行", parts: [{ className: "is-change", value: "し" }, { className: "is-suffix", value: "て" }] },
+          { formId: "ta", label: "た形", formula: "し＋た", use: "过去或完成", parts: [{ className: "is-change", value: "し" }, { className: "is-suffix", value: "た" }] },
+          { formId: "ba", label: "ば形", formula: "すれ＋ば", use: "假定条件", parts: [{ className: "is-change", value: "すれ" }, { className: "is-suffix", value: "ば" }] },
+          { formId: "ishi", label: "意志形", formula: "し＋よう", use: "意志或提议", parts: [{ className: "is-change", value: "し" }, { className: "is-suffix", value: "よう" }] }
+        ]
+      }
+    };
+
     const DERIVED_MEMORY_GROUPS = [
       {
         id: "common",
@@ -3181,6 +3423,7 @@
       stats: null,
       configOpen: true,
       referenceOpen: false,
+      memoryType: "godan",
       derivedCategories: ALL_CATEGORY_IDS.slice()
     };
 
@@ -3403,8 +3646,14 @@
       if (!type) {
         return [typeId];
       }
-      const shortLabel = type.label.replace("第 I 类／", "").replace("第 II 类／", "").replace("第 III 类／", "");
-      return [typeId, type.label, shortLabel, `${shortLabel}动词`];
+      const shortLabel = type.label
+        .replace(/^第 [IVX]+ 类／/, "")
+        .replace(/^[一二三]类･/, "")
+        .replace(/动词$/, "");
+      const aliases = typeId === "kuru"
+        ? ["か変", "カ変", "か变"]
+        : typeId === "suru" ? ["さ変", "サ変", "さ变"] : [];
+      return [...new Set([typeId, type.label, shortLabel, `${shortLabel}动词`, ...aliases])];
     }
 
     function createProgressiveQuestions(kind, count) {
@@ -3576,6 +3825,9 @@
       state.referenceOpen = stored.referenceOpen === true
         || (!Object.prototype.hasOwnProperty.call(stored, "referenceOpen")
           && stored.activeGroups && stored.activeGroups.rules === "derived");
+      if (typeColumns.some((type) => type.id === stored.memoryType)) {
+        state.memoryType = stored.memoryType;
+      }
       if (Array.isArray(stored.currentForms)) {
         state.currentForms = stored.currentForms.filter((id) => allForms.some((form) => form.id === id));
       }
@@ -3625,6 +3877,7 @@
         currentQuestions: state.currentQuestions,
         configOpen: state.configOpen,
         referenceOpen: state.referenceOpen,
+        memoryType: state.memoryType,
         derivedCategories: state.derivedCategories
       }));
     }
@@ -3948,6 +4201,32 @@
       `;
     }
 
+    function renderNonGodanSoundNote() {
+      const type = getMemoryType();
+      const example = typeExamples[type.id];
+      const te = example.forms.te;
+      const ta = example.forms.ta;
+      const note = type.id === "ichidan"
+        ? "二类･一段动词去「る」后直接接「て／た」，不发生五段音便。"
+        : type.id === "kuru"
+          ? "三类･カ变动词的て形和た形使用「来（き）＋て／た」。"
+          : "三类･サ变动词的て形和た形使用「し＋て／た」。";
+      return `
+        <aside class="sound-note" aria-labelledby="sound-note-title">
+          <h3 id="sound-note-title">${escapeHtml(type.label)}的て形／た形</h3>
+          <p>${escapeHtml(note)}</p>
+          <div class="sound-note-example">
+            <strong>${escapeHtml(example.dictionary)}</strong>
+            <span>→</span>
+            <strong>${escapeHtml(te)}</strong>
+            <span>／</span>
+            <strong>${escapeHtml(ta)}</strong>
+            <span>（て形／た形）</span>
+          </div>
+        </aside>
+      `;
+    }
+
     function renderUsageReference() {
       const usageCards = usageExamples.map((example) => {
         const form = getForm(example.formId);
@@ -4030,8 +4309,24 @@
       `;
     }
 
-    function renderMemoryOverview() {
+    function getMemoryType() {
+      return typeColumns.find((type) => type.id === state.memoryType) || typeColumns[0];
+    }
+
+    function renderMemoryParts(typeId, parts) {
+      const example = typeExamples[typeId];
+      return parts.map((part, index) => {
+        const value = part.value === "stem"
+          ? example.dictionary.slice(0, -1) : part.value;
+        const join = index > 0 ? `<span class="memory-equation-join">＋</span>` : "";
+        return `${join}<span class="memory-token ${part.className}">${escapeHtml(value)}</span>`;
+      }).join("");
+    }
+
+    function renderGodanMemoryPanel() {
       const example = typeExamples.godan;
+      const type = typeColumns.find((item) => item.id === "godan");
+      const guide = VERB_TYPE_MEMORY_GUIDES.godan;
       const axis = GODAN_MEMORY_AXIS.map((item) => {
         const formValue = example.forms[item.formId];
         const value = item.trimSuffix && formValue.slice(-item.trimSuffix.length) === item.trimSuffix
@@ -4049,7 +4344,7 @@
           </div>
         `;
       }).join("");
-      const path = GODAN_MEMORY_PATHS.map((item) => {
+      const path = guide.paths.map((item) => {
         const value = example.forms[item.formId];
         const stem = value.slice(0, -item.suffix.length);
         const root = stem.slice(0, -1);
@@ -4064,24 +4359,117 @@
           </div>
         `;
       }).join("");
-      const typeSummaries = [
-        { label: "五段", detail: "词尾换到不同音段", example: "書く → 書か／書き／書け" },
-        { label: "一段", detail: "去「る」后直接接", example: "食べる → 食べ＋ない" },
-        { label: "来る", detail: "こ／き／く 分开记", example: "来る → 来（こ）／来（き）" },
-        { label: "する", detail: "し系为主，可能是 できる", example: "する → しない／できる" }
-      ].map((item) => `
-        <div class="memory-type-item">
-          <strong>${escapeHtml(item.label)} · ${escapeHtml(item.detail)}</strong>
-          <span>${escapeHtml(item.example)}</span>
-        </div>
-      `).join("");
       return `
-        <section class="memory-overview" aria-labelledby="memory-overview-title">
+        <div class="memory-overview-grid" id="memory-type-detail" data-memory-type="godan"
+          role="tabpanel" aria-labelledby="memory-type-godan-tab">
+          <article class="memory-card">
+            <div class="memory-card-head">
+              <div>
+                <span class="memory-card-kicker">${escapeHtml(type.label)}</span>
+                <h4>あ・い・う・え・お 变化轴</h4>
+              </div>
+              <span class="memory-card-badge">先记这一张</span>
+            </div>
+            <div class="memory-axis-scroll">
+              <div class="memory-axis" role="list" aria-label="書く的五段音段变化">
+                ${axis}
+              </div>
+            </div>
+            <div class="memory-card-note">
+              <span class="memory-card-note-label">记忆口诀</span>
+              <strong>あ段＋ない · い段＋ます/たい · う段原形 · え段＋ば · お段＋う</strong>
+              <small>${escapeHtml(guide.note)}</small>
+            </div>
+          </article>
+          <article class="memory-card">
+            <div class="memory-card-head">
+              <div>
+                <span class="memory-card-kicker">代表词路径</span>
+                <h4>${escapeHtml(example.dictionary)}（${escapeHtml(example.kana)}）怎么一步步变</h4>
+              </div>
+              <span class="memory-card-badge">词干 · 词尾 · 接续</span>
+            </div>
+            <div class="memory-path-source">
+              <span>起点 · ${escapeHtml(type.label)}「く」</span>
+              <strong>${escapeHtml(example.dictionary)}</strong>
+              <span>${escapeHtml(example.meaning)}</span>
+            </div>
+            <div class="memory-path-list" aria-label="書く的常用变形路径">
+              ${path}
+            </div>
+          </article>
+        </div>
+      `;
+    }
+
+    function renderTypedMemoryPanel(typeId) {
+      const type = typeColumns.find((item) => item.id === typeId);
+      const example = typeExamples[typeId];
+      const guide = VERB_TYPE_MEMORY_GUIDES[typeId];
+      const rows = guide.paths.map((item) => {
+        const result = example.forms[item.formId];
+        return `
+          <div class="memory-path-row">
+            <span class="memory-path-label">${escapeHtml(item.label)}</span>
+            <span class="memory-equation" aria-label="${escapeHtml(result)}">
+              ${renderMemoryParts(typeId, item.parts)}
+              <span class="memory-equation-result">→ ${escapeHtml(result)}</span>
+            </span>
+            <span class="memory-path-formula">${escapeHtml(item.formula)}<br>${escapeHtml(item.use)}</span>
+          </div>
+        `;
+      }).join("");
+      return `
+        <section class="memory-type-detail-panel" id="memory-type-detail" data-memory-type="${escapeHtml(typeId)}"
+          role="tabpanel" aria-labelledby="memory-type-${escapeHtml(typeId)}-tab">
+          <div class="memory-type-detail-head">
+            <div>
+              <span class="memory-card-kicker">当前类型 · 详细变化</span>
+              <h4 id="memory-type-detail-title">${escapeHtml(type.label)}</h4>
+              <p>${escapeHtml(guide.rule)}</p>
+            </div>
+            <span class="memory-type-detail-badge">${escapeHtml(guide.detail)}</span>
+          </div>
+          <div class="memory-path-source">
+            <span>代表词</span>
+            <strong>${escapeHtml(example.dictionary)}</strong>
+            <span>${escapeHtml(example.kana)} · ${escapeHtml(example.meaning)}</span>
+          </div>
+          <div class="memory-path-list" aria-label="${escapeHtml(type.label)}六种常用变化">
+            ${rows}
+          </div>
+          <div class="memory-type-detail-note"><strong>记忆重点：</strong>${escapeHtml(guide.note)}</div>
+        </section>
+      `;
+    }
+
+    function renderMemoryOverview() {
+      const selectedType = getMemoryType();
+      const guide = VERB_TYPE_MEMORY_GUIDES[selectedType.id];
+      const typeSummaries = typeColumns.map((type) => {
+        const detail = VERB_TYPE_MEMORY_GUIDES[type.id];
+        const selected = selectedType.id === type.id;
+        return `
+          <button class="memory-type-item memory-type-tab" type="button" role="tab"
+            id="memory-type-${escapeHtml(type.id)}-tab" aria-controls="memory-type-detail"
+            aria-selected="${selected}" data-action="set-memory-type" data-type-id="${escapeHtml(type.id)}">
+            <strong>${escapeHtml(type.label)}</strong>
+            <span class="memory-type-detail">${escapeHtml(detail.detail)}</span>
+            <span class="memory-type-example">${escapeHtml(detail.example)}</span>
+            <span class="memory-type-focus">${escapeHtml(detail.focus)}</span>
+          </button>
+        `;
+      }).join("");
+      const detailPanel = selectedType.id === "godan"
+        ? renderGodanMemoryPanel() : renderTypedMemoryPanel(selectedType.id);
+      return `
+        <section class="memory-overview" data-memory-type="${escapeHtml(selectedType.id)}"
+          aria-labelledby="memory-overview-title">
           <div class="memory-overview-head">
             <div>
               <p class="eyebrow">Memory / 一眼记忆</p>
-              <h3 id="memory-overview-title">先记词尾怎么走，再看完整变形</h3>
-              <p>五段动词先沿着「あ・い・う・え・お」变化，再把词尾和后续接续连起来。下面用「書く」把常用路径完整走一遍。</p>
+              <h3 id="memory-overview-title">先判断类型，再看它怎么变</h3>
+              <p>四类动词的变化方式不同：五段换音段，一段去「る」，来る和する按特殊路径记。点击下方标签，查看每一类的完整常用变化。</p>
             </div>
             <div class="memory-legend" aria-label="变形图例">
               <span class="memory-legend-item is-root">保留部分</span>
@@ -4090,53 +4478,23 @@
               <span class="memory-legend-item is-exception">例外</span>
             </div>
           </div>
-          <div class="memory-overview-grid">
-            <article class="memory-card">
-              <div class="memory-card-head">
-                <div>
-                  <span class="memory-card-kicker">五段动词</span>
-                  <h4>あ・い・う・え・お 变化轴</h4>
-                </div>
-                <span class="memory-card-badge">先记这一张</span>
-              </div>
-              <div class="memory-axis-scroll">
-                <div class="memory-axis" role="list" aria-label="書く的五段音段变化">
-                  ${axis}
-                </div>
-              </div>
-              <div class="memory-card-note">
-                <span class="memory-card-note-label">记忆口诀</span>
-                <strong>あ段＋ない · い段＋ます/たい · う段原形 · え段＋ば · お段＋う</strong>
-                <small>命令和可能也常从え段理解；「う」结尾的ない形要记住「う→わ」。</small>
-              </div>
-            </article>
-            <article class="memory-card">
-              <div class="memory-card-head">
-                <div>
-                  <span class="memory-card-kicker">代表词路径</span>
-                  <h4>書く（かく）怎么一步步变</h4>
-                </div>
-                <span class="memory-card-badge">词干 · 词尾 · 接续</span>
-              </div>
-              <div class="memory-path-source">
-                <span>起点 · 五段「く」</span>
-                <strong>${escapeHtml(example.dictionary)}</strong>
-                <span>${escapeHtml(example.kana)} · ${escapeHtml(example.meaning)}</span>
-              </div>
-              <div class="memory-path-list" aria-label="書く的常用变形路径">
-                ${path}
-              </div>
-            </article>
+          <div class="memory-type-memory" aria-labelledby="memory-type-memory-title">
+            <div class="memory-type-memory-head">
+              <strong id="memory-type-memory-title">四类动词都要记，不能只看五段</strong>
+              <span>当前：${escapeHtml(selectedType.label)} · ${escapeHtml(guide.detail)}</span>
+            </div>
+            <div class="memory-type-strip" role="tablist" aria-label="选择动词类型">
+              ${typeSummaries}
+            </div>
           </div>
-          <div class="memory-type-strip" aria-label="四类动词记忆提示">
-            ${typeSummaries}
-          </div>
+          ${detailPanel}
         </section>
       `;
     }
 
     function renderDerivedMemoryGroups() {
-      const example = typeExamples.godan;
+      const selectedType = getMemoryType();
+      const example = typeExamples[selectedType.id];
       const groups = DERIVED_MEMORY_GROUPS.map((group) => `
         <article class="derived-memory-group" data-memory-group="${escapeHtml(group.id)}">
           <div class="derived-memory-group-head">
@@ -4147,7 +4505,8 @@
             ${group.forms.map((formId) => {
               const form = getForm(formId);
               const result = form ? example.forms[formId] : "";
-              const rule = MEMORY_FORM_RULES[formId] || (formRules[formId] && formRules[formId].godan) || "";
+              const rule = (formRules[formId] && formRules[formId][selectedType.id])
+                || MEMORY_FORM_RULES[formId] || "";
               return `
                 <div class="derived-memory-form">
                   <span class="derived-memory-form-label">${escapeHtml(form ? form.label : formId)}</span>
@@ -4162,14 +4521,15 @@
         </article>
       `).join("");
       return `
-        <section class="derived-memory" aria-labelledby="derived-memory-title">
+        <section class="derived-memory" data-memory-type="${escapeHtml(selectedType.id)}"
+          aria-labelledby="derived-memory-title">
           <div class="derived-memory-head">
             <div>
               <p class="eyebrow">Use / 按用途记</p>
               <h3 id="derived-memory-title">派生形不要逐行硬背，先记它要表达什么</h3>
-              <p>同一条词尾变化会服务于不同表达。先按用途找到形式，再回到完整表格核对语法术语和各类动词的细节。</p>
+              <p>当前显示 ${escapeHtml(selectedType.label)} 的结果。同一条词尾变化会服务于不同表达，先按用途找到形式，再回到完整表格核对细节。</p>
             </div>
-            <span class="derived-memory-head-badge">19 形 · 5 组</span>
+            <span class="derived-memory-head-badge">${escapeHtml(selectedType.label)} · 19 形</span>
           </div>
           <div class="derived-memory-grid">
             ${groups}
@@ -4206,18 +4566,20 @@
     function renderRulesPanel() {
       const activeGroup = getActiveGroup("rules");
       const forms = getFormsForGroup(activeGroup);
+      const memoryType = getMemoryType();
+      const memoryExample = typeExamples[memoryType.id];
       return `
         <section id="rules-panel" class="panel" role="tabpanel" aria-labelledby="view-rules-tab">
           <div class="panel-intro">
             <div>
               <p class="eyebrow">Rules / 规则讲解</p>
               <h3>把每一种词形盖成一方印</h3>
-              <p>先看变化轴和代表词路径，再按用途理解派生形；完整 25 形表格保留在下方，方便需要时查询。</p>
+              <p>先选择动词类型，查看该类的完整常用变化；再按用途理解派生形，最后用完整 25 形表格查询细节。</p>
             </div>
-            <div class="intro-note">学习起点：<strong>書く（かく）</strong><br>先记五段音段，再看「く」音便。</div>
+            <div class="intro-note">当前类型：<strong>${escapeHtml(memoryType.label)}</strong><br>代表词：${escapeHtml(memoryExample.dictionary)}（${escapeHtml(memoryExample.kana)}）。</div>
           </div>
           ${renderMemoryOverview()}
-          ${renderGodanSoundTable()}
+          ${memoryType.id === "godan" ? renderGodanSoundTable() : renderNonGodanSoundNote()}
           ${renderDerivedMemoryGroups()}
           ${renderExceptionMemory()}
           <details class="reference-details" ${state.referenceOpen ? "open" : ""}>
@@ -4430,7 +4792,7 @@
         : `
           <label class="visually-hidden" for="answer-${escapeHtml(item.id)}">${title}答案</label>
           <input id="answer-${escapeHtml(item.id)}" class="answer-field" type="text" inputmode="text"
-            autocomplete="off" placeholder="${item.kind === "classify" ? "输入词类，如五段" : `输入${title}结果`}"
+          autocomplete="off" placeholder="${item.kind === "classify" ? "输入词类，如一类･五段动词" : `输入${title}结果`}"
             value="${escapeHtml(state.answers[item.id] || "")}"
             data-action="type-answer" data-question-id="${escapeHtml(item.id)}">
         `;
@@ -4935,6 +5297,23 @@
             ? label.replace(/^查看/, "收起")
             : label.replace(/^收起/, "查看"));
         }
+        return;
+      }
+
+      if (action === "set-memory-type") {
+        const typeId = target.dataset.typeId;
+        if (!typeColumns.some((type) => type.id === typeId)) {
+          announce("无法切换到未知的动词类型。");
+          return;
+        }
+        if (state.memoryType === typeId) {
+          return;
+        }
+        state.memoryType = typeId;
+        saveSessionState();
+        renderApp();
+        const selectedType = getMemoryType();
+        announce(`已切换到${selectedType.label}的详细变化。`);
         return;
       }
 

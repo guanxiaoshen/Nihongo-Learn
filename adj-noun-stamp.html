@@ -468,6 +468,433 @@
       animation: panel-enter .45s ease both;
     }
 
+    /* P3：先展示公式、谓语路径和句中功能，完整表格作为查询层 */
+    .adj-memory-overview {
+      display: grid;
+      gap: 14px;
+      padding: 16px;
+      border: 2px solid var(--vermilion);
+      border-radius: 2px;
+      background:
+        linear-gradient(120deg, rgba(var(--vermilion-rgb), .08), transparent 58%),
+        var(--surface-strong);
+      box-shadow: 6px 7px 0 rgba(var(--vermilion-deep-rgb), .08);
+    }
+
+    .adj-memory-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .adj-memory-head h3 {
+      margin: 0;
+      color: var(--ink);
+      font-family: var(--display);
+      font-size: clamp(1.22rem, 2vw, 1.55rem);
+      line-height: 1.2;
+    }
+
+    .adj-memory-head p {
+      max-width: 760px;
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: .82rem;
+      line-height: 1.5;
+    }
+
+    .adj-memory-badge {
+      flex: 0 0 auto;
+      padding: 5px 8px;
+      border: 1px solid var(--vermilion);
+      color: var(--vermilion-deep);
+      background: var(--vermilion-soft);
+      font-size: .7rem;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .adj-formula-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .adj-formula-card {
+      display: grid;
+      align-content: start;
+      gap: 8px;
+      min-width: 0;
+      padding: 12px;
+      border: 1px solid var(--line-strong);
+      background: var(--surface);
+    }
+
+    .adj-formula-card-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .adj-formula-card h4 {
+      margin: 0;
+      color: var(--ink);
+      font-family: var(--display);
+      font-size: 1.05rem;
+    }
+
+    .adj-formula-card-badge {
+      flex: 0 0 auto;
+      color: var(--vermilion-deep);
+      font-size: .7rem;
+      font-weight: 900;
+    }
+
+    .adj-formula-rule {
+      padding: 8px 9px;
+      border-left: 3px solid var(--vermilion);
+      color: var(--vermilion-deep);
+      background: var(--vermilion-soft);
+      font-family: var(--display);
+      font-size: .9rem;
+      font-weight: 900;
+      line-height: 1.4;
+    }
+
+    .adj-formula-note,
+    .adj-formula-example {
+      color: var(--muted);
+      font-size: .74rem;
+      line-height: 1.45;
+    }
+
+    .adj-formula-example {
+      padding-top: 6px;
+      border-top: 1px dashed var(--line);
+      color: var(--ink);
+      font-family: var(--display);
+      font-size: .88rem;
+      font-weight: 800;
+    }
+
+    .adj-predicate-section {
+      display: grid;
+      gap: 9px;
+    }
+
+    .adj-predicate-section-head {
+      display: flex;
+      align-items: baseline;
+      gap: 9px;
+    }
+
+    .adj-predicate-section-head strong {
+      color: var(--vermilion-deep);
+      font-family: var(--display);
+      font-size: 1rem;
+    }
+
+    .adj-predicate-section-head span {
+      color: var(--muted);
+      font-size: .74rem;
+    }
+
+    .adj-predicate-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .adj-predicate-card {
+      display: grid;
+      align-content: start;
+      gap: 8px;
+      min-width: 0;
+      padding: 10px;
+      border: 1px solid var(--line-strong);
+      background: var(--surface);
+    }
+
+    .adj-predicate-card-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 8px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .adj-predicate-card-head strong {
+      color: var(--vermilion-deep);
+      font-family: var(--display);
+      font-size: .94rem;
+    }
+
+    .adj-predicate-card-head span {
+      color: var(--muted);
+      font-size: .68rem;
+      font-weight: 800;
+    }
+
+    .adj-predicate-list {
+      display: grid;
+      gap: 4px;
+    }
+
+    .adj-predicate-row {
+      display: grid;
+      grid-template-columns: 58px minmax(0, 1fr);
+      align-items: baseline;
+      gap: 6px;
+      padding: 5px 6px;
+      background: var(--wash);
+    }
+
+    .adj-predicate-label {
+      color: var(--muted);
+      font-size: .68rem;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .adj-predicate-result {
+      display: inline-flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      min-width: 0;
+      color: var(--ink);
+      font-family: var(--display);
+      font-size: .94rem;
+      font-weight: 900;
+      letter-spacing: .02em;
+    }
+
+    .adj-token {
+      display: inline-block;
+    }
+
+    .adj-token.is-root {
+      color: var(--ink);
+    }
+
+    .adj-token.is-change {
+      padding: 1px 3px;
+      color: var(--vermilion-deep);
+      background: var(--vermilion-soft);
+      box-shadow: inset 0 -2px 0 var(--vermilion);
+    }
+
+    .adj-token.is-suffix {
+      margin-left: 2px;
+      padding: 1px 4px;
+      color: var(--success);
+      background: var(--success-soft);
+      font-family: var(--sans);
+      font-size: .76rem;
+      letter-spacing: 0;
+    }
+
+    .adj-usage-reference {
+      display: grid;
+      gap: 10px;
+      padding: 14px;
+      border: 1px solid var(--line-strong);
+      border-left: 4px solid var(--accent-muted);
+      background: var(--wash);
+    }
+
+    .adj-usage-reference-head {
+      display: flex;
+      align-items: baseline;
+      gap: 9px;
+    }
+
+    .adj-usage-reference-head strong {
+      color: var(--vermilion-deep);
+      font-family: var(--display);
+      font-size: 1rem;
+    }
+
+    .adj-usage-reference-head span {
+      color: var(--muted);
+      font-size: .74rem;
+    }
+
+    .usage-reference-head.adj-usage-reference-head {
+      display: flex;
+      align-items: baseline;
+      gap: 9px;
+    }
+
+    .adj-usage-guide-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .adj-usage-guide {
+      display: grid;
+      align-content: start;
+      gap: 5px;
+      padding: 9px;
+      border: 1px solid var(--line);
+      background: var(--surface);
+    }
+
+    .adj-usage-guide strong {
+      color: var(--vermilion-deep);
+      font-family: var(--display);
+      font-size: .88rem;
+    }
+
+    .adj-usage-guide-formula {
+      color: var(--ink);
+      font-family: var(--display);
+      font-size: .84rem;
+      font-weight: 800;
+      line-height: 1.4;
+    }
+
+    .adj-usage-guide-note {
+      color: var(--muted);
+      font-size: .7rem;
+      line-height: 1.4;
+    }
+
+    .adj-exception-reference {
+      display: grid;
+      gap: 10px;
+      padding: 14px;
+      border: 1px solid var(--line-strong);
+      border-top: 4px solid var(--danger);
+      background: var(--surface);
+    }
+
+    .adj-exception-reference-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .adj-exception-reference-head h3 {
+      margin: 0;
+      color: var(--ink);
+      font-family: var(--display);
+      font-size: 1.05rem;
+    }
+
+    .adj-exception-reference-head span {
+      color: var(--danger);
+      font-size: .7rem;
+      font-weight: 900;
+    }
+
+    .adj-exception-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .adj-exception-card {
+      display: grid;
+      align-content: start;
+      gap: 6px;
+      min-width: 0;
+      padding: 9px;
+      border: 1px solid var(--line);
+      background: var(--surface-strong);
+    }
+
+    .adj-exception-tag {
+      color: var(--danger);
+      font-size: .66rem;
+      font-weight: 900;
+      letter-spacing: .08em;
+    }
+
+    .adj-exception-card h4 {
+      margin: 0;
+      color: var(--ink);
+      font-family: var(--display);
+      font-size: .88rem;
+      line-height: 1.35;
+    }
+
+    .adj-exception-equation {
+      color: var(--vermilion-deep);
+      font-family: var(--display);
+      font-size: .88rem;
+      font-weight: 900;
+      line-height: 1.4;
+    }
+
+    .adj-exception-note {
+      padding-top: 5px;
+      border-top: 1px dashed var(--line);
+      color: var(--muted);
+      font-size: .7rem;
+      line-height: 1.4;
+    }
+
+    .reference-details {
+      border: 2px solid var(--line-strong);
+      background: var(--surface);
+    }
+
+    .reference-details[open] {
+      border-color: var(--vermilion);
+    }
+
+    .reference-details summary {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 11px 13px;
+      color: var(--vermilion-deep);
+      background:
+        linear-gradient(90deg, rgba(var(--vermilion-rgb), .08), transparent 65%),
+        var(--wash);
+      cursor: pointer;
+      font-family: var(--display);
+      font-size: 1rem;
+      font-weight: 900;
+      list-style: none;
+    }
+
+    .reference-details summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .reference-details summary::after {
+      color: var(--muted);
+      content: "展开查询";
+      font-family: var(--sans);
+      font-size: .72rem;
+      font-weight: 800;
+    }
+
+    .reference-details[open] summary::after {
+      content: "收起查询";
+    }
+
+    .reference-details-note {
+      color: var(--muted);
+      font-family: var(--sans);
+      font-size: .72rem;
+      font-weight: 700;
+    }
+
+    .reference-details-body {
+      display: grid;
+      gap: 12px;
+      padding: 12px;
+      border-top: 1px solid var(--line-strong);
+    }
+
     /* P3：练习设置折叠 */
     .config-head {
       display: flex;
@@ -1705,6 +2132,19 @@
         max-width: none;
       }
 
+      .adj-formula-grid,
+      .adj-predicate-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .adj-usage-guide-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .adj-exception-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
       .page-heading-mark {
         width: 54px;
         height: 54px;
@@ -1762,6 +2202,33 @@
       .conjugation-tab small {
         font-size: .74rem;
         line-height: 1.3;
+      }
+
+      .adj-memory-overview {
+        padding: 12px;
+      }
+
+      .adj-memory-head,
+      .adj-usage-reference-head,
+      .adj-exception-reference-head {
+        display: grid;
+        align-items: start;
+        gap: 7px;
+      }
+
+      .usage-reference-head.adj-usage-reference-head {
+        display: grid;
+        align-items: start;
+        gap: 7px;
+      }
+
+      .adj-usage-guide-grid,
+      .adj-exception-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .reference-details-body {
+        padding: 10px;
       }
 
       .rule-table thead th:first-child,
@@ -1974,7 +2441,11 @@
     const typeExamples = adjData.examples;
     const lexicon = adjData.lexicon;
     const usageExamples = adjData.usageExamples || [];
+    const memoryFormulas = adjData.memoryFormulas || [];
+    const usageGuides = adjData.usageGuides || [];
+    const exceptionMemory = adjData.exceptionMemory || [];
     const sentenceTemplates = adjData.sentenceTemplates || {};
+    const MEMORY_FORM_IDS = ["kotei", "hitei", "kako", "kakoHitei", "te", "jouken"];
 
     const answerSets = {};
     allForms.forEach((form) => {
@@ -2006,7 +2477,8 @@
       currentForms: [],
       currentQuestions: [],
       stats: null,
-      configOpen: true
+      configOpen: true,
+      referenceOpen: false
     };
 
     state.stats = loadStats();
@@ -2411,6 +2883,7 @@
         }
       }
       state.configOpen = stored.configOpen !== false;
+      state.referenceOpen = stored.referenceOpen === true;
       if (Array.isArray(stored.currentForms)) {
         state.currentForms = stored.currentForms.filter((id) => allForms.some((form) => form.id === id));
       }
@@ -2453,7 +2926,8 @@
         currentVerb: state.currentVerb,
         currentForms: state.currentForms,
         currentQuestions: state.currentQuestions,
-        configOpen: state.configOpen
+        configOpen: state.configOpen,
+        referenceOpen: state.referenceOpen
       }));
     }
 
@@ -2658,6 +3132,94 @@
       `;
     }
 
+    function renderAdjMemoryParts(typeId, formId) {
+      const example = typeExamples[typeId];
+      const result = example.forms[formId];
+      if (typeId === "i-adj") {
+        const stem = example.dictionary.slice(0, -1);
+        const parts = {
+          kotei: [{ className: "is-root", value: stem }, { className: "is-change", value: "い" }],
+          hitei: [{ className: "is-root", value: stem }, { className: "is-change", value: "く" }, { className: "is-suffix", value: "ない" }],
+          kako: [{ className: "is-root", value: stem }, { className: "is-change", value: "かった" }],
+          kakoHitei: [{ className: "is-root", value: stem }, { className: "is-change", value: "く" }, { className: "is-suffix", value: "なかった" }],
+          te: [{ className: "is-root", value: stem }, { className: "is-change", value: "くて" }],
+          jouken: [{ className: "is-root", value: stem }, { className: "is-change", value: "ければ" }]
+        };
+        return (parts[formId] || [{ className: "is-change", value: result }])
+          .map((part) => `<span class="adj-token ${part.className}">${escapeHtml(part.value)}</span>`)
+          .join("");
+      }
+      const suffix = result.indexOf(example.dictionary) === 0
+        ? result.slice(example.dictionary.length) : result;
+      return `
+        <span class="adj-token is-root">${escapeHtml(example.dictionary)}</span>
+        ${suffix ? `<span class="adj-token is-suffix">${escapeHtml(suffix)}</span>` : ""}
+      `;
+    }
+
+    function renderAdjMemoryOverview() {
+      const formulaCards = memoryFormulas.map((formula) => `
+        <article class="adj-formula-card">
+          <div class="adj-formula-card-head">
+            <h4>${escapeHtml(formula.label)}</h4>
+            <span class="adj-formula-card-badge">${escapeHtml(formula.badge)}</span>
+          </div>
+          <strong class="adj-formula-rule">${escapeHtml(formula.formula)}</strong>
+          <span class="adj-formula-note">${escapeHtml(formula.note)}</span>
+          <span class="adj-formula-example">${escapeHtml(formula.example)}</span>
+        </article>
+      `).join("");
+      const predicateCards = typeColumns.map((type) => {
+        const example = typeExamples[type.id];
+        const rows = MEMORY_FORM_IDS.map((formId) => {
+          const form = getForm(formId);
+          return `
+            <div class="adj-predicate-row">
+              <span class="adj-predicate-label">${escapeHtml(form ? form.label : formId)}</span>
+              <strong class="adj-predicate-result" aria-label="${escapeHtml(example.forms[formId])}">
+                ${renderAdjMemoryParts(type.id, formId)}
+              </strong>
+            </div>
+          `;
+        }).join("");
+        return `
+          <article class="adj-predicate-card">
+            <div class="adj-predicate-card-head">
+              <strong>${escapeHtml(type.label)}</strong>
+              <span>${escapeHtml(example.dictionary)} · ${escapeHtml(example.kana)}</span>
+            </div>
+            <div class="adj-predicate-list" aria-label="${escapeHtml(type.label)}六种谓语变化">
+              ${rows}
+            </div>
+          </article>
+        `;
+      }).join("");
+      return `
+        <section class="adj-memory-overview" aria-labelledby="adj-memory-title">
+          <div class="adj-memory-head">
+            <div>
+              <p class="eyebrow">Memory / 一眼记忆</p>
+              <h3 id="adj-memory-title">先记两条公式，再看六种谓语变化</h3>
+              <p>い形容词先去「い」再接后缀；な形容词和名词保留词干，接上「だ」系。下面用三个代表词把六种基本变化连成一条路径。</p>
+            </div>
+            <span class="adj-memory-badge">2 条公式 · 6 种变化</span>
+          </div>
+          <div class="adj-formula-grid" aria-label="形容词和名词核心公式">
+            ${formulaCards}
+          </div>
+          <div class="adj-predicate-section">
+            <div class="adj-predicate-section-head">
+              <strong>谓语变化路径</strong>
+              <span>先看句末怎么变，再看名词前和动词前的连接</span>
+            </div>
+            <div class="adj-predicate-grid">
+              ${predicateCards}
+            </div>
+          </div>
+        </section>
+      `;
+    }
+
     function renderSoundReference() {
       return `
         <aside class="sound-reference" aria-labelledby="sound-reference-title">
@@ -2716,10 +3278,22 @@
 
     function renderUsageReference() {
       return `
-        <section class="usage-reference" aria-labelledby="usage-reference-title">
-          <div class="usage-reference-head">
-            <h3 id="usage-reference-title">词类放进句子里</h3>
-            <p>注意词类在句中的连接方式：い形容词直接修饰名词，な形容词接 な，名词通常接 の。</p>
+        <section class="usage-reference adj-usage-reference" aria-labelledby="usage-reference-title">
+          <div class="usage-reference-head adj-usage-reference-head">
+            <div>
+              <h3 id="usage-reference-title">句中功能：定语、副词和名词连接</h3>
+              <p>上方六行是谓语变化；这里单独看词放在名词前、动词前和名词之间时怎么连接。</p>
+            </div>
+            <span>先看后面接什么</span>
+          </div>
+          <div class="adj-usage-guide-grid" aria-label="形容词和名词句中功能">
+            ${usageGuides.map((guide) => `
+              <article class="adj-usage-guide">
+                <strong>${escapeHtml(guide.label)}</strong>
+                <span class="adj-usage-guide-formula">${escapeHtml(guide.formula)}</span>
+                <span class="adj-usage-guide-note">${escapeHtml(guide.note)}</span>
+              </article>
+            `).join("")}
           </div>
           <div class="usage-grid">
             ${usageExamples.map((example) => `
@@ -2728,6 +3302,27 @@
                 <div class="usage-card-sentence">${escapeHtml(example.sentence)}</div>
                 <div class="usage-card-translation">${escapeHtml(example.translation)}</div>
                 <div class="usage-card-note">${escapeHtml(example.note)}</div>
+              </article>
+            `).join("")}
+          </div>
+        </section>
+      `;
+    }
+
+    function renderExceptionReference() {
+      return `
+        <section class="adj-exception-reference" aria-labelledby="adj-exception-title">
+          <div class="adj-exception-reference-head">
+            <h3 id="adj-exception-title">易错词：看到词尾也要确认词类</h3>
+            <span>公式之外，记住词的身份和位置</span>
+          </div>
+          <div class="adj-exception-grid">
+            ${exceptionMemory.map((item) => `
+              <article class="adj-exception-card" data-exception-id="${escapeHtml(item.id)}">
+                <span class="adj-exception-tag">${escapeHtml(item.tag)}</span>
+                <h4>${escapeHtml(item.title)}</h4>
+                <strong class="adj-exception-equation">${escapeHtml(item.equation)}</strong>
+                <span class="adj-exception-note">${escapeHtml(item.note)}</span>
               </article>
             `).join("")}
           </div>
@@ -2764,15 +3359,25 @@
             <div>
               <p class="eyebrow">Rules / 规则讲解</p>
               <h3>把每一种词形盖成一方印</h3>
-              <p>主表只保留活用形和词类，规则摘要在卡片正面，翻开后查看代表词、结果和推导过程。</p>
+              <p>先看两条核心公式和三类代表词的变化路径，再区分定语、副词和名词连接；完整六形表格保留在下方查询。</p>
             </div>
-            <div class="intro-note">样例固定词：<strong>高い（たかい）</strong><br>用于展示い形容词「い → く」变形。</div>
+            <div class="intro-note">学习起点：<strong>高い（たかい）</strong><br>先记「い → く／け」，再对照「だ」系。</div>
           </div>
-          <section class="group-body">
-            ${renderRuleTable(allForms)}
-          </section>
-          ${renderSoundReference()}
+          ${renderAdjMemoryOverview()}
           ${renderUsageReference()}
+          ${renderExceptionReference()}
+          <details class="reference-details" ${state.referenceOpen ? "open" : ""}>
+            <summary>
+              <span>完整变化查询</span>
+              <span class="reference-details-note">6 形 × 3 类词 · 需要时展开</span>
+            </summary>
+            <div class="reference-details-body">
+              <section class="group-body">
+                ${renderRuleTable(allForms)}
+              </section>
+              ${renderSoundReference()}
+            </div>
+          </details>
         </section>
       `;
     }
@@ -3271,6 +3876,13 @@
         </nav>
         ${state.view === "rules" ? renderRulesPanel() : renderPracticePanel()}
       `;
+      const referenceDetails = elements.appShell.querySelector(".reference-details");
+      if (referenceDetails) {
+        referenceDetails.addEventListener("toggle", () => {
+          state.referenceOpen = referenceDetails.open;
+          saveSessionState();
+        });
+      }
       window.NihongoTheme.updateSwitcher();
     }
 

@@ -37,10 +37,10 @@
   ];
 
   var typeColumns = [
-    { id: "godan", label: "第 I 类／五段" },
-    { id: "ichidan", label: "第 II 类／一段" },
-    { id: "kuru", label: "第 III 类／か変" },
-    { id: "suru", label: "第 III 类／さ変" }
+    { id: "godan", label: "一类･五段动词" },
+    { id: "ichidan", label: "二类･一段动词" },
+    { id: "kuru", label: "三类･カ变动词" },
+    { id: "suru", label: "三类･サ变动词" }
   ];
 
   /* 25 形 × 4 类：规则讲解卡片正面的规则文本 */

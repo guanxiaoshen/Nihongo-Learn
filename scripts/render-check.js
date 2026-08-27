@@ -75,7 +75,32 @@ dom.window.addEventListener('load', function () {
       assert('完整规则表位于可展开查询层', doc.querySelector('.reference-details') !== null
         && doc.querySelector('.reference-details .rule-table') !== null);
       assert('两个主 Tab', doc.querySelectorAll('.main-tab').length === 2);
-      assert('4 类动词列', ['五段', '一段', 'か変', 'さ変'].every(function (s) { return shell.innerHTML.includes(s); }));
+      assert('4 类动词列', ['五段', '一段', 'カ变', 'サ变'].every(function (s) { return shell.innerHTML.includes(s); }));
+      assert('动词类型使用完整中文标注', [
+        '一类･五段动词', '二类･一段动词', '三类･カ变动词', '三类･サ变动词'
+      ].every(function (label) { return shell.innerHTML.includes(label); }));
+      assert('四类动词记忆卡全部可见', doc.querySelectorAll('.memory-type-item').length === 4
+        && doc.querySelectorAll('.memory-type-item strong').length === 4);
+      const memoryTypeResults = {
+        godan: ['書かない', '書きます', '書いて', '書いた', '書けば', '書こう'],
+        ichidan: ['食べない', '食べます', '食べて', '食べた', '食べれば', '食べよう'],
+        kuru: ['来ない', '来ます', '来て', '来た', '来れば', '来よう'],
+        suru: ['しない', 'します', 'して', 'した', 'すれば', 'しよう']
+      };
+      Object.entries(memoryTypeResults).forEach(function (entry) {
+        const typeId = entry[0];
+        doc.querySelector('[data-action="set-memory-type"][data-type-id="' + typeId + '"]').click();
+        assert(typeId + ' 类型显示详细六种变化', doc.querySelector('[data-memory-type="' + typeId + '"]') !== null
+          && doc.querySelector('.memory-path-row') !== null
+          && doc.querySelectorAll('.memory-path-row').length === 6
+          && entry[1].every(function (value) { return shell.innerHTML.includes(value); }));
+        assert(typeId + ' 类型同步派生形结果', doc.querySelector('.derived-memory[data-memory-type="' + typeId + '"]') !== null);
+      });
+      doc.querySelector('[data-action="set-memory-type"][data-type-id="ichidan"]').click();
+      assert('动词类型标签选择会保存当前类型', dom.window.eval('state.memoryType') === 'ichidan'
+        && JSON.parse(dom.window.sessionStorage.getItem('verb-conjugation-stamp-state-v1')).memoryType === 'ichidan');
+      doc.querySelector('[data-action="set-memory-type"][data-type-id="godan"]').click();
+      assert('切回一类･五段动词后保留五段音变表', doc.querySelector('.sound-annex') !== null);
       assert('基础六形卡片 24 张', doc.querySelectorAll('.rule-card').length === 24);
       assert('音变表存在（sound-annex 并入规则表区）', shell.innerHTML.includes('sound-annex'));
       assert('卡片背面含 ruby 注音', doc.querySelectorAll('.card-example-result ruby').length > 0);
@@ -226,6 +251,9 @@ dom.window.addEventListener('load', function () {
       doc.querySelector('[data-action="set-practice-kind"][data-kind="classify"]').click();
       doc.querySelector('[data-action="start-practice"]').click();
       assert('词类判断生成类型选项', doc.querySelectorAll('.type-choice-grid').length === 10);
+      assert('词类判断选项使用完整类型标注', [
+        '一类･五段动词', '二类･一段动词', '三类･カ变动词', '三类･サ变动词'
+      ].every(function (label) { return shell.innerHTML.includes(label); }));
       doc.querySelector('[data-action="set-practice-kind"][data-kind="polite"]').click();
       doc.querySelector('[data-action="start-practice"]').click();
       assert('普通／礼貌体题型生成转换提示', doc.querySelectorAll('.conversion-prompt').length === 10);

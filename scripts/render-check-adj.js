@@ -46,6 +46,35 @@ dom.window.addEventListener('load', function () {
 
       console.log('--- 规则视图 ---');
       assert('规则表格存在', shell.innerHTML.includes('rule-table'));
+      assert('P3 记忆优先总览存在', doc.querySelector('.adj-memory-overview') !== null);
+      assert('P3 两条核心公式', doc.querySelectorAll('.adj-formula-card').length === 2
+        && ['い形容词', 'な形容词／名词'].every(function (text) { return shell.innerHTML.includes(text); }));
+      assert('P3 三类词六种谓语路径', doc.querySelectorAll('.adj-predicate-card').length === 3
+        && doc.querySelectorAll('.adj-predicate-row').length === 18);
+      assert('P3 谓语路径覆盖代表词', ['高い', '静か', '学生'].every(function (text) {
+        return shell.innerHTML.includes(text);
+      }));
+      assert('P3 定语/副词/谓语功能分层', doc.querySelector('.adj-usage-reference') !== null
+        && doc.querySelectorAll('.adj-usage-guide').length === 3
+        && ['定语', '副词', '谓语'].every(function (text) { return shell.innerHTML.includes(text); }));
+      assert('P3 易错词就地提示', doc.querySelector('.adj-exception-reference') !== null
+        && doc.querySelectorAll('.adj-exception-card').length === 4
+        && ['いい', 'よくない', 'きれいな部屋', '学生の本'].every(function (text) {
+          return shell.innerHTML.includes(text);
+        }));
+      assert('完整六形表格位于可展开查询层', doc.querySelector('.reference-details') !== null
+        && doc.querySelector('.reference-details .rule-table') !== null);
+      const referenceDetails = doc.querySelector('.reference-details');
+      assert('完整查询层默认收起', referenceDetails.open === false);
+      referenceDetails.querySelector('summary').click();
+      referenceDetails.dispatchEvent(new dom.window.Event('toggle'));
+      assert('完整查询层可展开并保存状态', referenceDetails.open === true
+        && dom.window.eval('state.referenceOpen') === true
+        && JSON.parse(dom.window.sessionStorage.getItem('adj-noun-stamp-state-v1')).referenceOpen === true);
+      referenceDetails.querySelector('summary').click();
+      referenceDetails.dispatchEvent(new dom.window.Event('toggle'));
+      assert('完整查询层可收起并保存状态', referenceDetails.open === false
+        && dom.window.eval('state.referenceOpen') === false);
       assert('3 类词列', ['い形容词', 'な形容词', '名词'].every(function (s) { return shell.innerHTML.includes(s); }));
       assert('规则卡片 6形×3类=18 张', doc.querySelectorAll('.rule-card').length === 18);
       assert('卡片背面含 ruby 注音', doc.querySelectorAll('.card-example-result ruby').length > 0);
