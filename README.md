@@ -80,6 +80,7 @@ Remove-Item -LiteralPath node_modules -Recurse -Force
 
 ## 文档
 
+- `docs/产品理念与扩展规范.md`：产品定位、记忆优先原则和新增语法模块（如助词）的扩展规范；
 - `docs/需求澄清问题清单.md`：需求基线、数据规模和功能里程碑；
 - `docs/项目管理与迭代计划.md`：规则图谱的信息架构、迭代路线、当前进度和验收标准；
 - `docs/ui-review.md`：视觉、可读性、无障碍和响应式审查；
