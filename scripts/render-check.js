@@ -87,6 +87,11 @@ dom.window.addEventListener('load', function () {
         kuru: ['来ない', '来ます', '来て', '来た', '来れば', '来よう'],
         suru: ['しない', 'します', 'して', 'した', 'すれば', 'しよう']
       };
+      const memoryTypeAxisResults = {
+        ichidan: ['未然形', '连用形', '终止／连体', '假定形', '意志形', '食べ', '去「る」'],
+        kuru: ['未然形', '连用形', '终止／连体', '假定形', '意志形', '来（こ）', '来（き）', '来る（くる）'],
+        suru: ['未然形', '连用形', '终止／连体', '假定形', '意志形', 'し', 'する', 'すれ', 'しよう']
+      };
       Object.entries(memoryTypeResults).forEach(function (entry) {
         const typeId = entry[0];
         doc.querySelector('[data-action="set-memory-type"][data-type-id="' + typeId + '"]').click();
@@ -94,6 +99,14 @@ dom.window.addEventListener('load', function () {
           && doc.querySelector('.memory-path-row') !== null
           && doc.querySelectorAll('.memory-path-row').length === 6
           && entry[1].every(function (value) { return shell.innerHTML.includes(value); }));
+        if (typeId !== 'godan') {
+          const axis = doc.querySelector('[data-memory-type="' + typeId + '"] .memory-axis');
+          assert(typeId + ' 类型显示完整基础活用骨架', axis !== null
+            && axis.querySelectorAll('.memory-axis-column').length === 5
+            && memoryTypeAxisResults[typeId].every(function (text) {
+              return axis.textContent.includes(text);
+            }));
+        }
         assert(typeId + ' 类型同步派生形结果', doc.querySelector('.derived-memory[data-memory-type="' + typeId + '"]') !== null);
       });
       doc.querySelector('[data-action="set-memory-type"][data-type-id="ichidan"]').click();

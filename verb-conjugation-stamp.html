@@ -1052,11 +1052,13 @@
     .derived-memory-grid {
       display: grid;
       grid-template-columns: repeat(5, minmax(0, 1fr));
+      align-items: start;
       gap: 8px;
     }
 
     .derived-memory-group {
       display: grid;
+      align-self: start;
       align-content: start;
       gap: 8px;
       min-width: 0;
@@ -1091,9 +1093,8 @@
 
     .derived-memory-form {
       display: grid;
-      grid-template-columns: auto minmax(0, 1fr);
-      align-items: baseline;
-      gap: 6px;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 3px;
       padding: 5px 6px;
       border-left: 3px solid var(--accent-muted);
       background: var(--wash);
@@ -1103,7 +1104,8 @@
       color: var(--muted);
       font-size: .68rem;
       font-weight: 900;
-      white-space: nowrap;
+      line-height: 1.2;
+      overflow-wrap: anywhere;
     }
 
     .derived-memory-form-content {
@@ -1424,15 +1426,26 @@
     .rule-table {
       width: 100%;
       min-width: 1060px;
-      border-collapse: collapse;
+      border-collapse: separate;
+      border-spacing: 0;
       table-layout: fixed;
     }
 
     .rule-table th,
     .rule-table td {
       padding: 10px;
-      border: 1px solid rgba(var(--vermilion-deep-rgb), .28);
+      border-width: 0 1px 1px 0;
+      border-style: solid;
+      border-color: rgba(var(--vermilion-deep-rgb), .28);
       vertical-align: top;
+    }
+
+    .rule-table thead tr:first-child > * {
+      border-top-width: 1px;
+    }
+
+    .rule-table tr > *:first-child {
+      border-left-width: 1px;
     }
 
     .rule-table thead th {
@@ -1450,67 +1463,81 @@
     .rule-table thead th:first-child {
       left: 0;
       z-index: 8;
-      width: 132px;
-      min-width: 132px;
+      width: 88px;
+      min-width: 88px;
+      padding: 8px 4px;
       text-align: center;
     }
 
     .form-header-main {
-      display: block;
+      display: inline-block;
       font-family: var(--display);
-      font-size: .94rem;
-      letter-spacing: .08em;
-      line-height: 1.2;
+      font-size: .86rem;
+      letter-spacing: .05em;
+      line-height: 1;
+      writing-mode: vertical-rl;
+      text-orientation: upright;
+      vertical-align: middle;
     }
 
     .form-header-sub {
-      display: block;
-      margin-top: 3px;
+      display: inline-block;
+      margin: 0 0 0 4px;
       color: rgba(var(--surface-rgb), .72);
       font-family: var(--mono);
-      font-size: .62rem;
+      font-size: .56rem;
       font-weight: 700;
-      letter-spacing: .16em;
+      letter-spacing: .12em;
       line-height: 1;
       text-transform: uppercase;
+      writing-mode: vertical-rl;
+      text-orientation: upright;
+      vertical-align: middle;
     }
 
     .rule-table .form-cell {
       position: sticky;
       left: 0;
       z-index: 4;
-      width: 132px;
-      min-width: 132px;
-      padding: 12px 8px;
+      width: 88px;
+      min-width: 88px;
+      padding: 8px 5px;
       color: var(--vermilion-deep);
       background:
-        repeating-linear-gradient(45deg, transparent 0 9px, rgba(var(--vermilion-rgb), .025) 10px 11px, transparent 12px 22px),
-        var(--wash);
-      box-shadow: inset 4px 0 0 var(--vermilion);
+        linear-gradient(145deg, rgba(var(--vermilion-rgb), .06), transparent 72%),
+        var(--surface);
       vertical-align: middle;
       text-align: center;
     }
 
-    .rule-table .form-cell[data-form-group="base"] {
-      box-shadow: inset 6px 0 0 var(--vermilion);
-    }
-
     .form-cell-content {
       display: grid;
-      min-height: 132px;
-      align-content: center;
+      grid-template-columns: 27px minmax(0, 1fr);
+      grid-template-rows: auto minmax(0, 1fr);
+      align-items: center;
       justify-items: center;
-      gap: 6px;
+      gap: 5px 6px;
+      height: 162px;
+      min-height: 162px;
+      padding: 8px 5px;
+      border: 2px solid var(--line-strong);
+      background:
+        repeating-linear-gradient(45deg, transparent 0 10px, rgba(var(--vermilion-rgb), .025) 11px 12px, transparent 13px 24px),
+        var(--surface-strong);
+      box-shadow: inset 0 0 0 1px var(--line), 3px 3px 0 rgba(var(--vermilion-deep-rgb), .06);
     }
 
     .form-index {
       display: inline-grid;
-      min-width: 30px;
-      height: 24px;
+      grid-column: 1;
+      grid-row: 1;
+      width: 27px;
+      min-width: 27px;
+      height: 27px;
       place-items: center;
-      padding: 0 7px;
+      padding: 0;
       border: 1px solid var(--vermilion);
-      border-radius: 999px;
+      border-radius: 2px;
       color: var(--vermilion-deep);
       background: var(--vermilion-soft);
       font-family: var(--mono);
@@ -1520,7 +1547,10 @@
       line-height: 1;
     }
 
-    .rule-table tbody tr:hover .form-cell {
+    .rule-table tbody tr:hover > th,
+    .rule-table tbody tr:hover > td,
+    .rule-table tbody tr:focus-within > th,
+    .rule-table tbody tr:focus-within > td {
       background: var(--vermilion-soft);
     }
 
@@ -1536,24 +1566,32 @@
 
     .form-name {
       display: block;
+      grid-column: 2;
+      grid-row: 1 / span 2;
       max-width: 100%;
       color: var(--vermilion-deep);
       font-family: var(--display);
-      font-size: 1rem;
+      font-size: .92rem;
       font-weight: 900;
       letter-spacing: .02em;
-      line-height: 1.25;
-      overflow-wrap: anywhere;
+      line-height: 1.1;
+      white-space: nowrap;
+      writing-mode: vertical-rl;
+      text-orientation: upright;
     }
 
     .form-jp {
       display: block;
-      margin-top: 0;
+      grid-column: 1;
+      grid-row: 2;
       color: var(--accent-muted);
-      font-size: .72rem;
+      font-size: .62rem;
       font-weight: 800;
-      letter-spacing: .06em;
-      line-height: 1.3;
+      letter-spacing: .04em;
+      line-height: 1.1;
+      white-space: nowrap;
+      writing-mode: vertical-rl;
+      text-orientation: upright;
     }
 
     .form-cell[data-form-group="derived"] .form-index {
@@ -2996,34 +3034,37 @@
 
       .rule-table thead th:first-child,
       .rule-table .form-cell {
-        width: 112px;
-        min-width: 112px;
+        width: 80px;
+        min-width: 80px;
       }
 
       .rule-table .form-cell {
-        padding: 10px 6px;
+        padding: 6px 4px;
       }
 
       .form-cell-content {
-        min-height: 132px;
-        gap: 5px;
+        grid-template-columns: 24px minmax(0, 1fr);
+        height: 162px;
+        min-height: 162px;
+        gap: 4px;
+        padding: 7px 4px;
       }
 
       .form-index {
-        min-width: 27px;
-        height: 22px;
-        padding: 0 6px;
-        font-size: .62rem;
+        width: 24px;
+        min-width: 24px;
+        height: 24px;
+        font-size: .58rem;
       }
 
       .form-name {
-        font-size: .9rem;
+        font-size: .82rem;
         letter-spacing: 0;
       }
 
       .form-jp {
-        font-size: .66rem;
-        letter-spacing: .03em;
+        font-size: .58rem;
+        letter-spacing: .02em;
       }
 
       .practice-prompt {
@@ -3247,6 +3288,30 @@
       { formId: "kateikei", label: "え段", term: "假定", formula: "＋ば／命令" },
       { formId: "ishi", label: "お段", term: "意志", formula: "＋う", trimSuffix: "う" }
     ];
+
+    const TYPED_MEMORY_AXES = {
+      ichidan: [
+        { formId: "mizenkei", label: "未然形", term: "词干", formula: "去「る」" },
+        { formId: "renyoukei", label: "连用形", term: "词干", formula: "接 ます／たい" },
+        { formId: "shuushikei", label: "终止／连体", term: "辞书形", formula: "句末／名词前" },
+        { formId: "kateikei", label: "假定形", term: "词干＋れ", formula: "接 ば／命令" },
+        { formId: "ishi", label: "意志形", term: "词干＋よう", formula: "提议／意志" }
+      ],
+      kuru: [
+        { formId: "mizenkei", label: "未然形", term: "こ", formula: "来（こ）＋ない" },
+        { formId: "renyoukei", label: "连用形", term: "き", formula: "来（き）＋ます" },
+        { formId: "shuushikei", label: "终止／连体", term: "くる", formula: "来る（くる）" },
+        { formId: "kateikei", label: "假定形", term: "くれ", formula: "来れ（くれ）＋ば" },
+        { formId: "ishi", label: "意志形", term: "こ", formula: "来（こ）＋よう" }
+      ],
+      suru: [
+        { formId: "mizenkei", label: "未然形", term: "し", formula: "し＋ない／される" },
+        { formId: "renyoukei", label: "连用形", term: "し", formula: "し＋ます／たい" },
+        { formId: "shuushikei", label: "终止／连体", term: "する", formula: "辞书形" },
+        { formId: "kateikei", label: "假定形", term: "すれ", formula: "すれ＋ば" },
+        { formId: "ishi", label: "意志形", term: "し", formula: "し＋よう" }
+      ]
+    };
 
     const GODAN_MEMORY_PATHS = [
       { formId: "nai", label: "ない形", suffix: "ない", formula: "あ段＋ない", use: "不做某事" },
@@ -4323,6 +4388,21 @@
       }).join("");
     }
 
+    function renderTypedMemoryAxis(typeId) {
+      const example = typeExamples[typeId];
+      return TYPED_MEMORY_AXES[typeId].map((item) => {
+        const value = example.forms[item.formId];
+        return `
+          <div class="memory-axis-column" role="listitem">
+            <span class="memory-axis-label">${escapeHtml(item.label)}</span>
+            <span class="memory-axis-term">${escapeHtml(item.term)}</span>
+            <strong class="memory-axis-sample" aria-label="${escapeHtml(value)}">${escapeHtml(value)}</strong>
+            <span class="memory-axis-formula">${escapeHtml(item.formula)}</span>
+          </div>
+        `;
+      }).join("");
+    }
+
     function renderGodanMemoryPanel() {
       const example = typeExamples.godan;
       const type = typeColumns.find((item) => item.id === "godan");
@@ -4360,45 +4440,55 @@
         `;
       }).join("");
       return `
-        <div class="memory-overview-grid" id="memory-type-detail" data-memory-type="godan"
+        <section class="memory-type-detail-panel" id="memory-type-detail" data-memory-type="godan"
           role="tabpanel" aria-labelledby="memory-type-godan-tab">
-          <article class="memory-card">
-            <div class="memory-card-head">
-              <div>
-                <span class="memory-card-kicker">${escapeHtml(type.label)}</span>
-                <h4>あ・い・う・え・お 变化轴</h4>
+          <div class="memory-type-detail-head">
+            <div>
+              <span class="memory-card-kicker">当前类型 · 详细变化</span>
+              <h4 id="memory-type-detail-title">${escapeHtml(type.label)}</h4>
+              <p>${escapeHtml(guide.rule)}</p>
+            </div>
+            <span class="memory-type-detail-badge">${escapeHtml(guide.detail)}</span>
+          </div>
+          <div class="memory-overview-grid">
+            <article class="memory-card">
+              <div class="memory-card-head">
+                <div>
+                  <span class="memory-card-kicker">基础活用骨架</span>
+                  <h4>あ・い・う・え・お 变化轴</h4>
+                </div>
+                <span class="memory-card-badge">先记这一张</span>
               </div>
-              <span class="memory-card-badge">先记这一张</span>
-            </div>
-            <div class="memory-axis-scroll">
-              <div class="memory-axis" role="list" aria-label="書く的五段音段变化">
-                ${axis}
+              <div class="memory-axis-scroll">
+                <div class="memory-axis" role="list" aria-label="書く的五段音段变化">
+                  ${axis}
+                </div>
               </div>
-            </div>
-            <div class="memory-card-note">
-              <span class="memory-card-note-label">记忆口诀</span>
-              <strong>あ段＋ない · い段＋ます/たい · う段原形 · え段＋ば · お段＋う</strong>
-              <small>${escapeHtml(guide.note)}</small>
-            </div>
-          </article>
-          <article class="memory-card">
-            <div class="memory-card-head">
-              <div>
-                <span class="memory-card-kicker">代表词路径</span>
-                <h4>${escapeHtml(example.dictionary)}（${escapeHtml(example.kana)}）怎么一步步变</h4>
+              <div class="memory-card-note">
+                <span class="memory-card-note-label">记忆口诀</span>
+                <strong>あ段＋ない · い段＋ます/たい · う段原形 · え段＋ば · お段＋う</strong>
+                <small>${escapeHtml(guide.note)}</small>
               </div>
-              <span class="memory-card-badge">词干 · 词尾 · 接续</span>
-            </div>
-            <div class="memory-path-source">
-              <span>起点 · ${escapeHtml(type.label)}「く」</span>
-              <strong>${escapeHtml(example.dictionary)}</strong>
-              <span>${escapeHtml(example.meaning)}</span>
-            </div>
-            <div class="memory-path-list" aria-label="書く的常用变形路径">
-              ${path}
-            </div>
-          </article>
-        </div>
+            </article>
+            <article class="memory-card">
+              <div class="memory-card-head">
+                <div>
+                  <span class="memory-card-kicker">代表词路径</span>
+                  <h4>${escapeHtml(example.dictionary)}（${escapeHtml(example.kana)}）怎么一步步变</h4>
+                </div>
+                <span class="memory-card-badge">词干 · 词尾 · 接续</span>
+              </div>
+              <div class="memory-path-source">
+                <span>起点 · ${escapeHtml(type.label)}「く」</span>
+                <strong>${escapeHtml(example.dictionary)}</strong>
+                <span>${escapeHtml(example.meaning)}</span>
+              </div>
+              <div class="memory-path-list" aria-label="書く的常用变形路径">
+                ${path}
+              </div>
+            </article>
+          </div>
+        </section>
       `;
     }
 
@@ -4406,6 +4496,7 @@
       const type = typeColumns.find((item) => item.id === typeId);
       const example = typeExamples[typeId];
       const guide = VERB_TYPE_MEMORY_GUIDES[typeId];
+      const axis = renderTypedMemoryAxis(typeId);
       const rows = guide.paths.map((item) => {
         const result = example.forms[item.formId];
         return `
@@ -4430,15 +4521,44 @@
             </div>
             <span class="memory-type-detail-badge">${escapeHtml(guide.detail)}</span>
           </div>
-          <div class="memory-path-source">
-            <span>代表词</span>
-            <strong>${escapeHtml(example.dictionary)}</strong>
-            <span>${escapeHtml(example.kana)} · ${escapeHtml(example.meaning)}</span>
-          </div>
-          <div class="memory-path-list" aria-label="${escapeHtml(type.label)}六种常用变化">
-            ${rows}
-          </div>
-          <div class="memory-type-detail-note"><strong>记忆重点：</strong>${escapeHtml(guide.note)}</div>
+          <div class="memory-overview-grid">
+           <article class="memory-card">
+             <div class="memory-card-head">
+               <div>
+                 <span class="memory-card-kicker">基础活用骨架</span>
+                 <h4>五个活用位置怎么接</h4>
+               </div>
+               <span class="memory-card-badge">先记这一张</span>
+             </div>
+             <div class="memory-axis-scroll">
+               <div class="memory-axis" role="list" aria-label="${escapeHtml(type.label)}基础活用位置">
+                 ${axis}
+               </div>
+             </div>
+             <div class="memory-card-note">
+               <span class="memory-card-note-label">记忆重点</span>
+               <strong>${escapeHtml(guide.detail)}</strong>
+               <small>${escapeHtml(guide.note)}</small>
+             </div>
+           </article>
+           <article class="memory-card">
+             <div class="memory-card-head">
+               <div>
+                 <span class="memory-card-kicker">代表词路径</span>
+                 <h4>${escapeHtml(example.dictionary)}（${escapeHtml(example.kana)}）怎么一步步变</h4>
+               </div>
+               <span class="memory-card-badge">词干 · 词尾 · 接续</span>
+             </div>
+             <div class="memory-path-source">
+               <span>代表词</span>
+               <strong>${escapeHtml(example.dictionary)}</strong>
+               <span>${escapeHtml(example.kana)} · ${escapeHtml(example.meaning)}</span>
+             </div>
+             <div class="memory-path-list" aria-label="${escapeHtml(type.label)}六种常用变化">
+               ${rows}
+             </div>
+           </article>
+         </div>
         </section>
       `;
     }
