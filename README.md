@@ -8,6 +8,8 @@
 | `index.html` | 首页导航与五套和风主题 |
 | `verb-conjugation-stamp.html` | 动词 25 个活用/接续形、五段音变、句子辨析与练习 |
 | `adj-noun-stamp.html` | い形容词、な形容词、名词的六种变化与练习 |
+| `particles-stamp.html` | 按核心/扩展语义角色学习 20 条规则（覆盖 19 个常用助词），含用途路径、对比、限制与即时判断 |
+| `counter-stamp.html` | 按对象类别学习常用量词，并区分时刻、分钟、月份、日期与持续时间的读法 |
 
 规则页的目标不是让学习者一次背完所有行，而是沿着“起点 → 变化 → 接续 → 用途 → 例外”的路径理解规则。动词页已优先展示四类动词标签，并可分别查看一类･五段动词、二类･一段动词、三类･カ变动词、三类･サ变动词的六种常用变化；同时保留五段 `あ・い・う・え・お` 变化轴、`書く` 的常用变形路径、按用途组织的 19 个派生形、`て／た` 音便记忆顺序和词干/接续分层。形容词/名词页已优先展示两条核心公式、三类词的六种谓语路径，以及定语、副词和名词连接的句中功能分层。完整表格作为查询层保留。规则页同时提供短句，帮助从“记形式”过渡到“理解用法”。动词页的五段音变表还在每个词尾结果格中给出代表例子，例如 `書く → 書いて／書いた`、`泳ぐ → 泳いで／泳いだ`，并单独标出 `行く → 行って／行った` 例外；另有 `ある`、`する → できる`、`いい`、`きれい` 和固定敬语表达的就地提示。
 
@@ -40,8 +42,15 @@
 - `data/forms.js`：动词活用形、规则、句子和辨析数据；
 - `data/verbs.js`：动词示例、练习词库和例外配置；
 - `data/adj-noun.js`：形容词/名词规则、句子和词库；
+- `data/particles.js`：20 条助词规则（覆盖 19 个助词）的语义角色、用途路径、例句、对比和查询数据；
+- `data/counters.js`：量词类别、时刻、月份、日期/天数的规则路径、例句、边界和练习数据；
+- `data/modules.js`：首页模块目录、入口、状态和卡片摘要；
+- `js/theme-manager.js`：所有页面共享的主题初始化、切换和选中状态同步；
+- `js/module-catalog.js`：从模块目录生成首页卡片；
 - `js/conjugator.js`：五段、一段、来る、する/复合する引擎；
-- `js/adj-conjugator.js`：い形容词、な形容词和名词引擎。
+- `js/adj-conjugator.js`：い形容词、な形容词和名词引擎；
+- `js/counter-engine.js`：分钟音变组合、持续天数读法和回忆答案判定；
+- `js/counter-notebook.js`：量词页的路径切换、规则渲染、查询层、主题和练习交互。
 
 词库优先收录高频词、例外词和易混词，例如：
 
@@ -71,10 +80,15 @@
 npm install --no-save --no-package-lock jsdom
 node scripts/verify-engine.js
 node scripts/verify-adj-engine.js
+node scripts/render-check-index.js
 node scripts/render-check.js
 node scripts/render-check-adj.js
+node scripts/render-check-particles.js
+node scripts/render-check-counters.js
 node scripts/verify-answers.js
 node scripts/theme-check.js
+node scripts/verify-modules.js
+node scripts/verify-counters.js
 Remove-Item -LiteralPath node_modules -Recurse -Force
 ```
 

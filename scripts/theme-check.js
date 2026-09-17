@@ -99,7 +99,7 @@ async function main() {
     assert('index localStorage=fuji', dom.window.localStorage.getItem('nihongo-learn-theme') === 'fuji');
     assert('index 标题随主题 → 藤棚方格', doc.querySelector('.page-heading h1').textContent.includes('藤棚方格'));
     assert('index eyebrow 随主题 → 藤棚', doc.querySelector('.page-heading .eyebrow').textContent.includes('藤棚'));
-    assert('index 描述随主题 → 藤棚语境', doc.querySelector('.page-heading p').textContent.includes('藤棚花影'));
+    assert('index 描述随主题 → 藤棚语境', doc.querySelector('.page-heading > div > p:last-child').textContent.includes('藤棚花影'));
     assert('index 印章随主题 → 藤', doc.querySelector('.page-heading-mark').textContent === '藤');
     assert('index 无运行时错误', errors.length === 0);
   });

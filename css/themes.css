@@ -1,5 +1,5 @@
 /* Nihongo-Learn · 印谱方格主题系统（共享）
- * 三页（index / verb-conjugation-stamp / adj-noun-stamp）统一引入。
+ * 所有学习页和首页统一引入。
  * 默认「印谱・朱红」（:root），另含 墨流・苔庭・蓝染・藤棚 四套，
  * 通过 <html data-theme="..."> 切换，页面 <style> 全部引用 var(--*) 同步变色。
  */

@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="css/themes.css">
+  <script src="js/theme-manager.js"></script>
+  <meta name="color-scheme" content="light">
+  <title>日语助词用法表 · 印谱方格</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { min-width: 320px; margin: 0; color: var(--ink); background: radial-gradient(circle at 91% 2%, rgba(var(--vermilion-rgb), .12), transparent 18rem), radial-gradient(circle at 3% 94%, rgba(var(--accent-rgb), .06), transparent 22rem), repeating-linear-gradient(0deg, rgba(var(--vermilion-deep-rgb), .018) 0 1px, transparent 1px 5px), repeating-linear-gradient(90deg, transparent 0 23px, rgba(var(--accent-rgb), .014) 24px 25px, transparent 26px 49px), var(--paper); font-family: var(--sans); font-size: 15px; line-height: 1.55; }
+    body::before { position: fixed; z-index: -1; inset: 0; pointer-events: none; background: repeating-radial-gradient(circle at 0 100%, transparent 0 17px, rgba(var(--vermilion-rgb), .045) 18px 19px, transparent 20px 36px), linear-gradient(135deg, transparent 0 47%, rgba(var(--vermilion-rgb), .025) 48% 49%, transparent 50% 100%); background-size: 72px 42px, 100% 100%; opacity: .45; content: ""; }
+    .page { width: min(1450px, 100%); margin: auto; padding: 26px clamp(12px, 3vw, 42px) 58px; }
+    .page-heading, .app-shell { border: 3px solid var(--line-strong); background: var(--surface); box-shadow: var(--shadow), inset 0 0 0 1px var(--line); }
+    .page-heading { position: relative; display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 20px 24px; overflow: hidden; background: linear-gradient(120deg, rgba(var(--vermilion-rgb), .09), transparent 55%), repeating-linear-gradient(135deg, transparent 0 18px, rgba(var(--accent-rgb), .02) 19px 20px, transparent 21px 38px), var(--surface); }
+    .page-heading::before { position: absolute; top: -4.4rem; right: 5%; width: 11rem; height: 8rem; border: 1px solid rgba(var(--vermilion-rgb), .22); border-radius: 50%; content: ""; transform: rotate(-9deg); }
+    .page-heading::after { position: absolute; right: 18px; bottom: 9px; left: 20px; height: 3px; border-radius: 50%; background: linear-gradient(90deg, var(--vermilion), var(--accent-muted), transparent 84%); content: ""; }
+    .page-heading > * { position: relative; z-index: 1; }
+    h1, h2, h3 { color: var(--vermilion-deep); font-family: var(--display); } h1 { margin: 0; font-size: clamp(1.55rem, 3vw, 2.55rem); letter-spacing: -.04em; line-height: 1.12; } h2 { margin-top: 0; }
+    .page-heading p { margin: 7px 0 0; color: var(--muted); max-width: 780px; }
+    .mark, .seal { display: grid; place-items: center; border: 3px double var(--vermilion); color: var(--surface-strong); background: var(--vermilion); font-family: var(--display); font-weight: 900; box-shadow: 4px 4px 0 rgba(var(--vermilion-deep-rgb), .14); }
+    .mark { width: 64px; height: 64px; font-size: 1.8rem; flex: 0 0 auto; background: var(--wash); color: var(--vermilion-deep); box-shadow: 5px 5px 0 rgba(var(--vermilion-deep-rgb), .1); }
+    .app-shell { position: relative; display: grid; gap: 20px; margin-top: 22px; padding: clamp(15px, 2.7vw, 30px); background: radial-gradient(circle at 100% 0, rgba(var(--vermilion-rgb), .08) 0 8rem, transparent 8.2rem), repeating-linear-gradient(135deg, transparent 0 25px, rgba(var(--vermilion-rgb), .016) 26px 27px, transparent 28px 54px), var(--surface); isolation: isolate; }
+    .app-shell::before { position: absolute; top: 0; right: 0; left: 0; height: 6px; background: linear-gradient(90deg, var(--vermilion-deep), var(--vermilion), var(--accent-muted), var(--vermilion)); content: ""; }
+    .app-header, .tabs, .particle-tabs { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+    .app-header { justify-content: space-between; gap: 18px; padding-top: 2px; } .brand { display: flex; gap: 13px; align-items: center; } .brand-link { color: inherit; text-decoration: none; } .brand-link:hover .seal { transform: translateY(-1px) rotate(-1.5deg); } .brand h2 { margin: 0; color: var(--vermilion-deep); font-size: 1.35rem; line-height: 1.1; } .brand p { margin: 3px 0 0; color: var(--muted); font-size: .84rem; } .edition-note { color: var(--accent-muted); font-family: var(--display); font-size: .92rem; font-weight: 900; letter-spacing: .06em; }
+    .seal { width: 48px; height: 48px; font-size: 1.35rem; transform: rotate(-1.5deg); }
+    button, summary { cursor: pointer; } button { border: 2px solid transparent; border-radius: 2px; background: transparent; padding: 9px 13px; color: inherit; font: inherit; font-weight: 800; transition: border-color .2s, background-color .2s, color .2s, transform .2s; }
+    button:hover { border-color: var(--line-strong); background: var(--surface-strong); transform: translateY(-1px); } button[aria-selected="true"], button[aria-pressed="true"], .primary { color: var(--vermilion-deep); background: var(--vermilion-soft); border: 3px double var(--vermilion); }
+    button:focus-visible, a:focus-visible, summary:focus-visible { outline: 3px solid var(--vermilion); outline-offset: 3px; }
+    .tabs { gap: 7px; padding: 5px; border: 1px solid var(--line-strong); background: repeating-linear-gradient(135deg, transparent 0 15px, rgba(var(--vermilion-rgb), .02) 16px 17px, transparent 18px 32px), var(--wash); } .tabs button { min-width: 125px; color: var(--muted); } .tabs button[aria-selected="true"] { box-shadow: 4px 4px 0 rgba(var(--vermilion-deep-rgb), .1); }
+    .theme-panel { display: none; position: absolute; z-index: 2; right: 0; padding: 8px; border: 1px solid var(--line-strong); background: var(--surface); box-shadow: var(--shadow-small); } .theme-switcher { position: relative; } .theme-switcher.is-open .theme-panel { display: grid; gap: 4px; } .theme-option { text-transform: capitalize; }
+    .memory, .detail, .comparison, .practice, .reference { margin-top: 0; padding: 18px; border: 1px solid var(--line); background: var(--wash); }
+    .memory-label { margin: 14px 0 8px; color: var(--muted); font-family: var(--sans); font-size: .78rem; letter-spacing: .08em; } .memory-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; } .memory-card { min-height: 88px; padding: 11px 12px; border: 1px solid var(--line-strong); background: var(--surface); text-align: left; } .memory-card strong, .particle-name { color: var(--vermilion-deep); font-size: 1.25rem; } .memory-card small { display: block; margin-top: 4px; font-weight: 400; line-height: 1.35; } .extended-grid { margin-top: 10px; }
+    .detail-card { margin-top: 14px; padding: 16px; border: 1px solid var(--line-strong); border-top: 4px solid var(--vermilion); background: var(--surface); } .detail-card p { margin: 7px 0; } ruby { ruby-position: over; } .detail-card .memory-line { margin: 10px 0; color: var(--vermilion-deep); font-family: var(--display); font-size: 1.1rem; font-weight: 900; }
+    .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 20px; } .section-heading > div { min-width: 0; } .section-heading .eyebrow { margin-bottom: 5px; } .section-heading .hint { max-width: 560px; margin: 0; text-align: right; }
+    .use-tabs { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--line-strong); } .use-tabs button { padding: 7px 10px; font-size: .82rem; } .use-path { margin-top: 12px; padding: 12px; border-left: 3px solid var(--accent-muted); background: var(--wash); } .use-path p { margin: 5px 0; }
+    .formula { padding: 10px; background: rgba(var(--vermilion-rgb), .08); font-weight: 700; } .hint, small { color: var(--muted); } .more-toggle { margin-top: 12px; padding: 7px 10px; color: var(--vermilion-deep); font-size: .82rem; }
+    .comparison { background: transparent; } .compare-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; } .compare-card { min-height: 150px; padding: 14px; border: 1px solid var(--line-strong); background: var(--surface); } .compare-card p { margin: 8px 0; } .more-comparisons { margin-top: 10px; }
+    details { border: 1px solid var(--line-strong); background: var(--surface); } summary { padding: 13px; font-weight: 800; } .table-wrap { overflow-x: auto; } table { width: 100%; border-collapse: collapse; min-width: 720px; } th, td { padding: 9px; border: 1px solid var(--line); text-align: left; vertical-align: top; } th { background: var(--wash); color: var(--vermilion-deep); }
+    .practice { background: var(--wash); } .practice-question { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 8px; margin: 10px 0; padding: 11px 12px; border: 1px solid var(--line); background: var(--surface); } .practice-question input { width: 5rem; padding: 7px; border: 1px solid var(--line-strong); } .correct { border-color: var(--success); } .wrong { border-color: var(--danger); }
+    .footer { margin-top: 18px; color: var(--muted); text-align: center; }
+    @media (max-width: 900px) { .memory-grid, .compare-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 640px) { body { font-size: 14px; } .page { padding: 12px 9px 38px; } .page-heading { align-items: start; padding: 15px; } .mark { width: 45px; height: 45px; font-size: 1.3rem; } .app-shell { gap: 15px; margin-top: 14px; padding: 13px; } .app-header { align-items: start; } .section-heading { display: block; } .section-heading .hint { margin-top: 8px; text-align: left; } .tabs button { flex: 1; min-width: 0; } .memory-grid, .compare-grid { grid-template-columns: 1fr; } .compare-card { min-height: 0; } .practice-question { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="page-heading"><div><h1>日语助词用法表 · 印谱方格</h1><p>先判断句子成分的关系，再选择助词。像翻阅印谱一样，先看规则，再用例句和练习确认用法。</p></div><div class="mark" aria-hidden="true">助</div></header>
+    <main id="app-shell" class="app-shell"></main>
+    <p class="footer"><a href="index.html">← 返回学习首页</a></p>
+  </div>
+  <script src="data/particles.js"></script>
+  <script>
+    "use strict";
+    var data = window.NIHONGO_DATA.particles;
+    var state = { group: data.groups[0].id, particle: "は", use: null, view: "rules", result: null, showExtended: false };
+    var shell = document.getElementById("app-shell");
+    function current() { return data.items.find(function (item) { return item.particle === state.particle; }) || data.items[0]; }
+    function currentGroup() { return data.groups.find(function (group) { return group.id === state.group; }) || data.groups[0]; }
+    function practiceItems() {
+      var seen = {};
+      return data.items.filter(function (item) {
+        if (seen[item.particle]) return false;
+        seen[item.particle] = true;
+        return true;
+      }).filter(function (item) { return item.group === "topic" || item.group === "subject" || item.group === "object" || item.group === "space-time" || item.group === "addition" || item.group === "relation" || item.group === "range" || item.group === "sentence"; }).slice(0, 10);
+    }
+    function renderTheme() {
+      var options = window.NihongoTheme.themes.map(function (id) {
+        var label = window.NihongoTheme.labels[id] || id;
+        var swatch = window.NihongoTheme.swatches[id] || "#b9655b";
+        return '<button type="button" class="theme-option" role="menuitemradio" data-action="theme-select" data-theme-id="' + id + '" aria-pressed="' + (window.NihongoTheme.current() === id) + '"><span class="theme-swatch" style="background: ' + swatch + '"></span>' + label + '</button>';
+      }).join("");
+      return '<span class="edition-note">和風 · 助词六号</span><div class="theme-switcher"><button type="button" class="theme-switcher-button" data-action="theme-toggle" aria-expanded="false" aria-haspopup="true"><span class="theme-swatch" style="background: var(--vermilion)"></span>主题</button><div class="theme-panel" role="menu" aria-label="选择主题配色">' + options + '</div></div>';
+    }
+    function render() {
+      var item = current();
+      var group = currentGroup();
+      shell.innerHTML = '<header class="app-header"><a class="brand brand-link" href="index.html" aria-label="返回日语学习印谱方格首页"><div class="seal" aria-hidden="true">助</div><div><h2>助詞ノート</h2><p>印谱方格 · 日语助词规则与练习</p></div></a>' + renderTheme() + '</header>' +
+        '<nav class="tabs" role="tablist" aria-label="主要区域"><button aria-selected="' + (state.view === "rules") + '" data-view="rules">规则讲解</button><button aria-selected="' + (state.view === "practice") + '" data-view="practice">练习</button></nav>' +
+        (state.view === "rules" ? renderRules(group, item) : renderPractice()) ;
+      NihongoTheme.updateSwitcher();
+    }
+    function renderUses(item) {
+      if (!item.uses || !item.uses.length) return "";
+      var selected = item.uses.find(function (use) { return use.id === state.use; }) || item.uses[0];
+      return '<div class="use-tabs" aria-label="' + item.particle + ' 的用途"><b>用途：</b>' + item.uses.map(function (use) { return '<button data-use="' + use.id + '" aria-selected="' + (use.id === selected.id) + '">' + use.label + '</button>'; }).join("") + '</div><div class="use-path"><p><b>语义角色：</b>' + selected.role + '</p><p><b>句中位置：</b>' + selected.position + '</p><p class="formula">' + selected.formula + '</p><p><b>例句：</b><ruby>' + selected.example + '<rt>' + selected.reading + '</rt></ruby>　' + selected.meaning + '</p><p><b>对比：</b>' + selected.contrast + '</p><p><b>边界：</b>' + selected.limit + '</p></div>';
+    }
+    function renderGroupCards(level) {
+      return data.groups.filter(function (group) { return group.level === level; }).map(function (g) { return '<button class="memory-card" data-group="' + g.id + '" aria-selected="' + (g.id === state.group) + '"><strong>' + g.particles.join("／") + '</strong><br>' + g.label + '<small>' + g.description + '</small></button>'; }).join("");
+    }
+    function renderRules(group, item) {
+      var related = data.comparisons.filter(function (comparison) { return comparison.particles.indexOf(item.particle) >= 0; });
+      var more = data.comparisons.filter(function (comparison) { return comparison.particles.indexOf(item.particle) < 0; });
+      return '<section class="memory"><div class="section-heading"><div><p class="eyebrow">一眼记忆</p><h2>先判断语义角色</h2></div><p class="hint">核心四步：主题 → 主语 → 对象 → 时间、地点与方向。扩展关系按需展开。</p></div><h3 class="memory-label">核心关系</h3><div class="memory-grid">' + renderGroupCards("core") + '</div><button class="more-toggle" data-action="toggle-extended" aria-expanded="' + state.showExtended + '">' + (state.showExtended ? "收起扩展关系" : "展开扩展关系（も、と、の、范围与语气）") + '</button>' + (state.showExtended ? '<div class="memory-grid extended-grid">' + renderGroupCards("extended") + '</div>' : "") + '</section>' +
+        '<section class="detail"><h2>' + group.label + ' · 选择助词</h2><p class="hint">' + group.description + '</p><div class="particle-tabs">' + group.particles.map(function (p) { return '<button data-particle="' + p + '" aria-selected="' + (p === state.particle) + '">' + p + '</button>'; }).join("") + '</div><article class="detail-card"><h3><span class="particle-name">助词：' + item.particle + '</span></h3><p class="memory-line">' + item.memory + '</p><p><b>核心作用：</b>' + item.role + '</p><p><b>句中位置：</b>' + item.position + '</p><p class="formula">' + item.formula + '</p><p><b>例句：</b><ruby>' + item.example + '<rt>' + item.reading + '</rt></ruby>　' + item.meaning + '</p>' + renderUses(item) + '<p><b>最小对比：</b>' + item.contrast + '</p><p><b>限制与易错：</b>' + item.limit + '</p></article></section>' +
+        '<section class="comparison"><h2>相关对比：只改变关系</h2><div class="compare-grid">' + related.map(function (c) { return '<div class="compare-card"><b>' + c.title + '</b><p>' + c.summary + '</p><p>' + c.examples.join("／") + '</p></div>'; }).join("") + '</div>' + (more.length ? '<details class="more-comparisons"><summary>展开其他对比</summary><div class="compare-grid">' + more.map(function (c) { return '<div class="compare-card"><b>' + c.title + '</b><p>' + c.summary + '</p><p>' + c.examples.join("／") + '</p></div>'; }).join("") + '</div></details>' : "") + '</section>' +
+        '<details class="reference"><summary>展开完整助词查询表</summary><div class="table-wrap"><table><thead><tr><th>助词</th><th>语义角色</th><th>位置公式</th><th>代表句</th><th>易错边界</th></tr></thead><tbody>' + data.items.map(function (x) { return '<tr><th>' + x.particle + '</th><td>' + x.role + '</td><td>' + x.position + '</td><td>' + x.example + '<br>' + x.meaning + '</td><td>' + x.limit + '</td></tr>'; }).join("") + '</tbody></table></div></details>';
+    }
+    function renderPractice() {
+      var items = practiceItems();
+      return '<section class="practice"><h2>即时判断：根据语义选择助词</h2><p class="hint">共 ' + items.length + ' 题，覆盖各个主要语义组。先看关系，再填助词。</p>' + items.map(function (x, i) { var result = state.result && state.result[i]; return '<label class="practice-question ' + (result ? (result.ok ? "correct" : "wrong") : "") + '"><span>' + (i + 1) + '．' + x.recall + ' <small>（' + x.role + '）</small>' + (result && !result.ok ? '<em>正确答案：' + x.answer + '。' + x.why + '</em>' : "") + '</span><input data-answer="' + i + '" value="' + (result ? result.value : "") + '" maxlength="3" aria-label="第' + (i + 1) + '题答案"></label>'; }).join("") + '<button class="primary" data-action="check">检查答案</button>' + (state.result ? '<p>' + state.result.filter(function (x) { return x.ok; }).length + ' / ' + items.length + ' 题正确。' + (state.result.some(function (x) { return !x.ok; }) ? "错题下方已显示原因。" : "全部答对，可以继续查看扩展关系。") + '</p>' : "") + '</section>';
+    }
+    document.addEventListener("click", function (event) {
+      var target = event.target.closest("[data-action], [data-group], [data-particle], [data-use], [data-view]");
+      if (!target) return;
+      if (target.dataset.action === "theme-toggle") { var box = target.parentElement; var open = !box.classList.contains("is-open"); box.classList.toggle("is-open", open); target.setAttribute("aria-expanded", String(open)); return; }
+      if (target.dataset.action === "theme-select") { NihongoTheme.apply(target.dataset.themeId); render(); return; }
+      if (target.dataset.action === "toggle-extended") { state.showExtended = !state.showExtended; render(); return; }
+      if (target.dataset.view) { state.view = target.dataset.view; render(); return; }
+      if (target.dataset.group) { state.group = target.dataset.group; var first = currentGroup().particles[0]; state.particle = first; state.use = null; render(); return; }
+      if (target.dataset.particle) { state.particle = target.dataset.particle; render(); return; }
+      if (target.dataset.use) { state.use = target.dataset.use; render(); return; }
+      if (target.dataset.action === "check") { var answers = practiceItems().map(function (x, i) { var input = shell.querySelector('[data-answer="' + i + '"]'); return { ok: input.value.trim() === x.answer, value: input.value.trim() }; }); state.result = answers; render(); }
+    });
+    render();
+  </script>
+</body>
+</html>

@@ -4,74 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="css/themes.css">
-  <script>
-    /* Nihongo-Learn · 主题管理器（共享）
-     * 三页统一引入（<head> 内同步执行，避免首屏闪烁）。
-     * 用法：NihongoTheme.init() 初始化；NihongoTheme.apply(id) 切换；
-     *       NihongoTheme.updateSwitcher() 同步面板选中态（渲染后调用）。
-     * 持久化：localStorage "nihongo-learn-theme"（全站共享，三页一致）。
-     */
-    (function () {
-      "use strict";
-
-      var THEME_KEY = "nihongo-learn-theme";
-      var DEFAULT_THEME = "aka";
-      var THEMES = ["aka", "sumi", "koke", "kon", "fuji"];
-      var THEME_LABELS = {
-        aka: "印谱・朱红",
-        sumi: "墨流・墨青",
-        koke: "苔庭・苔绿",
-        kon: "蓝染・绀蓝",
-        fuji: "藤棚・藤紫"
-      };
-
-      function current() {
-        try {
-          var value = window.localStorage.getItem(THEME_KEY);
-          return THEMES.indexOf(value) >= 0 ? value : DEFAULT_THEME;
-        } catch (error) {
-          return DEFAULT_THEME;
-        }
-      }
-
-      function apply(themeId) {
-        var id = THEMES.indexOf(themeId) >= 0 ? themeId : DEFAULT_THEME;
-        document.documentElement.setAttribute("data-theme", id);
-        try {
-          window.localStorage.setItem(THEME_KEY, id);
-        } catch (error) {
-          /* 隐私模式等场景静默降级 */
-        }
-        return id;
-      }
-
-      function updateSwitcher() {
-        var active = current();
-        var options = document.querySelectorAll(".theme-option[data-theme-id]");
-        for (var i = 0; i < options.length; i += 1) {
-          options[i].setAttribute("aria-pressed", String(options[i].getAttribute("data-theme-id") === active));
-        }
-        var buttons = document.querySelectorAll(".theme-switcher-button");
-        for (var j = 0; j < buttons.length; j += 1) {
-          buttons[j].setAttribute("aria-label", "切换主题配色，当前：" + (THEME_LABELS[active] || active));
-        }
-      }
-
-      function init() {
-        apply(current());
-      }
-
-      window.NihongoTheme = {
-        apply: apply,
-        current: current,
-        updateSwitcher: updateSwitcher,
-        init: init,
-        themes: THEMES,
-        labels: THEME_LABELS
-      };
-    })();
-
-  </script>
+  <script src="js/theme-manager.js"></script>
   <meta name="color-scheme" content="light">
   <meta name="description" content="日语学习・印谱方格：用清晰的表格、规则卡片和练习整理日语活用。">
   <title>日语学习・印谱方格</title>
@@ -278,7 +211,9 @@
 
     .module-card {
       display: grid;
+      grid-template-rows: auto 1fr auto;
       min-height: 280px;
+      min-width: 0;
       gap: 20px;
       padding: 24px;
       border: 2px solid var(--line);
@@ -454,7 +389,7 @@
       <div>
         <p class="eyebrow">Japanese Learning / 印谱方格</p>
         <h1>日语学习・印谱方格</h1>
-        <p>把日语活用整理成可读、可翻、可练的学习页。先选一个词类，再从规则理解走到动手练习。</p>
+        <p>把日语规则整理成可读、可查、可练的学习页。先选一个规则领域，再从规则理解走到即时回忆。</p>
       </div>
       <div class="page-heading-mark" aria-hidden="true">学</div>
       <div class="theme-switcher">
@@ -487,50 +422,22 @@
         <div class="section-heading">
           <p class="eyebrow">Start / 开始学习</p>
           <h2 id="module-title">选择一张学习印谱</h2>
-          <p>从熟悉的词类开始，先看变化规律，再翻开卡片确认实例。</p>
+          <p>从熟悉的规则领域开始，先看判断路径，再进入页面确认实例。</p>
         </div>
       </section>
 
-      <section class="module-grid" aria-label="学习内容">
-        <a class="module-card" href="verb-conjugation-stamp.html?view=rules">
-          <div class="module-card-top">
-            <span class="module-seal" aria-hidden="true">動</span>
-            <span class="module-status is-ready">现在可学</span>
-          </div>
-          <div>
-            <h3>日语动词变形表<br>· 印谱方格</h3>
-            <p>掌握五段、一段、か变和さ变的基础六形与派生表达，并通过规则卡片和练习巩固。</p>
-          </div>
-          <div class="module-card-footer">
-            <span>规则讲解 · 练习</span>
-            <span aria-hidden="true">→</span>
-          </div>
-        </a>
-
-        <a class="module-card" href="adj-noun-stamp.html?view=rules">
-          <div class="module-card-top">
-            <span class="module-seal" aria-hidden="true">形</span>
-            <span class="module-status is-ready">现在可学</span>
-          </div>
-          <div>
-            <h3>日语形容词与名词<br>变形表 · 印谱方格</h3>
-            <p>掌握い形容词、な形容词和名词的肯定、否定、过去、过去否定、て形与条件表达。</p>
-          </div>
-          <div class="module-card-footer">
-            <span>规则讲解 · 练习</span>
-            <span aria-hidden="true">→</span>
-          </div>
-        </a>
-      </section>
+      <section class="module-grid" data-module-grid aria-label="学习内容"></section>
 
       <aside class="home-note">
         <span aria-hidden="true">!</span>
-        <span><strong>学习提示：</strong>建议先完成动词规则页，再进入练习页检验记忆；形容词与名词模块已上线，词类之间可以自由切换练习。</span>
+        <span><strong>学习提示：</strong>建议先完成规则讲解，再进入即时判断检验记忆；动词、形容词与名词、助词、量词与时间模块可以自由切换。</span>
       </aside>
     </main>
 
     <footer class="home-footer">日语学习・印谱方格 · 先理解规则，再动手练习</footer>
   </div>
+  <script src="data/modules.js"></script>
+  <script src="js/module-catalog.js"></script>
   <script>
     // 首页主题切换（静态页，无 appShell 事件委托）
     document.addEventListener("click", function (event) {
@@ -570,31 +477,31 @@
       aka: {
         eyebrow: "Japanese Learning / 印谱方格",
         title: "日语学习・印谱方格",
-        desc: "把日语活用整理成可读、可翻、可练的学习页。先选一个词类，再从规则理解走到动手练习。",
+        desc: "把日语规则整理成可读、可查、可练的学习页。先选一个规则领域，再从规则理解走到即时回忆。",
         seal: "印"
       },
       sumi: {
         eyebrow: "Japanese Learning / 墨流",
         title: "日语学习・墨流方格",
-        desc: "墨流纸面之上，把日语活用整理成可读、可翻、可练的学习页。先选一个词类，再从规则理解走到动手练习。",
+        desc: "墨流纸面之上，把日语规则整理成可读、可查、可练的学习页。先选一个规则领域，再从规则理解走到即时回忆。",
         seal: "墨"
       },
       koke: {
         eyebrow: "Japanese Learning / 苔庭",
         title: "日语学习・苔庭方格",
-        desc: "苔庭绿意之间，把日语活用整理成可读、可翻、可练的学习页。先选一个词类，再从规则理解走到动手练习。",
+        desc: "苔庭绿意之间，把日语规则整理成可读、可查、可练的学习页。先选一个规则领域，再从规则理解走到即时回忆。",
         seal: "苔"
       },
       kon: {
         eyebrow: "Japanese Learning / 蓝染",
         title: "日语学习・蓝染方格",
-        desc: "蓝染布纹之上，把日语活用整理成可读、可翻、可练的学习页。先选一个词类，再从规则理解走到动手练习。",
+        desc: "蓝染布纹之上，把日语规则整理成可读、可查、可练的学习页。先选一个规则领域，再从规则理解走到即时回忆。",
         seal: "蓝"
       },
       fuji: {
         eyebrow: "Japanese Learning / 藤棚",
         title: "日语学习・藤棚方格",
-        desc: "藤棚花影之下，把日语活用整理成可读、可翻、可练的学习页。先选一个词类，再从规则理解走到动手练习。",
+        desc: "藤棚花影之下，把日语规则整理成可读、可查、可练的学习页。先选一个规则领域，再从规则理解走到即时回忆。",
         seal: "藤"
       }
     };
@@ -602,7 +509,7 @@
       var hl = THEME_HEADLINE[window.NihongoTheme.current()] || THEME_HEADLINE.aka;
       var eyebrow = document.querySelector(".page-heading .eyebrow");
       var title = document.querySelector(".page-heading h1");
-      var desc = document.querySelector(".page-heading > div > p");
+      var desc = document.querySelector(".page-heading > div > p:last-child");
       if (eyebrow) eyebrow.textContent = hl.eyebrow;
       if (title) title.textContent = hl.title;
       if (desc) desc.textContent = hl.desc;
